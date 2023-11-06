@@ -10,13 +10,13 @@ extension Project {
     static let appName = "Aljo"
     static let organizationName = "ASAP.com"
     
-    static func app(
+    public static func app(
         name: String,
         platform: Platform,
         targets: [String]
     ) -> Project {
         let dependencies = targets.map { TargetDependency.target(name: $0) }
-        var targets = makeAppTargets(
+        let targets = makeAppTargets(
             name: name,
             platform: platform,
             dependencies: dependencies
@@ -27,6 +27,52 @@ extension Project {
             organizationName: organizationName,
             targets: targets
         )
+    }
+    
+    /// Helper function to create the application target and the unit test target.
+    private static func makeAppTargets(
+        name: String,
+        platform: Platform,
+        dependencies: [TargetDependency]
+    ) -> [Target] {
+        let platform: Platform = platform
+        let infoPlist: [String: Plist.Value] = [
+            "CFBundleShortVersionString": "1.0",
+            "CFBundleVersion": "1",
+            "UIMainStoryboardFile": "",
+            "UILaunchStoryboardName": "LaunchScreen"
+        ]
+        
+        let mainTarget = Target(
+            name: name,
+            platform: platform,
+            product: .app,
+            bundleId: "io.tuist.\(name)",
+            infoPlist: .extendingDefault(
+                with: infoPlist
+            ),
+            sources: ["Targets/\(name)/Sources/**"],
+            resources: ["Targets/\(name)/Resources/**"],
+            dependencies: dependencies
+        )
+        
+        let testTarget = Target(
+            name: "\(name)Tests",
+            platform: platform,
+            product: .unitTests,
+            bundleId: "io.tuist.\(name)Tests",
+            infoPlist: .default,
+            sources: ["Targets/\(name)/Tests/**"],
+            dependencies: [
+                .target(
+                    name: "\(name)"
+                )
+            ]
+        )
+        return [
+            mainTarget,
+            testTarget
+        ]
     }
 }
 //
@@ -56,9 +102,9 @@ extension Project {
 //            targets: targets
 //        )
 //    }
-//    
+//
 //    // MARK: - Private
-//    
+//
 //    /// Helper function to create a framework target and an associated unit test target
 //    private static func makeFrameworkTargets(
 //        name: String,
@@ -74,7 +120,7 @@ extension Project {
 //            resources: [],
 //            dependencies: []
 //        )
-//        
+//
 //        let tests = Target(
 //            name: "\(name)Tests",
 //            platform: platform,
@@ -92,50 +138,6 @@ extension Project {
 //            tests
 //        ]
 //    }
-//    
-//    /// Helper function to create the application target and the unit test target.
-//    private static func makeAppTargets(
-//        name: String,
-//        platform: Platform,
-//        dependencies: [TargetDependency]
-//    ) -> [Target] {
-//        let platform: Platform = platform
-//        let infoPlist: [String: Plist.Value] = [
-//            "CFBundleShortVersionString": "1.0",
-//            "CFBundleVersion": "1",
-//            "UIMainStoryboardFile": "",
-//            "UILaunchStoryboardName": "LaunchScreen"
-//        ]
-//        
-//        let mainTarget = Target(
-//            name: name,
-//            platform: platform,
-//            product: .app,
-//            bundleId: "io.tuist.\(name)",
-//            infoPlist: .extendingDefault(
-//                with: infoPlist
-//            ),
-//            sources: ["Targets/\(name)/Sources/**"],
-//            resources: ["Targets/\(name)/Resources/**"],
-//            dependencies: dependencies
-//        )
-//        
-//        let testTarget = Target(
-//            name: "\(name)Tests",
-//            platform: platform,
-//            product: .unitTests,
-//            bundleId: "io.tuist.\(name)Tests",
-//            infoPlist: .default,
-//            sources: ["Targets/\(name)/Tests/**"],
-//            dependencies: [
-//                .target(
-//                    name: "\(name)"
-//                )
-//            ]
-//        )
-//        return [
-//            mainTarget,
-//            testTarget
-//        ]
-//    }
+//
+
 //}
