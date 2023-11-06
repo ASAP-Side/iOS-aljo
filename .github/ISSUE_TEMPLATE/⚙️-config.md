@@ -1,5 +1,5 @@
 ---
-name: "\U0002699 CONFIG"
+name: "\U00002699 CONFIG"
 about: 프로젝트 설정 변경시 사용하세요.
 title: "[CONFIG]"
 labels: CONFIG
