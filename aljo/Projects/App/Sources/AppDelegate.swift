@@ -8,8 +8,6 @@ import UIKit
 
 import HomeApp
 
-import Auth
-
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
