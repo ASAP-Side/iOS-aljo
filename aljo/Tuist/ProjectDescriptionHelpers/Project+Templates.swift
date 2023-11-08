@@ -11,7 +11,7 @@ extension Project {
                 product: .app,
                 bundleId: "com.ASAP.app",
                 deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-                sources: ["Sources/**"],
+                sources: ["Sources/App"],
                 dependencies: [
                   .project(target: "Features", path: "../Features")
                 ]
