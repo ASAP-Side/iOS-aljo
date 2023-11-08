@@ -2,34 +2,36 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import MyPlugin
 
+// MARK: - Project
+
 let targets: [Target] = [
   Target(
-    name: "Auth",
+    name: "Home",
     platform: .iOS,
     product: .framework,
-    bundleId: "com.asap.feature.auth",
+    productName: "HomeApp",
+    bundleId: "com.asap.features.home",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "AJUIKit", path: "../../../Design")
+      .project(target: "BaseFeature", path: "../BaseFeature")
     ]
   ),
   Target(
-    name: "AuthApp",
+    name: "HomeApp",
     platform: .iOS,
     product: .app,
-    bundleId: "com.asap.feature.authapp",
+    bundleId: "com.asap.homeApp",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "Auth", path: "../Auth"),
-      .project(target: "AJUIKit", path: "../../../Design")
+      .project(target: "Home", path: "../Home"),
     ]
-  )
+  ),
 ]
 
 // Local plugin loaded
 let localHelper = LocalHelper(name: "MyPlugin")
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project(name: "Auth", targets: targets)
+let project = Project(name: "Home", targets: targets)
