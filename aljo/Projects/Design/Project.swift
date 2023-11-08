@@ -2,10 +2,6 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import MyPlugin
 
-let targets: [Target] = [
-
-]
-
 // Local plugin loaded
 let localHelper = LocalHelper(name: "MyPlugin")
 
@@ -14,11 +10,11 @@ let project = Project(
   name: "AJUIKit",
   targets: [
     Target(
-      name: "DesignSystem",
+      name: "AJUIKit",
       platform: .iOS,
-      product: .framework,
-      bundleId: "com.design.designSystem",
-      sources: ["Sources/DesignSystem"],
+      product: .staticFramework,
+      bundleId: "com.design.uikit",
+      sources: ["Sources/**"],
       resources: ["Resources/**"]
     )
   ]

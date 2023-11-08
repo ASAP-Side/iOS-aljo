@@ -9,7 +9,10 @@ let targets: [Target] = [
     product: .framework,
     bundleId: "com.asap.feature.auth",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Sources/**"]
+    sources: ["Sources/**"],
+    dependencies: [
+      .project(target: "AJUIKit", path: "../../../Design")
+    ]
   ),
   Target(
     name: "AuthApp",
@@ -19,7 +22,8 @@ let targets: [Target] = [
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "Auth", path: "../Auth")
+      .project(target: "Auth", path: "../Auth"),
+      .project(target: "AJUIKit", path: "../../../Design")
     ]
   )
 ]

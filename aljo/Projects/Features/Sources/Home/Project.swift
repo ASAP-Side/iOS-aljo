@@ -2,22 +2,6 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import MyPlugin
 
-/*
-                +-------------+
-                |             |
-                |     App     | Contains Home App target and Home unit-test target
-                |             |
-         +------+-------------+-------+
-         |         depends on         |
-         |                            |
- +----v-----+                   +-----v-----+
- |          |                   |           |
- |   Kit    |                   |     UI    |   Two independent frameworks to share code and start modularising your app
- |          |                   |           |
- +----------+                   +-----------+
-
- */
-
 // MARK: - Project
 
 let targets: [Target] = [
@@ -28,7 +12,10 @@ let targets: [Target] = [
     productName: "HomeApp",
     bundleId: "com.asap.features.home",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Sources/**"]
+    sources: ["Sources/**"],
+    dependencies: [
+      .project(target: "AJUIKit", path: "../../../Design")
+    ]
   ),
   Target(
     name: "HomeApp",
@@ -38,7 +25,8 @@ let targets: [Target] = [
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "Home", path: "../Home")
+      .project(target: "Home", path: "../Home"),
+      .project(target: "AJUIKit", path: "../../../Design")
     ]
   ),
 ]
