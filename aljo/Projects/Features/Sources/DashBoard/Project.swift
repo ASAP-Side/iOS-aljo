@@ -9,7 +9,10 @@ let targets: [Target] = [
     product: .framework,
     bundleId: "com.feature.dashboard",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Sources/**"]
+    sources: ["Sources/**"],
+    dependencies: [
+      .project(target: "AJUIKit", path: "../../../Design")
+    ]
   ),
   Target(
     name: "DashBoardApp",
@@ -19,7 +22,8 @@ let targets: [Target] = [
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "DashBoard", path: "../DashBoard")
+      .project(target: "DashBoard", path: "../DashBoard"),
+      .project(target: "AJUIKit", path: "../../../Design")
     ]
   )
 ]

@@ -11,7 +11,10 @@ let targets: [Target] = [
     product: .framework,
     bundleId: "com.feature.mypage",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Sources/**"]
+    sources: ["Sources/**"],
+    dependencies: [
+      .project(target: "AJUIKit", path: "../../../Design")
+    ]
   ),
   Target(
     name: "MyPageApp",
@@ -21,7 +24,8 @@ let targets: [Target] = [
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "MyPage", path: "../MyPage")
+      .project(target: "MyPage", path: "../MyPage"),
+      .project(target: "AJUIKit", path: "../../../Design")
     ]
   )
 ]
