@@ -13,7 +13,10 @@ extension Project {
                 deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
                 sources: ["Sources/App"],
                 dependencies: [
-                  .project(target: "Features", path: "../Features")
+                  .project(target: "Auth", path: "../Features/Auth"),
+                  .project(target: "Home", path: "../Features/Home"),
+                  .project(target: "DashBoard", path: "../Features/DashBoard"),
+                  .project(target: "MyPage", path: "../Features/MyPage"),
                 ]
             )
         ]
