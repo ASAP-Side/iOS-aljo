@@ -13,8 +13,7 @@ let targets: [Target] = [
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "BaseFeature", path: "../BaseFeature"),
-      .project(target: "BaseDomainInterface", path: "../../Domain/BaseDomain")
+      .project(target: "BaseFeature", path: "../BaseFeature")
     ]
   ),
   Target(
