@@ -12,7 +12,8 @@ let targets: [Target] = [
     sources: ["Sources/**"],
     dependencies: [
       .project(target: "BaseFeature", path: "../BaseFeature"),
-      .project(target: "AlarmDomainInterface", path: "../../Domain/AlarmDomain")
+      .project(target: "AlarmDomainInterface", path: "../../Domain/AlarmDomain"),
+      .project(target: "AuthDomainInterface", path: "../../Domain/AuthDomain")
     ]
   ),
   Target(
