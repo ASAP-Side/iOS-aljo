@@ -11,8 +11,8 @@ let targets: [Target] = [
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "AlarmDomainInterface", path: ""),
-      .project(target: "BaseDomain", path: "../BaseDomain")
+      .project(target: "BaseDomain", path: "../BaseDomain"),
+      .project(target: "AlarmDomainInterface", path: "")
     ]
   ),
   Target(
