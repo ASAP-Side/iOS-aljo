@@ -2,29 +2,27 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import MyPlugin
 
+// MARK: - Project
+
 let targets: [Target] = [
   Target(
-    name: "Auth",
+    name: "BaseDomain",
     platform: .iOS,
-    product: .framework,
-    bundleId: "com.asap.feature.auth",
+    product: .staticFramework,
+    bundleId: "com.asap.baseDomain",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "BaseFeature", path: "../BaseFeature"),
-      .project(target: "BaseDomainInterface", path: "../../Domain/BaseDomain")
+      .project(target: "BaseDomainInterface", path: "")
     ]
   ),
   Target(
-    name: "AuthApp",
+    name: "BaseDomainInterface",
     platform: .iOS,
-    product: .app,
-    bundleId: "com.asap.feature.authapp",
+    product: .framework,
+    bundleId: "com.asap.baseDomainInterface",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Sources/**"],
-    dependencies: [
-      .project(target: "Auth", path: "../Auth")
-    ]
+    sources: ["Interface/**"]
   )
 ]
 
@@ -32,4 +30,4 @@ let targets: [Target] = [
 let localHelper = LocalHelper(name: "MyPlugin")
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project(name: "Auth", targets: targets)
+let project = Project(name: "BaseDomain", targets: targets)
