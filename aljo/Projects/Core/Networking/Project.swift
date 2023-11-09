@@ -10,10 +10,11 @@ let targets: [Target] = [
     platform: .iOS,
     product: .staticFramework,
     bundleId: "com.asap.coreNetworking",
-    deploymentTarget: .iOS(targetVersion: "14.9", devices: .iphone),
+    deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "NetworkingInterface", path: "")
+      .project(target: "NetworkingInterface", path: ""),
+      .project(target: "FoundationKit", path: "../../Shared/FoundationKit")
     ]
   ),
   Target(
