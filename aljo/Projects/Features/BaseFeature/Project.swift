@@ -18,7 +18,8 @@ let project = Project(
       bundleId: "com.features.basefeature",
       sources: ["Sources/**"],
       dependencies: [
-        .project(target: "AJUIKit", path: "../../Design")
+        .project(target: "AJUIKit", path: "../../Design"),
+        .external(name: "RIBs")
       ]
     )
   ]
