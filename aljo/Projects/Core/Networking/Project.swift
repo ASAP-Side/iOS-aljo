@@ -14,7 +14,8 @@ let targets: [Target] = [
     sources: ["Sources/**"],
     dependencies: [
       .project(target: "NetworkingInterface", path: ""),
-      .project(target: "FoundationKit", path: "../../Shared/FoundationKit")
+      .project(target: "FoundationKit", path: "../../Shared/FoundationKit"),
+      .external(name: "Alamofire")
     ]
   ),
   Target(
