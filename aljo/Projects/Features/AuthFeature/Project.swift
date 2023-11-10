@@ -4,7 +4,7 @@ import MyPlugin
 
 let targets: [Target] = [
   Target(
-    name: "Auth",
+    name: "AuthFeature",
     platform: .iOS,
     product: .framework,
     bundleId: "com.asap.feature.auth",
@@ -24,7 +24,7 @@ let targets: [Target] = [
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "Auth", path: "../Auth")
+      .project(target: "AuthFeature", path: "../AuthFeature")
     ]
   )
 ]

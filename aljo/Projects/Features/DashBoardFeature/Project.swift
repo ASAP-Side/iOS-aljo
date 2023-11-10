@@ -4,7 +4,7 @@ import MyPlugin
 
 let targets: [Target] = [
   Target(
-    name: "DashBoard",
+    name: "DashBoardFeature",
     platform: .iOS,
     product: .framework,
     bundleId: "com.feature.dashboard",
@@ -23,7 +23,7 @@ let targets: [Target] = [
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "DashBoard", path: "../DashBoard"),
+      .project(target: "DashBoardFeature", path: "../DashBoardFeature"),
     ]
   )
 ]
