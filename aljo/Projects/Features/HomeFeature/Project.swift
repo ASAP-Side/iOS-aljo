@@ -6,32 +6,32 @@ import MyPlugin
 
 let targets: [Target] = [
   Target(
-    name: "MyPage",
+    name: "HomeFeature",
     platform: .iOS,
     product: .framework,
-    bundleId: "com.feature.mypage",
+    productName: "HomeFeature",
+    bundleId: "com.asap.features.homeFeature",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "BaseFeature", path: "../BaseFeature"),
-      .project(target: "UserDomainInterface", path: "../../Domain/UserDomain")
+      .project(target: "BaseFeature", path: "../BaseFeature")
     ]
   ),
   Target(
-    name: "MyPageApp",
+    name: "HomeApp",
     platform: .iOS,
     product: .app,
-    bundleId: "com.feature.mypageApp",
+    bundleId: "com.asap.homeApp",
     deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
     sources: ["Sources/**"],
     dependencies: [
-      .project(target: "MyPage", path: "../MyPage"),
+      .project(target: "HomeFeature", path: "../HomeFeature"),
     ]
-  )
+  ),
 ]
 
 // Local plugin loaded
 let localHelper = LocalHelper(name: "MyPlugin")
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project(name: "MyPage", targets: targets)
+let project = Project(name: "HomeFeature", targets: targets)
