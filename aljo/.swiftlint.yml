@@ -1,0 +1,27 @@
+opt_in_rules
+  - collection_alignment
+  - empty_count
+  - force_unwrapping
+  - function_default_parameter_at_end
+  - duplicate_imports
+  - duplicate_conditions
+  - multiple_closures_with_trailing_closure
+  - lower_acl_than_parent
+
+excluded:
+  - aljo
+  - Tuist
+  
+line_length: 100
+
+force_cast: error
+
+force_try: error
+
+type_name:
+  min_length: 3
+  max_length: 30
+  
+identifier_name:
+  min_length: 3
+  max_length: 30
