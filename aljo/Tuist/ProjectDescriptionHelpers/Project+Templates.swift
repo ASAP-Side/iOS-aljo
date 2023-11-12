@@ -28,55 +28,15 @@ fi
 
 public extension Project {
   static func app(to name: String, targets: @escaping () -> [Target]) -> Project {
-    //    let targets = targets()
-    //    let decodeTargets = targets.map {
-    //      return target($0) {
-    //        [
-    //          .project(target: "Auth", path: "../Features/Auth"),
-    //          .project(target: "Home", path: "../Features/Home"),
-    //          .project(target: "DashBoard", path: "../Features/DashBoard"),
-    //          .project(target: "MyPage", path: "../Features/MyPage"),
-    //        ]
-    //      }
-    //    }
-    //
     return Project(name: name, organizationName: "ASAP", targets: targets())
   }
-  
-  //    public static func mainApp() -> Project {
-  //        let targets: [Target] = [
-  //            Target(
-  //                name: "Application",
-  //                platform: .iOS,
-  //                product: .app,
-  //                bundleId: "com.ASAP.app",
-  //                deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-  //                sources: ["Sources/**"],
-  //                scripts: [
-  //                  .pre(
-  //                    script: lintScript,
-  //                    name: "Check Swift Lint",
-  //                    basedOnDependencyAnalysis: false
-  //                  )
-  //                ],
-  //                dependencies: [
-  //
-  //                ]
-  //            )
-  //        ]
-  //
-  //        return Project(
-  //            name: "Application",
-  //            organizationName: "ASAP",
-  //            targets: targets
-  //        )
-  //    }
 }
 
 public extension Target {
-  enum TargetType {
+  enum TargetType: String {
     case app
     case framework
+    case staticFramework
     case interface
     case test
     case UITest
@@ -87,13 +47,17 @@ public extension Target {
         return .app
       case .framework:
         return .framework
-      case .interface:
+      case .staticFramework, .interface:
         return .staticFramework
       case .test:
         return .unitTests
       case .UITest:
         return .unitTests
       }
+    }
+    
+    func bundleID(to name: String) -> String {
+      return "com.asap.\(rawValue).\(name)"
     }
   }
   
@@ -107,7 +71,7 @@ public extension Target {
       platform: .iOS,
       product: type.product,
       productName: name,
-      bundleId: "com.asap.framework.\(name)",
+      bundleId: type.bundleID(to: name),
       deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
       infoPlist: .default,
       sources: .sources,
