@@ -8,19 +8,13 @@ import MyPlugin
 let localHelper = LocalHelper(name: "MyPlugin")
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project(
-  name: "BaseFeature",
-  targets: [
-    Target(
-      name: "BaseFeature",
-      platform: .iOS,
-      product: .framework,
-      bundleId: "com.features.basefeature",
-      sources: ["Sources/**"],
-      dependencies: [
+let project = Project.app(to: "BaseFeature") {
+  [
+    .target("BaseFeature", to: .framework) {
+      [
         .project(target: "AJUIKit", path: "../../Design"),
         .external(name: "RIBs")
       ]
-    )
+    }
   ]
-)
+}
