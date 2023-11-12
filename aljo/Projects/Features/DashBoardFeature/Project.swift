@@ -2,33 +2,22 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import MyPlugin
 
-let targets: [Target] = [
-  Target(
-    name: "DashBoardFeature",
-    platform: .iOS,
-    product: .framework,
-    bundleId: "com.feature.dashboard",
-    deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Sources/**"],
-    dependencies: [
-      .project(target: "BaseFeature", path: "../BaseFeature"),
-      .project(target: "PartyDomainInterface", path: "../../Domain/PartyDomain")
-    ]
-  ),
-  Target(
-    name: "DashBoardApp",
-    platform: .iOS,
-    product: .app,
-    bundleId: "com.feature.dashboardApp",
-    deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Sources/**"],
-    dependencies: [
-      .project(target: "DashBoardFeature", path: "../DashBoardFeature"),
-    ]
-  )
-]
 // Local plugin loaded
 let localHelper = LocalHelper(name: "MyPlugin")
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project(name: "DashBoard", targets: targets)
+let project = Project.app(to: "DashBoardFeature") {
+  [
+    .target("DashBoardFeature", to: .framework) {
+      [
+        .project(target: "BaseFeature", path: "../BaseFeature"),
+        .project(target: "PartyDomainInterface", path: "../../Domain/PartyDomain")
+      ]
+    },
+    .target("DashBoardExampleApp", to: .app) {
+      [
+        .project(target: "DashBoardFeature", path: "../DashBoardFeature"),
+      ]
+    }
+  ]
+}
