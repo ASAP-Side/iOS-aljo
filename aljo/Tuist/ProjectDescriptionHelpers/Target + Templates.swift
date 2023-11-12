@@ -1,36 +1,4 @@
-/// Project 생성과 관련된 메서드가 존재합니다.
-///
-
-import Foundation
 import ProjectDescription
-
-extension TargetScript {
-  static let lintScript: String = """
-if test -d "/opt/homebrew/bin/"; then
-    PATH="/opt/homebrew/bin/:${PATH}"
-fi
-
-export PATH
-
-if which swiftlint > /dev/null; then
-    swiftlint
-else
-    echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
-fi
-"""
-  
-  static let swiftLintTargetScript: TargetScript = .pre(
-    script: lintScript,
-    name: "Check Lint From SwiftLint",
-    basedOnDependencyAnalysis: false
-  )
-}
-
-public extension Project {
-  static func app(to name: String, targets: @escaping () -> [Target]) -> Project {
-    return Project(name: name, organizationName: "ASAP", targets: targets())
-  }
-}
 
 public extension Target {
   enum TargetType: String {
@@ -85,9 +53,4 @@ public extension Target {
       additionalFiles: []
     )
   }
-}
-
-public extension SourceFilesList {
-  static let interface: SourceFilesList = "Interface/**"
-  static let sources: SourceFilesList = "Sources/**"
 }
