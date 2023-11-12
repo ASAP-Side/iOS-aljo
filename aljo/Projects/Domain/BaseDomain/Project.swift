@@ -4,31 +4,18 @@ import MyPlugin
 
 // MARK: - Project
 
-let targets: [Target] = [
-  Target(
-    name: "BaseDomain",
-    platform: .iOS,
-    product: .staticFramework,
-    bundleId: "com.asap.baseDomain",
-    deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Sources/**"],
-    dependencies: [
-      .project(target: "BaseDomainInterface", path: ""),
-      .project(target: "NetworkingInterface", path: "../../Core/Networking")
-    ]
-  ),
-  Target(
-    name: "BaseDomainInterface",
-    platform: .iOS,
-    product: .framework,
-    bundleId: "com.asap.baseDomainInterface",
-    deploymentTarget: .iOS(targetVersion: "14.0", devices: .iphone),
-    sources: ["Interface/**"]
-  )
-]
-
 // Local plugin loaded
 let localHelper = LocalHelper(name: "MyPlugin")
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project(name: "BaseDomain", targets: targets)
+let project = Project.app(to: "AuthDomain") {
+  [
+    .target("BaseDomain", to: .framework) {
+      [
+        .project(target: "BaseDomainInterface", path: ""),
+        .project(target: "NetworkingInterface", path: "../../Core/Networking")
+      ]
+    },
+    .target("BaseDomainInterface", to: .interface) { [] }
+  ]
+}

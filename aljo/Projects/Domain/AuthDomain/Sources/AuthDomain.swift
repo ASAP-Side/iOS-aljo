@@ -1,5 +1,3 @@
-import NetworkingInterface
-
 protocol AuthRepository: AnyObject {
   
 }
