@@ -24,3 +24,7 @@ public extension SourceFilesList {
   static let interface: SourceFilesList = "Interface/**"
   static let sources: SourceFilesList = "Sources/**"
 }
+
+public extension ResourceFileElements {
+  static let `default`: Self = [.folderReference(path: "Resources/**", tags: [])]
+}
