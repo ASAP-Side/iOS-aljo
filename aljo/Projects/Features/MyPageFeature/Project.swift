@@ -1,9 +1,7 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
 
 // MARK: - Project
-
 let targets: [Target] = [
   Target(
     name: "MyPageFeature",
@@ -30,8 +28,4 @@ let targets: [Target] = [
   )
 ]
 
-// Local plugin loaded
-let localHelper = LocalHelper(name: "MyPlugin")
-
-// Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project(name: "MyPageFeature", targets: targets)

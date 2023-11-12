@@ -1,9 +1,7 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
+import AljoPlugin
 
-// Local plugin loaded
-let localHelper = LocalHelper(name: "MyPlugin")
 let project = Project.app(to: "Application") {
   [
     .target("Application", to: .app) {
