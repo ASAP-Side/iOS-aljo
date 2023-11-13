@@ -1,9 +1,3 @@
-//
-//  Dependencies.swift
-//  Config
-//
-//  Copyright (c) 2023 Minii All rights reserved.
-
 import ProjectDescription
 
 let dependencies = Dependencies(

@@ -1,7 +1,7 @@
 import Foundation
 import ProjectDescription
 import EnvironmentPlugin
-import AljoPlugins
+import AljoPlugin
 
 public struct TargetSpec {
   public var name: String

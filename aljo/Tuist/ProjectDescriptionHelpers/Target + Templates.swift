@@ -1,6 +1,6 @@
 import ProjectDescription
 import EnvironmentPlugin
-import AljoPlugins
+import AljoPlugin
 
 public extension Target {
   static func interface(

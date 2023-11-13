@@ -1,6 +1,6 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
-import AljoPlugins
+import AljoPlugin
 import EnvironmentPlugin
 
 let targets: [Target] = [

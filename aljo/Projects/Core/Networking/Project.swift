@@ -1,6 +1,6 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
-import AljoPlugins
+import AljoPlugin
 import EnvironmentPlugin
 
 let project = Project.app(to: "Networking") {
