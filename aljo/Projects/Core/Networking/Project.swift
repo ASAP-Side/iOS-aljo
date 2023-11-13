@@ -1,15 +1,17 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
+import AljoPlugins
+import EnvironmentPlugin
 
 let project = Project.app(to: "Networking") {
   [
-    .target("Networking", to: .framework) {
+    .interface(module: .core(.Networking)),
+    .implements(module: .core(.Networking)) {
       [
-        .project(target: "NetworkingInterface", path: ""),
-        .project(target: "FoundationKit", path: "../../Shared/FoundationKit"),
+        .core(target: .Networking, type: .interface),
+        .shared(target: .FoundationKit),
         .external(name: "Alamofire")
       ]
-    },
-    .target("NetworkingInterface", to: .interface) { [] }
+    }
   ]
 }

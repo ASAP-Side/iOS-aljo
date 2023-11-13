@@ -1,15 +1,17 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
+import AljoPlugins
+import EnvironmentPlugin
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(to: "AuthDomain") {
   [
-    .target("BaseDomain", to: .framework) {
+    .interface(module: .domain(.BaseDomain)),
+    .implements(module: .domain(.BaseDomain)) {
       [
-        .project(target: "BaseDomainInterface", path: ""),
-        .project(target: "NetworkingInterface", path: "../../Core/Networking")
+        .domain(target: .BaseDomain, type: .interface),
+        .core(target: .Networking)
       ]
-    },
-    .target("BaseDomainInterface", to: .interface) { [] }
+    }
   ]
 }
