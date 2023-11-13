@@ -4,12 +4,12 @@ import ProjectDescriptionHelpers
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(to: "AuthDomain") {
   [
-    .target("PartyDomain", to: .framework) {
+    .interface(module: .domain(.PartyDomain)),
+    .implements(module: .domain(.PartyDomain)) {
       [
-        .project(target: "BaseDomain", path: "../BaseDomain"),
-        .project(target: "PartyDomainInterface", path: "")
+        .domain(target: .BaseDomain),
+        .domain(target: .PartyDomain, type: .interface)
       ]
-    },
-    .target("PartyDomainInterface", to: .interface) { [] }
+    }
   ]
 }

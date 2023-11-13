@@ -1,19 +1,15 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
+import AljoPlugins
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(to: "AuthFeature") {
   [
-    .target("AuthFeature", to: .framework) {
+    .implements(module: .feature(.AuthFeature)) {
       [
-        .project(target: "BaseFeature", path: "../BaseFeature"),
-        .project(target: "AlarmDomainInterface", path: "../../Domain/AlarmDomain"),
-        .project(target: "AuthDomainInterface", path: "../../Domain/AuthDomain")
-      ]
-    },
-    .target("AuthExampleApp", to: .app) {
-      [
-        .project(target: "AuthFeature", path: "../AuthFeature")
+        .feature(target: .BaseFeature, type: .interface),
+        .domain(target: .AlarmDomain, type: .interface),
+        .domain(target: .AuthDomain, type: .interface)
       ]
     }
   ]

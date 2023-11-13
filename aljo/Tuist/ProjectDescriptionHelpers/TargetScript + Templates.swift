@@ -1,6 +1,6 @@
 import ProjectDescription
 
-extension TargetScript {
+public extension TargetScript {
   static let lintScript: String = """
 if test -d "/opt/homebrew/bin/"; then
     PATH="/opt/homebrew/bin/:${PATH}"

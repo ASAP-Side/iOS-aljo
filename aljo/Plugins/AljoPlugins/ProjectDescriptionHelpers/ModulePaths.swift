@@ -11,6 +11,7 @@ public enum ModulePaths {
 public extension ModulePaths {
   enum Feature: String, TargetPathConvertible {
     case AuthFeature
+    case BaseFeature
     case DashBoardFeature
     case HomeFeature
     case MyPageFeature
@@ -19,6 +20,7 @@ public extension ModulePaths {
   enum Domain: String, TargetPathConvertible {
     case AlarmDomain
     case AuthDomain
+    case BaseDomain
     case PartyDomain
     case UserDomain
   }

@@ -1,12 +1,14 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
+import AljoPlugins
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(to: "BaseFeature") {
   [
-    .target("BaseFeature", to: .framework) {
+    .interface(module: .feature(.BaseFeature)),
+    .implements(module: .feature(.BaseFeature)) {
       [
-        .project(target: "AJUIKit", path: "../../Design")
+        .design(target: .AJUIKit)
       ]
     }
   ]

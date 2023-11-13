@@ -4,15 +4,10 @@ import ProjectDescriptionHelpers
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(to: "DashBoardFeature") {
   [
-    .target("DashBoardFeature", to: .framework) {
-      [
-        .project(target: "BaseFeature", path: "../BaseFeature"),
-        .project(target: "PartyDomainInterface", path: "../../Domain/PartyDomain")
-      ]
-    },
-    .target("DashBoardExampleApp", to: .app) {
-      [
-        .project(target: "DashBoardFeature", path: "../DashBoardFeature"),
+    .implements(module: .feature(.DashBoardFeature)) {
+      return [
+        .feature(target: .BaseFeature, type: .interface),
+        .domain(target: .PartyDomain, type: .interface)
       ]
     }
   ]
