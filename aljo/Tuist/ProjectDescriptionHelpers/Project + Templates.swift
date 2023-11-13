@@ -1,6 +1,6 @@
 import Foundation
 import ProjectDescription
-import AljoPlugins
+import AljoPlugin
 import EnvironmentPlugin
 
 public extension Project {

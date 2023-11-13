@@ -1,6 +1,6 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
-import AljoPlugins
+import AljoPlugin
 import EnvironmentPlugin
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
