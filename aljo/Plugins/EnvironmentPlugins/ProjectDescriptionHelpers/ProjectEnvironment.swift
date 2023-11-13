@@ -2,11 +2,11 @@ import Foundation
 import ProjectDescription
 
 public struct ProjectEnvironment {
-  let name: String
-  let organizationName: String
-  let deployTarget: DeploymentTarget
-  let platform: Platform
-  let baseSetting: SettingsDictionary
+  public let name: String
+  public let organizationName: String
+  public let deployTarget: DeploymentTarget
+  public let platform: Platform
+  public let baseSetting: SettingsDictionary
 }
 
 public let environmentValues = ProjectEnvironment(

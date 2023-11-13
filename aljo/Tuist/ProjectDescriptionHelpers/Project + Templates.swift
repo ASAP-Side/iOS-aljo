@@ -1,20 +1,27 @@
 import Foundation
 import ProjectDescription
+import AljoPlugins
+import EnvironmentPlugin
 
 public extension Project {
-  static let organizationName: String = "ASAP"
-  static func app(to name: String, targets: @escaping () -> [Target]) -> Project {
+  static func app(
+    to name: String,
+    options: Options = .options(),
+    packages: [Package] = [],
+    settings: Settings = .settings(configurations: [.debug(name: .debug), .release(name: .release)]),
+    fileHeaderTemplate: FileHeaderTemplate? = nil,
+    additionalFiles: [FileElement] = [],
+    targets: @escaping () -> [Target]
+  ) -> Project {
     return Project(
       name: name,
-      organizationName: organizationName,
-      packages: [],
-      settings: nil,
+      organizationName: environmentValues.organizationName,
+      packages: packages,
+      settings: settings,
       targets: targets(),
-      schemes: [
-        Scheme(name: "DEBUG")
-      ],
-      fileHeaderTemplate: nil,
-      additionalFiles: [],
+      schemes: [],
+      fileHeaderTemplate: fileHeaderTemplate,
+      additionalFiles: additionalFiles,
       resourceSynthesizers: []
     )
   }

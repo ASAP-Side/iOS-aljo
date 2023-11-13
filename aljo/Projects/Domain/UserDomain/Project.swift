@@ -2,14 +2,14 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project.app(to: "AuthDomain") {
+let project = Project.app(to: "UserDomain") {
   [
-    .target("UserDomain", to: .framework) {
+    .interface(module: .domain(.UserDomain)),
+    .implements(module: .domain(.UserDomain)) {
       [
-        .project(target: "BaseDomain", path: "../BaseDomain"),
-        .project(target: "UserDomainInterface", path: "")
+        .domain(target: .BaseDomain),
+        .domain(target: .UserDomain, type: .interface)
       ]
-    },
-    .target("UserDomainInterface", to: .interface) { [] }
+    }
   ]
 }

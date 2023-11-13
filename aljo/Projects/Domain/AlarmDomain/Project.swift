@@ -3,12 +3,12 @@ import ProjectDescriptionHelpers
 
 let project = Project.app(to: "AlarmDomain") {
   [
-    .target("AlarmDomain", to: .framework) {
+    .interface(module: .domain(.AlarmDomain)),
+    .implements(module: .domain(.AlarmDomain)) {
       [
-        .project(target: "BaseDomain", path: "../BaseDomain"),
-        .project(target: "AlarmDomainInterface", path: "")
+        .domain(target: .BaseDomain),
+        .domain(target: .AlarmDomain, type: .interface)
       ]
-    },
-    .target("AlarmDomainInterface", to: .interface) { [] }
+    }
   ]
 }
