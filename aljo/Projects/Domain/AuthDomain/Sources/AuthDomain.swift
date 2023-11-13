@@ -1,6 +1,4 @@
-protocol AuthRepository: AnyObject {
-  
-}
+protocol AuthRepository: AnyObject { }
 
 class DefaultAuthRepository: AuthRepository {
 }

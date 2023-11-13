@@ -30,6 +30,7 @@ public extension Project {
 public extension SourceFilesList {
   static let interface: SourceFilesList = "Interface/**"
   static let sources: SourceFilesList = "Sources/**"
+  static let demo: SourceFilesList = "Demo/Sources/**"
 }
 
 public extension ResourceFileElements {

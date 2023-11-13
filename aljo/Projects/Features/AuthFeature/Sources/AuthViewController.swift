@@ -10,5 +10,7 @@ public final class AuthViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+      
+      Self.hello()
     }
 }
