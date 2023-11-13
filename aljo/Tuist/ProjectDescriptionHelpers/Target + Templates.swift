@@ -20,6 +20,17 @@ public extension Target {
       .toTarget(with: module.targetName(type: .sources), product: product)
   }
   
+  static func implements(
+    module: ModulePaths,
+    product: Product = .staticLibrary,
+    spec: TargetSpec
+  ) -> Target {
+    spec.with { spec in
+      spec.sources = .sources
+    }
+    .toTarget(with: module.targetName(type: .sources), product: product)
+  }
+  
   static func demo(
     module: ModulePaths,
     dependencies: @escaping () -> [TargetDependency] = { [] }

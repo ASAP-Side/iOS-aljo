@@ -24,7 +24,7 @@ public struct TargetSpec {
   public var launchArguments: [LaunchArgument]
   public var additionalFiles: [FileElement]
   
-  init(
+  public init(
     name: String = "",
     platform: Platform = environmentValues.platform,
     product: Product = .staticLibrary,
@@ -88,5 +88,11 @@ public struct TargetSpec {
       launchArguments: launchArguments,
       additionalFiles: additionalFiles
     )
+  }
+  
+  func with(_ block: (inout Self) throws -> Void) rethrows -> Self {
+    var copy = self
+    try block(&copy)
+    return copy
   }
 }
