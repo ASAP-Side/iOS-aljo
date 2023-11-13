@@ -10,7 +10,7 @@ public struct ProjectEnvironment {
 }
 
 public let environmentValues = ProjectEnvironment(
-  name: "Aljo",
+  name: "aljo",
   organizationName: "com.ASAP",
   deployTarget: .iOS(targetVersion: "14.0", devices: .iphone),
   platform: .iOS,
