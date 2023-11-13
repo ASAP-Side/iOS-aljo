@@ -1,3 +1,2 @@
 import NetworkingInterface
-import FoundationKit
 import Alamofire

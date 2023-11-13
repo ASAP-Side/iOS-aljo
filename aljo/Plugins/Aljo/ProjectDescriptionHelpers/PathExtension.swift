@@ -39,4 +39,12 @@ extension TargetDependency {
   static func feature(_ name: String) -> Self {
     return .project(target: name, path: .relativeToFeature(name))
   }
+  
+  static func shared(_ name: String) -> Self {
+    return .project(target: name, path: .relativeToShare(name))
+  }
+  
+  static func design(_ name: String) -> Self {
+    return .project(target: name, path: .relativeToDesign(name))
+  }
 }
