@@ -3,8 +3,7 @@ import ProjectDescriptionHelpers
 import AljoPlugin
 import EnvironmentPlugin
 
-// Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project.app(to: "AuthDomain") {
+let project = Project.app(to: "BaseDomain") {
   [
     .interface(module: .domain(.BaseDomain)),
     .implements(module: .domain(.BaseDomain)) {
