@@ -1,8 +1,7 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-// Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project.app(to: "AuthDomain") {
+let project = Project.app(to: "PartyDomain") {
   [
     .interface(module: .domain(.PartyDomain)),
     .implements(module: .domain(.PartyDomain)) {
