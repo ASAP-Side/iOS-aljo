@@ -7,7 +7,7 @@
     curl -Ls https://install.tuist.io | bash
     ```
 
-2. Tuist Singing 데이터 추가
+2. Tuist Signing 데이터 추가
 
 3. Update Dependencies
     ```bash
