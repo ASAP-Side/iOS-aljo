@@ -4,11 +4,12 @@ import ProjectDescriptionHelpers
 let project = Project.app(to: "AuthDomain") {
   [
     .interface(module: .domain(.AuthDomain)),
-    .implements(module: .domain(.AuthDomain)) {
-      [
+    .implements(
+      module: .domain(.AuthDomain),
+      dependencies: [
         .domain(target: .BaseDomain),
         .domain(target: .AuthDomain, type: .interface)
       ]
-    }
+    )
   ]
 }

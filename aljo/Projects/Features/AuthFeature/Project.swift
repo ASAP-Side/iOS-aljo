@@ -4,17 +4,19 @@ import AljoPlugin
 
 let project = Project.app(to: "AuthFeature") {
   [
-    .implements(module: .feature(.AuthFeature)) {
-      [
+    .implements(
+      module: .feature(.AuthFeature),
+      dependencies: [
         .feature(target: .BaseFeature),
         .domain(target: .AlarmDomain, type: .interface),
         .domain(target: .AuthDomain, type: .interface)
       ]
-    },
-    .demo(module: .feature(.AuthFeature)) {
-      [
+    ),
+    .demo(
+      module: .feature(.AuthFeature),
+      dependencies: [
         .feature(target: .AuthFeature)
       ]
-    }
+    )
   ]
 }
