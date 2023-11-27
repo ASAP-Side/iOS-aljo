@@ -2,7 +2,6 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import AljoPlugin
 
-// Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(to: "AuthFeature") {
   [
     .implements(module: .feature(.AuthFeature)) {

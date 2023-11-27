@@ -12,5 +12,4 @@ let targets: [Target] = [
   )
 ]
 
-// Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project(name: "FoundationKit", targets: targets)
