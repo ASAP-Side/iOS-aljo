@@ -12,6 +12,7 @@ cd ..
 
 # Tuist로 의존성 설치
 echo "Update Tuist Dependencies"
+tuist clean
 tuist fetch
 
 # Tuist 프로젝트 생성
