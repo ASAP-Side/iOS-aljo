@@ -3,8 +3,9 @@ import ProjectDescriptionHelpers
 import AljoPlugin
 import EnvironmentPlugin
 
-let project = Project.app(to: "BaseDomain") {
-  [
+let project = Project.app(
+  to: "BaseDomain",
+  targets: [
     .interface(module: .domain(.BaseDomain)),
     .implements(
       module: .domain(.BaseDomain),
@@ -14,4 +15,4 @@ let project = Project.app(to: "BaseDomain") {
       ]
     )
   ]
-}
+)

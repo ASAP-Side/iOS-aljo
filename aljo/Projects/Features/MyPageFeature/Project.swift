@@ -1,8 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.app(to: "MyPageFeature") {
-  [
+let project = Project.app(
+  to: "MyPageFeature",
+  targets: [
     .implements(
       module: .feature(.MyPageFeature),
       dependencies: [
@@ -11,4 +12,4 @@ let project = Project.app(to: "MyPageFeature") {
       ]
     )
   ]
-}
+)

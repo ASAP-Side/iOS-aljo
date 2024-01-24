@@ -1,8 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.app(to: "AJUIKit") {
-  [
+let project = Project.app(
+  to: "AJUIKit",
+  targets: [
     .implements(
       module: .design(.AJUIKit),
       spec: TargetSpec(
@@ -14,4 +15,4 @@ let project = Project.app(to: "AJUIKit") {
       )
     )
   ]
-}
+)

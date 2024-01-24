@@ -1,8 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.app(to: "DashBoardFeature") {
-  [
+let project = Project.app(
+  to: "DashBoardFeature",
+  targets: [
     .implements(
       module: .feature(.DashBoardFeature),
       dependencies: [
@@ -17,4 +18,4 @@ let project = Project.app(to: "DashBoardFeature") {
       ]
     )
   ]
-}
+)

@@ -3,8 +3,9 @@ import ProjectDescriptionHelpers
 import AljoPlugin
 import EnvironmentPlugin
 
-let project = Project.app(to: "Networking") {
-  [
+let project = Project.app(
+  to: "Networking",
+  targets: [
     .interface(module: .core(.Networking)),
     .implements(
       module: .core(.Networking),
@@ -15,4 +16,4 @@ let project = Project.app(to: "Networking") {
       ]
     )
   ]
-}
+)

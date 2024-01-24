@@ -2,8 +2,9 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import AljoPlugin
 
-let project = Project.app(to: "AuthFeature") {
-  [
+let project = Project.app(
+  to: "AuthFeature",
+  targets: [
     .implements(
       module: .feature(.AuthFeature),
       dependencies: [
@@ -19,4 +20,4 @@ let project = Project.app(to: "AuthFeature") {
       ]
     )
   ]
-}
+)

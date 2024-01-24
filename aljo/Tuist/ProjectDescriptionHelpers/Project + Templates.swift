@@ -11,14 +11,14 @@ public extension Project {
     settings: Settings = .settings(configurations: [.debug(name: .debug), .release(name: .release)]),
     fileHeaderTemplate: FileHeaderTemplate? = nil,
     additionalFiles: [FileElement] = [],
-    targets: @escaping () -> [Target]
+    targets: [Target]
   ) -> Project {
     return Project(
       name: name,
       organizationName: environmentValues.organizationName,
       packages: packages,
       settings: settings,
-      targets: targets(),
+      targets: targets,
       schemes: [],
       fileHeaderTemplate: fileHeaderTemplate,
       additionalFiles: additionalFiles,
