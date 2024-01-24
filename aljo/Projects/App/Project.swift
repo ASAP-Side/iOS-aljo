@@ -12,7 +12,7 @@ let targets: [Target] = [
     deploymentTarget: environmentValues.deployTarget,
     infoPlist: .default,
     sources: ["Sources/**"],
-    resources: ["Resources/**"],
+    resources: [],
     scripts: [.swiftLintTargetScript],
     dependencies: ModulePaths.Feature.allCases.map { TargetDependency.feature(target: $0) }
       + ModulePaths.Domain.allCases.map { TargetDependency.domain(target: $0) },
