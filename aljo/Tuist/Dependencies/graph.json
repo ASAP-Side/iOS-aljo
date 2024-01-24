@@ -1,0 +1,70 @@
+{
+  "externalProjects" : [
+
+  ],
+  "externalDependencies" : {
+    "Alamofire" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/Alamofire.xcframework"
+        }
+      }
+    ],
+    "SnapKit" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/SnapKit.xcframework"
+        }
+      }
+    ],
+    "RxBlocking" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/RxBlocking.xcframework"
+        }
+      }
+    ],
+    "RxRelay" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/RxRelay.xcframework"
+        }
+      }
+    ],
+    "GoogleDataTransport" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/GoogleDataTransport.xcframework"
+        }
+      }
+    ],
+    "RxCocoa" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/RxCocoa.xcframework"
+        }
+      }
+    ],
+    "FirebaseMessaging" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/FirebaseMessaging.xcframework"
+        }
+      }
+    ],
+    "RxTest" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/RxTest.xcframework"
+        }
+      }
+    ],
+    "RxSwift" : [
+      {
+        "xcframework" : {
+          "path" : "\/Users\/igyeongmin\/DEV\/iOSprojects\/iOS-aljo\/aljo\/Tuist\/Dependencies\/Carthage\/Build\/RxSwift.xcframework"
+        }
+      }
+    ]
+  }
+}

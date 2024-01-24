@@ -1,0 +1,4 @@
+binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseMessagingBinary.json" "10.14.0"
+github "Alamofire/Alamofire" "5.6.3"
+github "ReactiveX/RxSwift" "6.6.0"
+github "SnapKit/SnapKit" "5.6.0"
