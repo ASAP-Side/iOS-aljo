@@ -7,6 +7,7 @@
 import UIKit
 
 import HomeFeature
+import SnapKit
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {

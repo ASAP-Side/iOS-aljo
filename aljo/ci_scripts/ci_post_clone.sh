@@ -3,6 +3,9 @@
 # PC에 swiftLint 설치하도록 하는 명령어
 # brew install swiftlint
 
+brew update
+brew install carthage
+
 # Tuist 설치 명령어
 echo "Install Tuist"
 curl -Ls https://install.tuist.io | bash
