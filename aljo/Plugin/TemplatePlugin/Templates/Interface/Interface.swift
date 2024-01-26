@@ -4,7 +4,7 @@ private let layerAttribute = Template.Attribute.required("layer")
 private let nameAttribute = Template.Attribute.required("name")
 
 private let template = Template(
-  description: "A template for a new module's interface target",
+  description: "Template for interface target",
   attributes: [
     layerAttribute,
     nameAttribute

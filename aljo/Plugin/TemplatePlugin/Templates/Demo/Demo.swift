@@ -11,7 +11,7 @@ private let layerAttribute = Template.Attribute.required("layer")
 private let nameAttribute = Template.Attribute.required("name")
 
 private let template = Template(
-    description: "A template for a new module's demo target",
+    description: "Template for demo target",
     attributes: [
         layerAttribute,
         nameAttribute
