@@ -38,4 +38,22 @@ public extension Target {
     return TargetSpec(sources: .demo, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .demo), product: .app)
   }
+  
+  static func tests(
+    module: ModulePaths,
+    product: Product,
+    dependencies: [TargetDependency] = []
+  ) -> Target {
+    return TargetSpec(sources: .tests, dependencies: dependencies)
+      .toTarget(with: module.targetName(type: .tests), product: product)
+  }
+  
+  static func testing(
+    module: ModulePaths,
+    product: Product,
+    dependencies: [TargetDependency] = []
+  ) -> Target {
+    return TargetSpec(sources: .testing, dependencies: dependencies)
+      .toTarget(with: module.targetName(type: .testing), product: product)
+  }
 }
