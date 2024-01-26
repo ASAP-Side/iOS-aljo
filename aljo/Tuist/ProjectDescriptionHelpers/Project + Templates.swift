@@ -31,6 +31,9 @@ public extension SourceFilesList {
   static let interface: SourceFilesList = "Interface/**"
   static let sources: SourceFilesList = "Sources/**"
   static let demo: SourceFilesList = "Demo/Sources/**"
+  static let implementation: SourceFilesList = "Implementation/**"
+  static let testing: SourceFilesList = "Testing/**"
+  static let tests: SourceFilesList = "Tests/**"
 }
 
 public extension ResourceFileElements {
