@@ -3,6 +3,16 @@ import ProjectDescriptionHelpers
 import AljoPlugin
 import EnvironmentPlugin
 
+let configurations: [Configuration] = [
+  .debug(name: "Debug"),
+  .release(name: "Release")
+]
+
+let settings = Settings.settings(
+  base: environmentValues.baseSetting,
+  configurations: configurations
+)
+
 let targets: [Target] = [
   Target(
     name: environmentValues.name,
@@ -12,16 +22,17 @@ let targets: [Target] = [
     deploymentTarget: environmentValues.deployTarget,
     infoPlist: .default,
     sources: ["Sources/**"],
-    resources: ["Resources/**"],
+    resources: [],
     scripts: [.swiftLintTargetScript],
     dependencies: ModulePaths.Feature.allCases.map { TargetDependency.feature(target: $0) }
       + ModulePaths.Domain.allCases.map { TargetDependency.domain(target: $0) },
-    settings: .settings(base: environmentValues.baseSetting)
+    settings: settings
   )
 ]
 
 let project = Project(
   name: environmentValues.name,
   organizationName: environmentValues.organizationName,
+  settings: settings,
   targets: targets
 )
