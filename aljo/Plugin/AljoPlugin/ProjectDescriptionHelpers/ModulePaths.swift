@@ -74,3 +74,7 @@ public extension TargetPathConvertible where Self: RawRepresentable {
 
 extension ModulePaths.Feature: CaseIterable { }
 extension ModulePaths.Domain: CaseIterable { }
+extension ModulePaths.Data: CaseIterable { }
+extension ModulePaths.Core: CaseIterable { }
+extension ModulePaths.Design: CaseIterable { }
+extension ModulePaths.Shared: CaseIterable { }
