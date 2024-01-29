@@ -1,8 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.app(to: "HomeFeature") {
-  [
+let project = Project.app(
+  to: "HomeFeature",
+  targets: [
     .implements(
       module: .feature(.HomeFeature),
       dependencies: [
@@ -16,4 +17,4 @@ let project = Project.app(to: "HomeFeature") {
       ]
     )
   ]
-}
+)

@@ -11,14 +11,14 @@ public extension Project {
     settings: Settings = .settings(configurations: [.debug(name: .debug), .release(name: .release)]),
     fileHeaderTemplate: FileHeaderTemplate? = nil,
     additionalFiles: [FileElement] = [],
-    targets: @escaping () -> [Target]
+    targets: [Target]
   ) -> Project {
     return Project(
       name: name,
       organizationName: environmentValues.organizationName,
       packages: packages,
       settings: settings,
-      targets: targets(),
+      targets: targets,
       schemes: [],
       fileHeaderTemplate: fileHeaderTemplate,
       additionalFiles: additionalFiles,
@@ -31,6 +31,9 @@ public extension SourceFilesList {
   static let interface: SourceFilesList = "Interface/**"
   static let sources: SourceFilesList = "Sources/**"
   static let demo: SourceFilesList = "Demo/Sources/**"
+  static let implementation: SourceFilesList = "Implementation/**"
+  static let testing: SourceFilesList = "Testing/**"
+  static let tests: SourceFilesList = "Tests/**"
 }
 
 public extension ResourceFileElements {

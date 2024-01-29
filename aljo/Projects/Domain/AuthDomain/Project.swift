@@ -1,8 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.app(to: "AuthDomain") {
-  [
+let project = Project.app(
+  to: "AuthDomain",
+  targets: [
     .interface(module: .domain(.AuthDomain)),
     .implements(
       module: .domain(.AuthDomain),
@@ -12,4 +13,4 @@ let project = Project.app(to: "AuthDomain") {
       ]
     )
   ]
-}
+)

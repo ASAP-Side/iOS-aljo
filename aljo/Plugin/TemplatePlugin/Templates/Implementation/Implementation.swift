@@ -4,15 +4,15 @@ private let layerAttribute = Template.Attribute.required("layer")
 private let nameAttribute = Template.Attribute.required("name")
 
 private let template = Template(
-    description: "A template for a new module",
+    description: "Template for Implementation target",
     attributes: [
         layerAttribute,
-        nameAttribute,
+        nameAttribute
     ],
     items: [
         .file(
-            path: "Projects/\(layerAttribute)/\(nameAttribute)/Project.swift",
-            templatePath: "Project.stencil"
+            path: "Projects/\(layerAttribute)/\(nameAttribute)/Implementation/Implementation.swift",
+            templatePath: "Implementation.stencil"
         )
     ]
 )

@@ -58,6 +58,8 @@ public extension ModulePaths {
 public enum TargetType: String {
   case interface = "Interface"
   case sources = ""
+  case implementation = "Implemenetation"
+  case tests = "Tests"
   case testing = "Testing"
   case demo = "Demo"
 }
