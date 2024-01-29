@@ -7,5 +7,7 @@ import EnvironmentPlugin
 
 let project = Project.app(
   to: "AuthDomain",
-  targets: []
+  targets: [
+    .interface(module: .domain(.AuthDomain))
+  ]
 )

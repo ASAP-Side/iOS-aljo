@@ -7,15 +7,19 @@ public extension ProjectDescription.Path {
   }
   
   static func relativeToFeature(_ path: String) -> Self {
-    return .relativeToRoot("Projects/Features/\(path)")
+    return .relativeToRoot("Projects/Feature/\(path)")
   }
   
   static func relativeToDomain(_ path: String) -> Self {
     return .relativeToRoot("Projects/Domain/\(path)")
   }
   
+  static func relativeToData(_ path: String) -> Self {
+    return .relativeToRoot("Projects/Data/\(path)")
+  }
+  
   static func relativeToDesign(_ path: String) -> Self {
-    return .relativeToRoot("Projects/Design/\(path)")
+    return .relativeToRoot("Projects/UserInterface/\(path)")
   }
   
   static func relativeToShare(_ path: String) -> Self {

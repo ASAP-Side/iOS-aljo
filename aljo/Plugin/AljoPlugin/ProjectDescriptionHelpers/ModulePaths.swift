@@ -3,6 +3,7 @@ import ProjectDescription
 public enum ModulePaths {
   case feature(Feature)
   case domain(Domain)
+  case data(Data)
   case core(Core)
   case shared(Shared)
   case design(Design)
@@ -10,23 +11,27 @@ public enum ModulePaths {
 
 public extension ModulePaths {
   enum Feature: String, TargetPathConvertible {
-    case base = "Base"
+    case AuthFeature
   }
   
   enum Domain: String, TargetPathConvertible { 
-    case base = "Base"
+    case AuthDomain
+  }
+  
+  enum Data: String, TargetPathConvertible {
+    case AuthData
   }
   
   enum Core: String, TargetPathConvertible { 
-    case base = "Base"
+    case AJNetwork
   }
   
   enum Shared: String, TargetPathConvertible { 
-    case base = "Base"
+    case Foundation
   }
   
   enum Design: String, TargetPathConvertible { 
-    case base = "Base"
+    case ASAPKit
   }
 }
 
@@ -37,6 +42,8 @@ public extension ModulePaths {
       return feature.targetName(type: type)
     case .domain(let domain):
       return domain.targetName(type: type)
+    case .data(let data):
+      return data.targetName(type: type)
     case .core(let core):
       return core.targetName(type: type)
     case .shared(let shared):
@@ -67,3 +74,7 @@ public extension TargetPathConvertible where Self: RawRepresentable {
 
 extension ModulePaths.Feature: CaseIterable { }
 extension ModulePaths.Domain: CaseIterable { }
+extension ModulePaths.Data: CaseIterable { }
+extension ModulePaths.Core: CaseIterable { }
+extension ModulePaths.Design: CaseIterable { }
+extension ModulePaths.Shared: CaseIterable { }

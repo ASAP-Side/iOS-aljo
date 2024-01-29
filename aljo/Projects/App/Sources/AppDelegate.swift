@@ -6,8 +6,6 @@
 
 import UIKit
 
-import HomeFeature
-
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
@@ -16,7 +14,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
     window = UIWindow(frame: UIScreen.main.nativeBounds)
-    let controller = HomeViewController()
+    let controller = UIViewController()
     window?.rootViewController = controller
     window?.makeKeyAndVisible()
     window?.backgroundColor = .systemBackground
