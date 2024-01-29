@@ -7,5 +7,7 @@ import EnvironmentPlugin
 
 let project = Project.app(
   to: "AuthFeature",
-  targets: []
+  targets: [
+    .interface(module: .feature(.AuthFeature))
+  ]
 )
