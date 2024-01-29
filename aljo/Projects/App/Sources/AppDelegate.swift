@@ -6,8 +6,6 @@
 
 import UIKit
 
-import HomeFeature
-
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
