@@ -4,7 +4,7 @@ import ProjectDescription
 public extension TargetDependency {
   static func feature(
     target: ModulePaths.Feature,
-    type: TargetType = .sources
+    type: TargetType
   ) -> TargetDependency {
     return .project(
       target: target.targetName(type: type),
@@ -14,7 +14,7 @@ public extension TargetDependency {
   
   static func domain(
     target: ModulePaths.Domain,
-    type: TargetType = .sources
+    type: TargetType
   ) -> TargetDependency {
     return .project(
       target: target.targetName(type: type),
@@ -24,7 +24,7 @@ public extension TargetDependency {
   
   static func core(
     target: ModulePaths.Core,
-    type: TargetType = .sources
+    type: TargetType
   ) -> TargetDependency {
     return .project(
       target: target.targetName(type: type),
@@ -34,7 +34,7 @@ public extension TargetDependency {
   
   static func shared(
     target: ModulePaths.Shared,
-    type: TargetType = .sources
+    type: TargetType
   ) -> TargetDependency {
     return .project(
       target: target.targetName(type: type),
@@ -44,7 +44,7 @@ public extension TargetDependency {
   
   static func design(
     target: ModulePaths.Design,
-    type: TargetType = .sources
+    type: TargetType
   ) -> TargetDependency {
     return .project(
       target: target.targetName(type: type),

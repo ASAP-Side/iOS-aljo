@@ -10,31 +10,23 @@ public enum ModulePaths {
 
 public extension ModulePaths {
   enum Feature: String, TargetPathConvertible {
-    case AuthFeature
-    case BaseFeature
-    case DashBoardFeature
-    case HomeFeature
-    case MyPageFeature
+    case base = "Base"
   }
   
-  enum Domain: String, TargetPathConvertible {
-    case AlarmDomain
-    case AuthDomain
-    case BaseDomain
-    case PartyDomain
-    case UserDomain
+  enum Domain: String, TargetPathConvertible { 
+    case base = "Base"
   }
   
-  enum Core: String, TargetPathConvertible {
-    case Networking
+  enum Core: String, TargetPathConvertible { 
+    case base = "Base"
   }
   
-  enum Shared: String, TargetPathConvertible {
-    case FoundationKit
+  enum Shared: String, TargetPathConvertible { 
+    case base = "Base"
   }
   
-  enum Design: String, TargetPathConvertible {
-    case AJUIKit
+  enum Design: String, TargetPathConvertible { 
+    case base = "Base"
   }
 }
 
@@ -57,7 +49,6 @@ public extension ModulePaths {
 
 public enum TargetType: String {
   case interface = "Interface"
-  case sources = ""
   case implementation = "Implemenetation"
   case tests = "Tests"
   case testing = "Testing"

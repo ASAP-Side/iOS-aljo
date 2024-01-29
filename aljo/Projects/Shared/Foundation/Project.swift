@@ -6,6 +6,6 @@ import AljoPlugin
 import EnvironmentPlugin
 
 let project = Project.app(
-  to: "{{ name }}",
+  to: "Foundation",
   targets: []
 )

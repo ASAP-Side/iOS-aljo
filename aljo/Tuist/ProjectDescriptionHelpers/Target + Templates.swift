@@ -17,7 +17,7 @@ public extension Target {
     dependencies: [TargetDependency] = []
   ) -> Target {
     return TargetSpec(sources: .sources, dependencies: dependencies)
-      .toTarget(with: module.targetName(type: .sources), product: product)
+      .toTarget(with: module.targetName(type: .implementation), product: product)
   }
   
   static func implements(
@@ -28,7 +28,7 @@ public extension Target {
     spec.with { spec in
       spec.sources = .sources
     }
-    .toTarget(with: module.targetName(type: .sources), product: product)
+    .toTarget(with: module.targetName(type: .implementation), product: product)
   }
   
   static func demo(
