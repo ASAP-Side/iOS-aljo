@@ -1,6 +1,9 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
-import DependencyPlugin
+
+// Plugins
+import AljoPlugin
+import EnvironmentPlugin
 
 let project = Project.app(
   to: "{{ name }}",
