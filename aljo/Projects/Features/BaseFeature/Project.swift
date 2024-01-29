@@ -8,8 +8,7 @@ let project = Project.app(to: "BaseFeature") {
     .implements(
       module: .feature(.BaseFeature),
       dependencies: [
-        .feature(target: .BaseFeature, type: .interface),
-        .design(target: .AJUIKit)
+        .feature(target: .BaseFeature, type: .interface)
       ]
     )
   ]
