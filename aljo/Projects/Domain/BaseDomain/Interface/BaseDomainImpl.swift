@@ -1,4 +1,0 @@
-
-protocol BaseDomainImpl: AnyObject {
-  
-}
