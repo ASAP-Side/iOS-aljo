@@ -7,5 +7,14 @@ import EnvironmentPlugin
 
 let project = Project.app(
   to: "AJNetwork",
-  targets: []
+  targets: [
+    .interface(module: .core(.AJNetwork)),
+    .implements(
+      module: .core(.AJNetwork),
+      dependencies: [
+        .core(target: .AJNetwork, type: .interface)
+      ]
+    ),
+    .testing(module: .core(.AJNetwork), product: .staticLibrary)
+  ]
 )
