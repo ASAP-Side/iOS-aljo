@@ -15,6 +15,20 @@ let project = Project.app(
         .core(target: .AJNetwork, type: .interface)
       ]
     ),
-    .testing(module: .core(.AJNetwork), product: .staticLibrary)
+    .testing(
+      module: .core(.AJNetwork),
+      product: .staticLibrary,
+      dependencies: [
+        .core(target: .AJNetwork, type: .interface)
+      ]
+    ),
+    .tests(
+      module: .core(.AJNetwork),
+      product: .unitTests,
+      dependencies: [
+        .core(target: .AJNetwork, type: .interface),
+        .core(target: .AJNetwork, type: .testing)
+      ]
+    )
   ]
 )
