@@ -16,7 +16,7 @@ public extension Target {
     product: Product = .staticLibrary,
     dependencies: [TargetDependency] = []
   ) -> Target {
-    return TargetSpec(sources: .sources, dependencies: dependencies)
+    return TargetSpec(sources: .implementation, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .implementation), product: product)
   }
   
@@ -26,7 +26,7 @@ public extension Target {
     spec: TargetSpec
   ) -> Target {
     spec.with { spec in
-      spec.sources = .sources
+      spec.sources = .implementation
     }
     .toTarget(with: module.targetName(type: .implementation), product: product)
   }
