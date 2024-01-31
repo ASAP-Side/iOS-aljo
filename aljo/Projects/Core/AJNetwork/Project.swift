@@ -14,6 +14,7 @@ let project = Project.app(
       dependencies: [
         .core(target: .AJNetwork, type: .interface),
         .external(name: "Alamofire"),
+        .external(name: "RxSwift")
       ]
     ),
     .testing(
