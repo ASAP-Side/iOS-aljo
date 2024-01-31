@@ -12,7 +12,7 @@ import Foundation
 import RxSwift
 import Alamofire
 
-public struct NetworkProvider: Provider {
+struct NetworkProvider: Provider {
   public static func string(_ router: Router) -> Observable<String> {
     return request(to: router).compactMap { String(data: $0, encoding: .utf8) }
   }
