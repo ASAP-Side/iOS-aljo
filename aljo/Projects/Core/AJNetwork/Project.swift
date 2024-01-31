@@ -12,7 +12,8 @@ let project = Project.app(
     .implements(
       module: .core(.AJNetwork),
       dependencies: [
-        .core(target: .AJNetwork, type: .interface)
+        .core(target: .AJNetwork, type: .interface),
+        .external(name: "Alamofire"),
       ]
     ),
     .testing(
