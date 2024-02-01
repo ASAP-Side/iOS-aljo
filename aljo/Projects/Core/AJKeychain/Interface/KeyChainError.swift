@@ -6,7 +6,7 @@
 
 import CoreFoundation
 
-enum KeyChainError: Error {
+public enum KeyChainError: Error {
   case duplicate
   case invalidDecode
   case unknown(OSStatus)

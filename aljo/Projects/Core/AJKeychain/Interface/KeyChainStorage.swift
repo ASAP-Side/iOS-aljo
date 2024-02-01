@@ -7,7 +7,7 @@
 import Foundation
 import RxSwift
 
-protocol KeyChainStorage {
+public protocol KeyChainStorage {
   func upsert(item: Data) -> Observable<Void>
   func fetch(to identifier: String) -> Observable<Data>
   func delete(to identifier: String) -> Observable<Void>

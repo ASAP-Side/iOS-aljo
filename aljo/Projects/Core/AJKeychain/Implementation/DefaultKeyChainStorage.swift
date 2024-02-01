@@ -6,6 +6,7 @@
 
 import Foundation
 import RxSwift
+import AJKeychainInterface
 
 final class DefaultKeyChainStorage: KeyChainStorage {
   private let attributes: [String: Any] = [
@@ -67,7 +68,7 @@ final class DefaultKeyChainStorage: KeyChainStorage {
   func delete(to identifier: String) -> Observable<Void> {
     var query = attributes
 
-    return Observable.create { [weak self] observer in
+    return Observable.create { observer in
       let result = SecItemDelete(query as CFDictionary)
       
       if result == errSecSuccess {
@@ -86,7 +87,7 @@ final class DefaultKeyChainStorage: KeyChainStorage {
           let data = itemDictionary[kSecAttrGeneric as String] as? Data else {
       throw KeyChainError.invalidDecode
     }
-    
+
     return data
   }
   
