@@ -11,7 +11,7 @@ import Foundation
 import RxSwift
 
 public protocol Provider {
-  static func string(_ router: Router) -> Observable<String>
-  static func decodable<T: Decodable>(_ router: Router) -> Observable<T>
-  static func data(_ router: Router) -> Observable<Data>
+  func string(_ router: Router) -> Observable<String>
+  func decodable<T: Decodable>(_ router: Router) -> Observable<T>
+  func data(_ router: Router) -> Observable<Data>
 }

@@ -13,28 +13,34 @@ import RxSwift
 import Alamofire
 
 struct NetworkProvider: Provider {
-  public static func string(_ router: Router) -> Observable<String> {
+  private let session: Session
+  
+  init(session: Session = .default) {
+    self.session = session
+  }
+  
+  public func string(_ router: Router) -> Observable<String> {
     return request(to: router).compactMap { String(data: $0, encoding: .utf8) }
   }
   
-  public static func decodable<T: Decodable>(_ router: Router) -> Observable<T> {
+  public func decodable<T: Decodable>(_ router: Router) -> Observable<T> {
     return request(to: router).decode(type: T.self, decoder: JSONDecoder())
   }
   
-  public static func data(_ router: Router) -> Observable<Data> {
+  public func data(_ router: Router) -> Observable<Data> {
     return request(to: router)
   }
 }
 
-// MARK: - Private
+// MARK: - Private Method
 extension NetworkProvider {
-  private static func request(to router: Router) -> Observable<Data> {
+  private func request(to router: Router) -> Observable<Data> {
     if case let .uploadMultipartFormData(multipartFormData, _) = router.behavior {
       return upload(to: router, with: multipartFormData)
     }
     
     return Observable.create { emitter in
-      let request = AF.request(router)
+      let request = session.request(router)
         .validate()
         .responseData { response in
           switch response.result {
@@ -51,9 +57,9 @@ extension NetworkProvider {
     }
   }
   
-  private static func upload(to router: Router, with multipartFormData: MultipartFormData) -> Observable<Data> {
+  private func upload(to router: Router, with multipartFormData: MultipartFormData) -> Observable<Data> {
     return Observable.create { emitter in
-      let request = AF.upload(multipartFormData: multipartFormData, with: router)
+      let request = session.upload(multipartFormData: multipartFormData, with: router)
         .validate()
         .responseData { response in
           switch response.result {
