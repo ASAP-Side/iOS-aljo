@@ -10,7 +10,7 @@ import Foundation
 import AJNetworkInterface
 
 public final class StubURLProtocol: URLProtocol {
-  static var requestHandler: ((URLRequest) -> (HTTPURLResponse, Data))?
+  public static var requestHandler: ((URLRequest) -> (HTTPURLResponse, Data))?
   
   public override class func canInit(with request: URLRequest) -> Bool {
     return true
@@ -29,5 +29,9 @@ public final class StubURLProtocol: URLProtocol {
     client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
     client?.urlProtocol(self, didLoad: data)
     client?.urlProtocolDidFinishLoading(self)
+  }
+  
+  public override func stopLoading() {
+    
   }
 }

@@ -10,15 +10,15 @@ import AJNetworkInterface
 
 import Alamofire
 
-enum DummyRouter: Router {
+public enum DummyRouter: Router {
   case dummyGet
   case dummyPost
   
-  var baseURL: String {
+  public var baseURL: String {
     return "www.base.com"
   }
   
-  var method: HTTPMethod {
+  public var method: HTTPMethod {
     switch self {
     case .dummyGet:
       return .get
@@ -27,7 +27,7 @@ enum DummyRouter: Router {
     }
   }
   
-  var path: String {
+  public var path: String {
     switch self {
     case .dummyGet:
       return ""
@@ -36,7 +36,7 @@ enum DummyRouter: Router {
     }
   }
   
-  var headers: HTTPHeaders {
+  public var headers: HTTPHeaders {
     switch self {
     case .dummyGet:
       return []
@@ -45,7 +45,7 @@ enum DummyRouter: Router {
     }
   }
   
-  var behavior: RequestBehavior {
+  public var behavior: RequestBehavior {
     switch self {
     case .dummyGet:
       return .plain

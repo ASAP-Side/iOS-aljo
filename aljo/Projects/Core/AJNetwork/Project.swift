@@ -7,6 +7,10 @@ import EnvironmentPlugin
 
 let project = Project.app(
   to: "AJNetwork",
+  settings: .settings(
+    base: ["ENABLE_TESTING_SEARCH_PATHS" : "YES"],
+    configurations: [.debug(name: .debug), .release(name: .release)]
+  ),
   targets: [
     .interface(
       module: .core(.AJNetwork),
@@ -36,8 +40,10 @@ let project = Project.app(
       module: .core(.AJNetwork),
       product: .unitTests,
       dependencies: [
-        .core(target: .AJNetwork, type: .interface),
-        .core(target: .AJNetwork, type: .testing)
+        .core(target: .AJNetwork, type: .implementation),
+        .core(target: .AJNetwork, type: .testing),
+        .external(name: "Alamofire"),
+        .external(name: "RxSwift")
       ]
     )
   ]
