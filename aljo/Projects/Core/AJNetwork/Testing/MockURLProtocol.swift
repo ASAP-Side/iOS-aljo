@@ -7,19 +7,20 @@
 //
 
 import Foundation
+import AJNetworkInterface
 
-final class MockURLProtocol: URLProtocol {
+public final class MockURLProtocol: URLProtocol {
   static var requestHandler: ((URLRequest) -> (HTTPURLResponse, Data))?
   
-  override class func canInit(with request: URLRequest) -> Bool {
+  public override class func canInit(with request: URLRequest) -> Bool {
     return true
   }
   
-  override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+  public override class func canonicalRequest(for request: URLRequest) -> URLRequest {
     return request
   }
   
-  override func startLoading() {
+  public override func startLoading() {
     guard let handler = MockURLProtocol.requestHandler else {
       return
     }
