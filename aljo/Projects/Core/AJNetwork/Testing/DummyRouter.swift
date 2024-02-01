@@ -13,6 +13,7 @@ import Alamofire
 public enum DummyRouter: Router {
   case dummyGet
   case dummyPost
+  case dummy
   
   public var baseURL: String {
     return "www.base.com"
@@ -24,6 +25,8 @@ public enum DummyRouter: Router {
       return .get
     case .dummyPost:
       return .post
+    case .dummy:
+      return .get
     }
   }
   
@@ -33,6 +36,8 @@ public enum DummyRouter: Router {
       return ""
     case .dummyPost:
       return ""
+    case .dummy:
+      return "/path"
     }
   }
   
@@ -42,6 +47,8 @@ public enum DummyRouter: Router {
       return []
     case .dummyPost:
       return []
+    case .dummy:
+      return [HTTPHeader.contentType("application/json")]
     }
   }
   
@@ -51,6 +58,8 @@ public enum DummyRouter: Router {
       return .plain
     case .dummyPost:
       return .uploadMultipartFormData(MultipartFormData(), parameters: [:])
+    case .dummy:
+      return .plain
     }
   }
 }
