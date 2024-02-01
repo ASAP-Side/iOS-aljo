@@ -5,6 +5,7 @@
 //  Copyright (c) 2024 Minii All rights reserved.
 
 import Foundation
+import RxSwift
 
 protocol KeyChainStorage {
   func upsert(item: Data) -> Observable<Void>

@@ -7,5 +7,5 @@ import EnvironmentPlugin
 
 let project = Project.app(
   to: "AJNetwork",
-  targets: []
+  targets: [.interface(module: .core(.AJNetwork))]
 )
