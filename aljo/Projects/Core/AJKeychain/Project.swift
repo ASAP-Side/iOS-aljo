@@ -5,7 +5,8 @@ import ProjectDescriptionHelpers
 import AljoPlugin
 import EnvironmentPlugin
 
-let project = Project.app(
-  to: "AJKeychain",
-  targets: []
-)
+let targets: [Target] = [
+  .interface(module: .core(.AJKeychain), dependencies: [.external(name: "RxSwift")])
+]
+
+let project = Project(name: "AJKeychain", targets: targets)
