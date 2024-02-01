@@ -1,5 +1,5 @@
 //
-//  MockURLProtocol.swift
+//  StubURLProtocol.swift
 //  AJNetworkTesting
 //
 //  Created by 이태영 on 2/1/24.
@@ -9,7 +9,7 @@
 import Foundation
 import AJNetworkInterface
 
-public final class MockURLProtocol: URLProtocol {
+public final class StubURLProtocol: URLProtocol {
   static var requestHandler: ((URLRequest) -> (HTTPURLResponse, Data))?
   
   public override class func canInit(with request: URLRequest) -> Bool {
@@ -21,7 +21,7 @@ public final class MockURLProtocol: URLProtocol {
   }
   
   public override func startLoading() {
-    guard let handler = MockURLProtocol.requestHandler else {
+    guard let handler = StubURLProtocol.requestHandler else {
       return
     }
     
