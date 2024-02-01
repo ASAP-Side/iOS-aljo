@@ -19,7 +19,7 @@ final class NetworkProviderTests: XCTestCase {
   
   override func setUpWithError() throws {
     let sessionConfiguration = URLSessionConfiguration.default
-    sessionConfiguration.protocolClasses = [MockURLProtocol.self]
+    sessionConfiguration.protocolClasses = [StubURLProtocol.self]
     let session = Session(configuration: sessionConfiguration)
     
     sut = NetworkProvider(session: session)
