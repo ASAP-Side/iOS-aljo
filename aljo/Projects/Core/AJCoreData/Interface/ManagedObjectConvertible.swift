@@ -10,5 +10,6 @@ import CoreData
 
 protocol ManagedObjectConvertible {
   associatedtype ManagedObject: NSManagedObject, ManageObjectProtocol
+  
   func toManagedObject(in context: NSManagedObjectContext) -> ManagedObject
 }
