@@ -10,7 +10,7 @@ import CoreData
 
 import RxSwift
 
-protocol CoreDataStorage {
+public protocol CoreDataStorage {
   func fetch<Entity: ManagedObjectConvertible>(
     with predicate: NSPredicate?,
     sortDescriptors: [NSSortDescriptor]?,

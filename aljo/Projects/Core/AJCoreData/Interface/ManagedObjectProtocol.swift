@@ -8,7 +8,7 @@
 
 import CoreData
 
-protocol ManageObjectProtocol {
+public protocol ManageObjectProtocol {
   associatedtype Entity
   func toEntity() -> Entity?
 }
