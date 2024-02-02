@@ -14,7 +14,13 @@ let project = Project.app(
         .external(name: "RxSwift")
       ]
     ),
-    .implements(module: .core(.AJCoreData)),
+    .implements(
+      module: .core(.AJCoreData),
+      dependencies: [
+        .core(target: .AJCoreData, type: .interface),
+        .external(name: "RxSwift")
+      ]
+    ),
     .testing(module: .core(.AJCoreData), product: .framework),
     .tests(module: .core(.AJCoreData), product: .unitTests)
   ]
