@@ -24,6 +24,16 @@ let targets: [Target] = [
       .external(name: "RxSwift"),
       .core(target: .AJKeychain, type: .interface)
     ]
+  ),
+  .tests(
+    module: .core(.AJKeychain),
+    product: .unitTests,
+    dependencies: [
+      .external(name: "RxSwift"),
+      .external(name: "RxTest"),
+      .external(name: "RxBlocking"),
+      .core(target: .AJKeychain, type: .testing)
+    ]
   )
 ]
 

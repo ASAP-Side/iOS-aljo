@@ -10,5 +10,5 @@ import AJKeychainInterface
 public struct MockKeyChainConfiguration {
   let isSuccess: Bool
   let requestValue: Data
-  let error: KeyChainError
+  var error: KeyChainError = .unknown(999)
 }
