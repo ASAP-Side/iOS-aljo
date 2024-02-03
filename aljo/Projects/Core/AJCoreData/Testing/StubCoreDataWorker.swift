@@ -6,9 +6,10 @@
 //  Copyright © 2024 com.ASAP. All rights reserved.
 //
 
+import AJCoreDataInterface
 import CoreData
 
-public final class StubCoreDataWorker {
+public final class StubCoreDataWorker: CoreDataWorkerProtocol {
   public static let `default` = StubCoreDataWorker()
   
   private let persistentContainer: NSPersistentContainer

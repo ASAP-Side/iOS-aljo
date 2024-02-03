@@ -33,7 +33,7 @@ let project = Project.app(
       product: .unitTests,
       dependencies: [
         .core(target: .AJCoreData, type: .implementation),
-        .core(target: .AJCoreData, type: .testing)
+        .core(target: .AJCoreData, type: .testing),
         .external(name: "RxSwift")
       ]
     )

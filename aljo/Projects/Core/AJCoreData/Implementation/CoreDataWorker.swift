@@ -6,9 +6,10 @@
 //  Copyright © 2024 com.ASAP. All rights reserved.
 //
 
+import AJCoreDataInterface
 import CoreData
 
-final class CoreDataWorker {
+final class CoreDataWorker: CoreDataWorkerProtocol {
   static let `default` = CoreDataWorker()
   
   private let persistentContainer: NSPersistentContainer

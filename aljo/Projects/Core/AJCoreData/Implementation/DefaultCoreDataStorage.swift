@@ -12,9 +12,9 @@ import CoreData
 import RxSwift
 
 final class DefaultCoreDataStorage: CoreDataStorage {
-  private let worker: CoreDataWorker
+  private let worker: CoreDataWorkerProtocol
   
-  init(worker: CoreDataWorker = .default) {
+  init(worker: CoreDataWorkerProtocol = CoreDataWorker.default) {
     self.worker = worker
   }
   
