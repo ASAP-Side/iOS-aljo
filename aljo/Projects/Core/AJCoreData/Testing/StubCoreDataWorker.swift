@@ -15,11 +15,11 @@ final class StubCoreDataWorker {
   
   private init() {
     self.persistentContainer = {
-      let container = NSPersistentContainer(name: "ALJO_MODEL")
+      let container = NSPersistentContainer(name: "TEST")
       
       container.loadPersistentStores { description, error in
         if let error = error {
-          assert(true, "코어데이터를 저장소를 불러오지 못했습니다.")
+          assert(false, "코어데이터를 저장소를 불러오지 못했습니다.")
         }
       }
       
