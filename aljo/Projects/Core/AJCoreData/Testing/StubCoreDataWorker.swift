@@ -31,7 +31,7 @@ public final class StubCoreDataWorker {
     self.persistentContainer.persistentStoreDescriptions = [description]
   }
   
-  func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
+  public func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
     persistentContainer.performBackgroundTask(block)
   }
 }
