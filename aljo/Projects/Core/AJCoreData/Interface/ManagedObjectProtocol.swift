@@ -14,7 +14,7 @@ public protocol ManageObjectProtocol {
 }
 
 extension ManageObjectProtocol where Self: NSManagedObject {
-  static func fetchSingle(with id: String, from context: NSManagedObjectContext) -> Self {
+  public static func fetchSingle(with id: String, from context: NSManagedObjectContext) -> Self {
     let request = Self.fetchRequest()
     request.predicate = NSPredicate(format: "id == %@", id)
     request.fetchLimit = 1

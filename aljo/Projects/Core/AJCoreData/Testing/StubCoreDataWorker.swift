@@ -8,8 +8,8 @@
 
 import CoreData
 
-final class StubCoreDataWorker {
-  static let `default` = StubCoreDataWorker()
+public final class StubCoreDataWorker {
+  public static let `default` = StubCoreDataWorker()
   
   private let persistentContainer: NSPersistentContainer
   

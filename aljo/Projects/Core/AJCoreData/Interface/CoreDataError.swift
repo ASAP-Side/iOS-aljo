@@ -6,6 +6,6 @@
 //  Copyright © 2024 com.ASAP. All rights reserved.
 //
 
-enum CoreDataError: Error {
+public enum CoreDataError: Error {
   case didNotConvertDomain
 }
