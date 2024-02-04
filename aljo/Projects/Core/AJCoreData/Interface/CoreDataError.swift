@@ -8,4 +8,5 @@
 
 public enum CoreDataError: Error {
   case didNotConvertDomain
+  case didNotMatchManagedObjectModel
 }

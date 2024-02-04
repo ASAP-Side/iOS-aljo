@@ -42,18 +42,20 @@ public extension Target {
   static func tests(
     module: ModulePaths,
     product: Product,
-    dependencies: [TargetDependency] = []
+    dependencies: [TargetDependency] = [],
+    resources: ResourceFileElements = []
   ) -> Target {
-    return TargetSpec(sources: .tests, dependencies: dependencies)
+    return TargetSpec(sources: .tests, resources: resources, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .tests), product: product)
   }
   
   static func testing(
     module: ModulePaths,
     product: Product,
-    dependencies: [TargetDependency] = []
+    dependencies:  [TargetDependency] = [],
+    resources: ResourceFileElements = []
   ) -> Target {
-    return TargetSpec(sources: .testing, dependencies: dependencies)
+    return TargetSpec(sources: .testing, resources: resources, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .testing), product: product)
   }
 }

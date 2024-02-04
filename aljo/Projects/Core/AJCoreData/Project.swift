@@ -26,7 +26,8 @@ let project = Project.app(
       product: .framework,
       dependencies: [
         .core(target: .AJCoreData, type: .interface)
-      ]
+      ],
+      resources: ["Testing/Resources/**"]
     ),
     .tests(
       module: .core(.AJCoreData),

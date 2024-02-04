@@ -12,25 +12,28 @@ import CoreData
 public final class StubCoreDataWorker: CoreDataWorkerProtocol {
   public static let `default` = StubCoreDataWorker()
   
-  private let persistentContainer: NSPersistentContainer
-  
-  private init() {
-    self.persistentContainer = {
-      let container = NSPersistentContainer(name: "TEST")
-      
-      container.loadPersistentStores { description, error in
-        if let error = error {
-          assert(false, "코어데이터를 저장소를 불러오지 못했습니다.")
-        }
-      }
-      
-      return container
-    }()
+  lazy var persistentContainer: NSPersistentContainer = {
+    guard let modelURL = Bundle(for: type(of: self)).url(forResource: "DUMMYTEST", withExtension: "momd") else {
+      fatalError("Did Not Match Managed Object Model")
+    }
     
+    guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
+      fatalError("Did Not Match Managed Object Model")
+    }
+    
+    let container = NSPersistentContainer(name: "DUMMYTEST", managedObjectModel: mom)
     let description = NSPersistentStoreDescription()
     description.url = URL(fileURLWithPath: "/dev/null")
-    self.persistentContainer.persistentStoreDescriptions = [description]
-  }
+    container.persistentStoreDescriptions = [description]
+    
+    container.loadPersistentStores { description, error in
+      assert(error == nil, "LoadPersistentStores Fail")
+    }
+    
+    return container
+  }()
+  
+  private init() { }
   
   public func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
     persistentContainer.performBackgroundTask(block)
