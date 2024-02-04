@@ -8,10 +8,6 @@ final class DefaultCoreDataStorageTests: XCTestCase {
   private let sut = DefaultCoreDataStorage(worker: StubCoreDataWorker.default)
   private let disposeBag = DisposeBag()
   
-  override func setUpWithError() throws {
-    
-  }
-  
   override func tearDownWithError() throws {
     let dispatchGroup = DispatchGroup()
     dispatchGroup.enter()
