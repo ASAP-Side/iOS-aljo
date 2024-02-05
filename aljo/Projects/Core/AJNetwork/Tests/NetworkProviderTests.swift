@@ -86,6 +86,25 @@ final class NetworkProviderTests: XCTestCase {
     XCTAssertEqual("Hi", result.title)
   }
   
+  func test_RequestBehavior가uploadMultipartFormData이면upload메서드가호출되어야한다() throws {
+    // given
+    let data = dummyJson.data(using: .utf8)!
+    var contentType = "application/json"
+    
+    StubURLProtocol.requestHandler = { request in
+      contentType = request.allHTTPHeaderFields!["Content-Type"]!
+      return (HTTPURLResponse(), data)
+    }
+    
+    // when
+    let observable = sut?.data(DummyRouter.dummyPost)
+    
+    // then
+    let _ = try observable?.toBlocking().first()
+    contentType = contentType.split(separator: ";").map { String($0) }.first!
+    XCTAssertTrue(contentType == "multipart/form-data")
+  }
+  
   private func requestDecodable() -> Observable<DummyData>? {
     return sut?.decodable(DummyRouter.dummyGet)
   }
