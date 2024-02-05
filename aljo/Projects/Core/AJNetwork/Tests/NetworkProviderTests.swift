@@ -11,11 +11,11 @@ import XCTest
 @testable import AJNetworkImplemenetation
 
 import Alamofire
+import RxBlocking
 import RxSwift
 
 final class NetworkProviderTests: XCTestCase {
   var sut: NetworkProvider?
-  private let disposeBag = DisposeBag()
   
   override func setUpWithError() throws {
     let sessionConfiguration = URLSessionConfiguration.default
@@ -29,7 +29,7 @@ final class NetworkProviderTests: XCTestCase {
     sut = nil
   }
   
-  func testGetString() {
+  func test_string메서드를통해네트워크요청을보낸후응답으로String타입의값을방출해야한다() throws {
     // given
     let data = "Hi".data(using: .utf8)!
     
@@ -37,68 +37,51 @@ final class NetworkProviderTests: XCTestCase {
       return (HTTPURLResponse(), data)
     }
     // when
-    let expectation = XCTestExpectation(description: "NetworkProvider String test")
-    var result = ""
+    let observable = sut?.string(DummyRouter.dummyGet)
     
-    sut?.string(DummyRouter.dummyGet)
-      .subscribe(onNext: {
-        result = $0
-        expectation.fulfill()
-      }, onError: { error in
-        XCTFail(error.localizedDescription)
-      })
-      .disposed(by: disposeBag)
-    
-    wait(for: [expectation], timeout: 2.0)
+    // then
+    guard let result = try observable?.toBlocking().first() else {
+      XCTFail("Fail")
+      return
+    }
     
     XCTAssertEqual("Hi", result)
   }
   
-  func testGetData() {
+  func test_data메서드를통해네트워크요청을보낸후응답으로Data타입의값을방출해야한다() throws {
     let data = "Hi".data(using: .utf8)!
     
     StubURLProtocol.requestHandler = { _ in
       return (HTTPURLResponse(), data)
     }
     // when
-    let expectation = XCTestExpectation(description: "NetworkProvider String test")
-    var result: Data = Data()
-    
-    sut?.data(DummyRouter.dummyGet)
-      .subscribe(onNext: {
-        result = $0
-        expectation.fulfill()
-      }, onError: { error in
-        XCTFail(error.localizedDescription)
-      })
-      .disposed(by: disposeBag)
+    let observable = sut?.data(DummyRouter.dummyGet)
     
     // then
-    wait(for: [expectation], timeout: 2.0)
+    guard let result = try observable?.toBlocking().first() else {
+      XCTFail("Fail")
+      return
+    }
     
     XCTAssertEqual(data, result)
   }
   
-  func testGetDecodable() {
+  func test_decodable메서드를통해네트워크요청을보낸후응답으로Decodable타입의값을방출해야한다() throws {
+    // given
     let data = dummyJson.data(using: .utf8)!
     
     StubURLProtocol.requestHandler = { _ in
       return (HTTPURLResponse(), data)
     }
     
-    let expectation = XCTestExpectation(description: "NetworkProvider String test")
-    var result: DummyData = DummyData(title: "")
+    // when
+    let observable = requestDecodable()
     
-    requestDecodable()?
-      .subscribe(onNext: {
-        result = $0
-        expectation.fulfill()
-      }, onError: { error in
-        XCTFail(error.localizedDescription)
-      })
-      .disposed(by: disposeBag)
-    
-    wait(for: [expectation], timeout: 2.0)
+    // then
+    guard let result = try observable?.toBlocking().first() else {
+      XCTFail("Fail")
+      return
+    }
     
     XCTAssertEqual("Hi", result.title)
   }

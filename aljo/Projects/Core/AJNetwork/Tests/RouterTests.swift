@@ -20,7 +20,7 @@ final class RouterTests: XCTestCase {
     sut = nil
   }
   
-  func testAsURLRequest() throws {
+  func test_원하는형태의URLRequest를생성해야한다() throws {
     // given
     var request = try URLRequest(url: "www.base.com/path", method: .get)
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
