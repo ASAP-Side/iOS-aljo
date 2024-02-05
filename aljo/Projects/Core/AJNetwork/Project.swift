@@ -43,7 +43,8 @@ let project = Project.app(
         .core(target: .AJNetwork, type: .implementation),
         .core(target: .AJNetwork, type: .testing),
         .external(name: "Alamofire"),
-        .external(name: "RxSwift")
+        .external(name: "RxSwift"),
+        .external(name: "RxBlocking")
       ]
     )
   ]
