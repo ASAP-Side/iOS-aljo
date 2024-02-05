@@ -35,7 +35,8 @@ let project = Project.app(
       dependencies: [
         .core(target: .AJCoreData, type: .implementation),
         .core(target: .AJCoreData, type: .testing),
-        .external(name: "RxSwift")
+        .external(name: "RxSwift"),
+        .external(name: "RxBlocking")
       ]
     )
   ]
