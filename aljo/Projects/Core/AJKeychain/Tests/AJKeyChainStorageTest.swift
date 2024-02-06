@@ -62,7 +62,7 @@ final class AJKeyChainStorageTest: XCTestCase {
     sut = MockKeyChainStorage(configuration: configuration)
     
     // WHEN
-    let observable = sut?.fetch(to: "IDENTIFIER").toBlocking()
+    let observable = sut?.fetch().toBlocking()
     
     // THEN
     if let result = try! observable?.first() {
@@ -84,7 +84,7 @@ final class AJKeyChainStorageTest: XCTestCase {
     sut = MockKeyChainStorage(configuration: configuration)
     
     // WHEN
-    let observable = sut?.fetch(to: "IDENTIFIER").toBlocking()
+    let observable = sut?.fetch().toBlocking()
     
     // THEN
     do {

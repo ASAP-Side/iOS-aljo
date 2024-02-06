@@ -9,6 +9,6 @@ import RxSwift
 
 public protocol KeyChainStorage {
   func upsert(item: Data) -> Observable<Void>
-  func fetch(to identifier: String) -> Observable<Data>
-  func delete(to identifier: String) -> Observable<Void>
+  func fetch() -> Observable<Data>
+  func delete() -> Observable<Void>
 }

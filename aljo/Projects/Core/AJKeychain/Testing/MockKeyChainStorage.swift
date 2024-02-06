@@ -29,7 +29,7 @@ final class MockKeyChainStorage: KeyChainStorage {
     .subscribe(on: scheduler)
   }
   
-  func fetch(to identifier: String) -> Observable<Data> {
+  func fetch() -> Observable<Data> {
     return Observable.create { observer in
       if self.configuration.isSuccess == true {
         observer.onNext(self.configuration.requestValue)
@@ -42,7 +42,7 @@ final class MockKeyChainStorage: KeyChainStorage {
     .subscribe(on: scheduler)
   }
   
-  func delete(to identifier: String) -> Observable<Void> {
+  func delete() -> Observable<Void> {
     return Observable.create { observer in
       if self.configuration.isSuccess == true {
         observer.onNext(())

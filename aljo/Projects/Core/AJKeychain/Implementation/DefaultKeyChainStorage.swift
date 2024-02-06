@@ -38,7 +38,7 @@ final class DefaultKeyChainStorage: KeyChainStorage {
     .subscribe(on: scheduler)
   }
   
-  func fetch(to identifier: String) -> Observable<Data> {
+  func fetch() -> Observable<Data> {
     var query = attributes
     query.updateValue(kSecMatchLimitOne, forKey: kSecMatchLimit as String)
     query.updateValue(true, forKey: kSecReturnData as String)
@@ -65,7 +65,7 @@ final class DefaultKeyChainStorage: KeyChainStorage {
     .subscribe(on: scheduler)
   }
   
-  func delete(to identifier: String) -> Observable<Void> {
+  func delete() -> Observable<Void> {
     var query = attributes
 
     return Observable.create { observer in
