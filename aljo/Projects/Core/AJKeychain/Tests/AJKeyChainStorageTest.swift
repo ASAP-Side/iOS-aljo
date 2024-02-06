@@ -1,6 +1,5 @@
 import XCTest
 
-import RxTest
 import RxBlocking
 
 @testable import AJKeychainTesting
