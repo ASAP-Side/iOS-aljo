@@ -21,7 +21,6 @@ final class DefaultCoreDataStorageTests: XCTestCase {
   func test_새로운데이터를넣고다시가져왔을때동일한id의데이터가나와야한다() throws {
     // given
     let dummy = DummyTestEntity(id: "1", title: "hi")
-    let expectation = XCTestExpectation(description: "DefaultCoreDataStorageTest")
     
     // when
     var result: DummyTestEntity?
@@ -49,7 +48,6 @@ final class DefaultCoreDataStorageTests: XCTestCase {
       DummyTestEntity(id: "1", title: "hi"),
       DummyTestEntity(id: "2", title: "bi")
     ]
-    let expectation = XCTestExpectation(description: "DefaultCoreDataStorageTest")
     
     // when
     let observable = sut.upsert(entities: dummies)
@@ -83,8 +81,6 @@ final class DefaultCoreDataStorageTests: XCTestCase {
       DummyTestEntity(id: "1", title: "hi")
     ]
     
-    let expectation = XCTestExpectation(description: "DefaultCoreDataStorageTest")
-    
     // when
     let sortDescriptor = NSSortDescriptor(key: "id", ascending: true)
     let observable: Observable<[DummyTestEntity]> = sut.fetch(with: nil, sortDescriptors: [sortDescriptor], limit: nil)
@@ -107,8 +103,6 @@ final class DefaultCoreDataStorageTests: XCTestCase {
       deleteData,
       DummyTestEntity(id: "1", title: "hi")
     ]
-    
-    let expectation = XCTestExpectation(description: "DefaultCoreDataStorageTest")
     
     // when
     let observable = sut.upsert(entities: dummies)
