@@ -7,10 +7,6 @@ import EnvironmentPlugin
 
 let project = Project.app(
   to: "AJNetwork",
-  settings: .settings(
-    base: ["ENABLE_TESTING_SEARCH_PATHS" : "YES"],
-    configurations: [.debug(name: .debug), .release(name: .release)]
-  ),
   targets: [
     .interface(
       module: .core(.AJNetwork),
