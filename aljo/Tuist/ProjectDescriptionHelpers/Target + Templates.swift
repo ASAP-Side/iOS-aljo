@@ -16,7 +16,7 @@ public extension Target {
     product: Product = .staticLibrary,
     dependencies: [TargetDependency] = []
   ) -> Target {
-    return TargetSpec(sources: .sources, dependencies: dependencies)
+    return TargetSpec(sources: .implementation, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .implementation), product: product)
   }
   
@@ -26,7 +26,7 @@ public extension Target {
     spec: TargetSpec
   ) -> Target {
     spec.with { spec in
-      spec.sources = .sources
+      spec.sources = .implementation
     }
     .toTarget(with: module.targetName(type: .implementation), product: product)
   }
@@ -42,18 +42,20 @@ public extension Target {
   static func tests(
     module: ModulePaths,
     product: Product,
-    dependencies: [TargetDependency] = []
+    dependencies: [TargetDependency] = [],
+    resources: ResourceFileElements = []
   ) -> Target {
-    return TargetSpec(sources: .tests, dependencies: dependencies)
+    return TargetSpec(sources: .tests, resources: resources, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .tests), product: product)
   }
   
   static func testing(
     module: ModulePaths,
     product: Product,
-    dependencies: [TargetDependency] = []
+    dependencies:  [TargetDependency] = [],
+    resources: ResourceFileElements = []
   ) -> Target {
-    return TargetSpec(sources: .testing, dependencies: dependencies)
+    return TargetSpec(sources: .testing, resources: resources, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .testing), product: product)
   }
 }

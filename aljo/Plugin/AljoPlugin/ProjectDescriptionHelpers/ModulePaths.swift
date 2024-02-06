@@ -24,6 +24,7 @@ public extension ModulePaths {
   
   enum Core: String, TargetPathConvertible { 
     case AJNetwork
+    case AJCoreData
   }
   
   enum Shared: String, TargetPathConvertible { 
