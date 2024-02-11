@@ -22,15 +22,15 @@ private let template = Template(
             templatePath: "../Modules/Project.stencil"
         ),
         .file(
-            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/SceneDelegate.swift",
+            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Sources/SceneDelegate.swift",
             templatePath: "../Demo/SceneDelegate.stencil"
         ),
         .file(
-            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/AppDelegate.swift",
+            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Sources/AppDelegate.swift",
             templatePath: "../Demo/AppDelegate.stencil"
         ),
         .file(
-            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/LaunchScreen.storyboard",
+            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Resources/LaunchScreen.storyboard",
             templatePath: "../Demo/LaunchScreen.stencil"
         ),
         .file(
