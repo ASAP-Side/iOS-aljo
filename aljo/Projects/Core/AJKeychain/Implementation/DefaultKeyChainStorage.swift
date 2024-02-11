@@ -9,13 +9,16 @@ import RxSwift
 import AJKeychainInterface
 
 final class DefaultKeyChainStorage: KeyChainStorage {
-  private let attributes: [String: Any] = [
-      kSecClass as String: kSecClassGenericPassword,
-      kSecAttrAccount as String: "ALJO",
-      kSecAttrService as String: "TOKEN"
-  ]
-  
+  private let attributes: [String: Any]
   private let scheduler = ConcurrentDispatchQueueScheduler(qos: .background)
+  
+  init(key: String, service: String) {
+    self.attributes = [
+      kSecClass as String: kSecClassGenericPassword,
+      kSecAttrAccount as String: key,
+      kSecAttrService as String: service
+    ]
+  }
   
   func upsert(item: Data) -> Observable<Void> {
     return Observable.create { [weak self] observer in
