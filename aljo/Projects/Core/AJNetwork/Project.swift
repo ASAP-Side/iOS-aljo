@@ -34,7 +34,6 @@ let project = Project.app(
     ),
     .tests(
       module: .core(.AJNetwork),
-      product: .unitTests,
       dependencies: [
         .core(target: .AJNetwork, type: .implementation),
         .core(target: .AJNetwork, type: .testing),
