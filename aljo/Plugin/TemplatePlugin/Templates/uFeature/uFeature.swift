@@ -19,7 +19,7 @@ private let template = Template(
     items: [
         .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Project.swift",
-            templatePath: "../Modules/Project.stencil"
+            templatePath: "../Module/Project.stencil"
         ),
         .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Sources/SceneDelegate.swift",
@@ -32,6 +32,10 @@ private let template = Template(
         .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Resources/LaunchScreen.storyboard",
             templatePath: "../Demo/LaunchScreen.stencil"
+        ),
+        .file(
+            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Resources/Info.plist",
+            templatePath: "../Demo/AppDelegate.stencil"
         ),
         .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Interface/Interface.swift",
