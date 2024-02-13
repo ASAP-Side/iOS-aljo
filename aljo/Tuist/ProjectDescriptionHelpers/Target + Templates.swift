@@ -36,7 +36,7 @@ public extension Target {
     module: ModulePaths,
     dependencies: [TargetDependency] = []
   ) -> Target {
-    return TargetSpec(infoPlist: .file(path: "Resources/Info.plist"), sources: .demo, dependencies: dependencies)
+    return TargetSpec(infoPlist: .file(path: "Demo/Resources/Info.plist"), sources: .demo, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .demo), product: .app)
   }
   

@@ -13,13 +13,14 @@ public extension Project {
     additionalFiles: [FileElement] = [],
     targets: [Target]
   ) -> Project {
+    let schemes: [Scheme] = targets.contains(where: {$0.sources == .demo}) ? [.makeDemoScheme(configuration: .debug, name: name)] : []
     return Project(
       name: name,
       organizationName: environmentValues.organizationName,
       packages: packages,
       settings: settings,
       targets: targets,
-      schemes: [],
+      schemes: schemes,
       fileHeaderTemplate: fileHeaderTemplate,
       additionalFiles: additionalFiles,
       resourceSynthesizers: []

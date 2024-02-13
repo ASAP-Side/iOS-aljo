@@ -12,7 +12,6 @@ public enum ModulePaths {
 public extension ModulePaths {
   enum Feature: String, TargetPathConvertible {
     case AuthFeature
-    case Hamo
   }
   
   enum Domain: String, TargetPathConvertible { 
