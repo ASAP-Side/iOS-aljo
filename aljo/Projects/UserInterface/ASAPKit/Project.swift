@@ -12,14 +12,14 @@ let project = Project.app(
       module: .design(.ASAPKit),
       product: .framework,
       spec: TargetSpec(
-        resources: .default
+        resources: "Implementation/Resources/**"
       )
     ),
     .demo(
       module: .design(.ASAPKit),
-      dependencies: [
-        .design(target: .ASAPKit, type: .implementation)
-      ]
+      spec: TargetSpec(
+        resources: "Demo/Resources/**"
+      )
     )
   ]
 )
