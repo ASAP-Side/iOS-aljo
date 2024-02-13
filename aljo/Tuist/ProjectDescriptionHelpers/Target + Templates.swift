@@ -5,10 +5,11 @@ import AljoPlugin
 public extension Target {
   static func interface(
     module: ModulePaths,
+    product: Product = .staticLibrary,
     dependencies: [TargetDependency] = []
   ) -> Target {
     return TargetSpec(sources: .interface, dependencies: dependencies)
-      .toTarget(with: module.targetName(type: .interface), product: .framework)
+      .toTarget(with: module.targetName(type: .interface), product: product)
   }
   
   static func implements(
