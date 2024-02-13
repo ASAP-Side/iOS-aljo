@@ -35,7 +35,7 @@ private let template = Template(
         ),
         .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Resources/Info.plist",
-            templatePath: "../Demo/AppDelegate.stencil"
+            templatePath: "../Demo/AppInfoPlist.stencil"
         ),
         .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Interface/Interface.swift",
