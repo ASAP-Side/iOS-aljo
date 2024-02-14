@@ -2,6 +2,7 @@ import ProjectDescription
 import EnvironmentPlugin
 import AljoPlugin
 
+/// Interface Method
 public extension Target {
   static func interface(
     module: ModulePaths,
@@ -11,7 +12,10 @@ public extension Target {
     return TargetSpec(sources: .interface, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .interface), product: product)
   }
-  
+}
+
+/// Implements Method
+public extension Target {
   static func implements(
     module: ModulePaths,
     product: Product = .staticLibrary,
@@ -31,7 +35,10 @@ public extension Target {
     }
     .toTarget(with: module.targetName(type: .implementation), product: product)
   }
-  
+}
+
+/// Demo Method
+public extension Target {
   static func demo(
     module: ModulePaths,
     dependencies: [TargetDependency] = []
@@ -64,20 +71,23 @@ public extension Target {
     }
     .toTarget(with: module.targetName(type: .demo), product: product)
   }
-  
+}
+
+/// Test Method
+public extension Target {
   static func tests(
     module: ModulePaths,
-    product: Product,
+    product: Product = .unitTests,
     dependencies: [TargetDependency] = [],
     resources: ResourceFileElements = []
   ) -> Target {
     return TargetSpec(sources: .tests, resources: resources, dependencies: dependencies)
-      .toTarget(with: module.targetName(type: .tests), product: .unitTests)
+      .toTarget(with: module.targetName(type: .tests), product: product)
   }
   
   static func testing(
     module: ModulePaths,
-    product: Product,
+    product: Product = .unitTests,
     dependencies:  [TargetDependency] = [],
     resources: ResourceFileElements = []
   ) -> Target {
