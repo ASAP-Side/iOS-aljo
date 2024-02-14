@@ -36,7 +36,14 @@ public extension Target {
     module: ModulePaths,
     dependencies: [TargetDependency] = []
   ) -> Target {
-    return TargetSpec(sources: .demo, dependencies: dependencies)
+    let infoFile: InfoPlist = .extendingDefault(
+      with: [
+        "UIMainStoryboardFile": "",
+        "UILaunchStoryBoardName": "LaunchScreen"
+      ]
+    )
+    
+    return TargetSpec(infoPlist: infoFile, sources: .demo, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .demo), product: .app)
   }
   
@@ -47,6 +54,12 @@ public extension Target {
   ) -> Target {
     spec.with { spec in
       spec.sources = .demo
+      spec.infoPlist = .extendingDefault(
+        with: [
+          "UIMainStoryboardFile": "",
+          "UILaunchStoryBoardName": "LaunchScreen"
+        ]
+      )
     }
     .toTarget(with: module.targetName(type: .demo), product: product)
   }
