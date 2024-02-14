@@ -38,5 +38,5 @@ public extension SourceFilesList {
 }
 
 public extension ResourceFileElements {
-  static let `default`: Self = [.folderReference(path: "Resources/**", tags: [])]
+  static let `default`: Self = ["Resources/**"]
 }

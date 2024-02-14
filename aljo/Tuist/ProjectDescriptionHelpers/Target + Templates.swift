@@ -37,6 +37,17 @@ public extension Target {
   }
 }
 
+public extension Target {
+  static func single(
+    module: ModulePaths,
+    product: Product = .staticLibrary,
+    dependencies: [TargetDependency] = []
+  ) -> Target {
+    TargetSpec(sources: .sources, dependencies: dependencies)
+      .toTarget(with: module.targetName(type: .single), product: product)
+  }
+}
+
 /// Demo Method
 public extension Target {
   static func demo(
