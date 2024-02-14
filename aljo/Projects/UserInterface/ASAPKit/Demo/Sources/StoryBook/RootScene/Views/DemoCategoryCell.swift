@@ -5,7 +5,8 @@
 //  Copyright (c) 2024 Minii All rights reserved.
 
 import UIKit
-import ASAPKitImplemenetation
+
+import ASAPKit
 
 class DemoCategoryCell: UITableViewCell {
   static var identifier: String {
@@ -14,8 +15,7 @@ class DemoCategoryCell: UITableViewCell {
   
   private let titleLabel: UILabel = {
     let label = UILabel()
-    label.font = .pretendard(.headLine5)
-    label.textColor = UIColor(named: "title")
+    label.textColor = ASAPKitAsset.Basic.title
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()

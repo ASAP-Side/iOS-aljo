@@ -71,11 +71,11 @@ public extension UIFont {
     let size = CGFloat(style.size.rawValue)
     switch style.weight {
       case .bold:
-        return ASAPKitImplemenetationFontFamily.Pretendard.bold.font(size: size)
+        return ASAPKitFontFamily.Pretendard.bold.font(size: size)
       case .medium:
-        return ASAPKitImplemenetationFontFamily.Pretendard.medium.font(size: size)
+        return ASAPKitFontFamily.Pretendard.medium.font(size: size)
       case .regular:
-        return ASAPKitImplemenetationFontFamily.Pretendard.regular.font(size: size)
+        return ASAPKitFontFamily.Pretendard.regular.font(size: size)
     }
   }
 }

@@ -6,7 +6,7 @@
 
 import UIKit
 
-import ASAPKitImplemenetation
+import ASAPKit
 
 class StoryRootViewController: UIViewController {
   private let tableView: UITableView = {
@@ -71,9 +71,9 @@ private extension StoryRootViewController {
   
   func configureNavigationBar() {
     let titleLabel = UILabel()
-    titleLabel.font = ASAPKitImplemenetationFontFamily.Pretendard.extraBold.font(size: 24)
+    titleLabel.font = .pretendard(.headLine1)
     titleLabel.text = "StoryBook"
-    titleLabel.textColor = ASAPKitImplemenetationAsset.Basic.title.color
+    titleLabel.textColor = ASAPKitAsset.Basic.title.color
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
     navigationItem.largeTitleDisplayMode = .never
     navigationController?.navigationBar.prefersLargeTitles = false

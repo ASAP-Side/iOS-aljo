@@ -8,17 +8,11 @@ import EnvironmentPlugin
 let project = Project.app(
   to: "ASAPKit",
   targets: [
-    .implements(
-      module: .design(.ASAPKit),
-      product: .framework,
-      spec: TargetSpec(
-        resources: "Implementation/Resources/**"
-      )
-    ),
+    .single(module: .design(.ASAPKit)),
     .demo(
       module: .design(.ASAPKit),
       dependencies: [
-        .design(target: .ASAPKit, type: .implementation)
+        .design(target: .ASAPKit, type: .single)
       ]
     )
   ],
