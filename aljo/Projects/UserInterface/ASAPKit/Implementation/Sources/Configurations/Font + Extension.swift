@@ -4,7 +4,7 @@
 //
 //  Copyright (c) 2024 Minii All rights reserved.
 
-import UIKit
+import UIKit.UIFont
 
 public extension UIFont {
   enum TypoSize: Int {
@@ -68,7 +68,14 @@ public extension UIFont {
   }
   
   static func pretendard(_ style: PretendardStyle) -> UIFont? {
-    let fontName = "Pretendard - " + style.weight.rawValue
-    return UIFont(name: fontName, size: CGFloat(style.size.rawValue))
+    let size = CGFloat(style.size.rawValue)
+    switch style.weight {
+      case .bold:
+        return ASAPKitImplemenetationFontFamily.Pretendard.bold.font(size: size)
+      case .medium:
+        return ASAPKitImplemenetationFontFamily.Pretendard.medium.font(size: size)
+      case .regular:
+        return ASAPKitImplemenetationFontFamily.Pretendard.regular.font(size: size)
+    }
   }
 }

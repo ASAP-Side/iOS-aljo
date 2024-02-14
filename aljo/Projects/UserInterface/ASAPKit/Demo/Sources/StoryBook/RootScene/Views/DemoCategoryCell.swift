@@ -14,7 +14,7 @@ class DemoCategoryCell: UITableViewCell {
   
   private let titleLabel: UILabel = {
     let label = UILabel()
-    label.font = .pretendard(.headLine4)
+    label.font = .pretendard(.headLine5)
     label.textColor = UIColor(named: "title")
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
