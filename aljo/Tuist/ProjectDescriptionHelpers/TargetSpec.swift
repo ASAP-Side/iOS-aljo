@@ -33,7 +33,7 @@ public struct TargetSpec {
     deploymentTarget: DeploymentTarget? = environmentValues.deployTarget,
     infoPlist: InfoPlist = .default,
     sources: SourceFilesList? = .sources,
-    resources: ResourceFileElements? = nil,
+    resources: ResourceFileElements? = .default,
     copyFiles: [CopyFilesAction]? = nil,
     headers: Headers? = nil,
     entitlements: Path? = nil,

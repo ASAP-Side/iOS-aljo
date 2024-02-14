@@ -17,9 +17,10 @@ let project = Project.app(
     ),
     .demo(
       module: .design(.ASAPKit),
-      spec: TargetSpec(
-        resources: "Demo/Resources/**"
-      )
+      dependencies: [
+        .design(target: .ASAPKit, type: .implementation)
+      ]
     )
-  ]
+  ],
+  resourceSynthesizers: .default
 )
