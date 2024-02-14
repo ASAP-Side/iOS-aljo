@@ -36,18 +36,17 @@ public extension Target {
     module: ModulePaths,
     dependencies: [TargetDependency] = []
   ) -> Target {
-    return TargetSpec(sources: .demo, dependencies: dependencies)
+    return TargetSpec(infoPlist: .file(path: "Demo/Resources/Info.plist"), sources: .demo, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .demo), product: .app)
   }
   
   static func tests(
     module: ModulePaths,
-    product: Product,
     dependencies: [TargetDependency] = [],
     resources: ResourceFileElements = []
   ) -> Target {
     return TargetSpec(sources: .tests, resources: resources, dependencies: dependencies)
-      .toTarget(with: module.targetName(type: .tests), product: product)
+      .toTarget(with: module.targetName(type: .tests), product: .unitTests)
   }
   
   static func testing(

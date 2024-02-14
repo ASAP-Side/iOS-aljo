@@ -11,14 +11,14 @@ let project = Project.app(
     .interface(
       module: .core(.AJCoreData),
       dependencies: [
-        .external(name: "RxSwift")
+        .rxSwift
       ]
     ),
     .implements(
       module: .core(.AJCoreData),
       dependencies: [
         .core(target: .AJCoreData, type: .interface),
-        .external(name: "RxSwift")
+        .rxSwift
       ]
     ),
     .testing(
@@ -31,12 +31,11 @@ let project = Project.app(
     ),
     .tests(
       module: .core(.AJCoreData),
-      product: .unitTests,
       dependencies: [
         .core(target: .AJCoreData, type: .implementation),
         .core(target: .AJCoreData, type: .testing),
-        .external(name: "RxSwift"),
-        .external(name: "RxBlocking")
+        .rxSwift,
+        .rxBlocking
       ]
     )
   ]
