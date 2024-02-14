@@ -40,6 +40,17 @@ public extension Target {
       .toTarget(with: module.targetName(type: .demo), product: .app)
   }
   
+  static func demo(
+    module: ModulePaths,
+    product: Product = .app,
+    spec: TargetSpec
+  ) -> Target {
+    spec.with { spec in
+      spec.sources = .demo
+    }
+    .toTarget(with: module.targetName(type: .demo), product: product)
+  }
+  
   static func tests(
     module: ModulePaths,
     product: Product,
