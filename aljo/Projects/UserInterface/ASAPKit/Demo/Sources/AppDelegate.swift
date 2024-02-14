@@ -10,7 +10,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   ) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.backgroundColor = .systemBackground
-    window?.rootViewController = StoryRootViewController()
+    let controller = StoryRootViewController()
+    let navigationController = UINavigationController(rootViewController: controller)
+    window?.rootViewController = navigationController
     window?.makeKeyAndVisible()
     return true
   }

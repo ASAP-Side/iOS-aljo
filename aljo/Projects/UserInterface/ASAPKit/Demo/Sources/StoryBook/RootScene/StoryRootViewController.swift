@@ -6,9 +6,12 @@
 
 import UIKit
 
+import ASAPKitImplemenetation
+
 class StoryRootViewController: UIViewController {
   private let tableView: UITableView = {
     let tableView = UITableView(frame: .zero, style: .grouped)
+    tableView.backgroundColor = .systemBackground
     tableView.register(DemoCategoryCell.self, forCellReuseIdentifier: DemoCategoryCell.identifier)
     tableView.translatesAutoresizingMaskIntoConstraints = false
     return tableView
@@ -60,8 +63,20 @@ private extension StoryRootViewController {
   func configureUI() {
     view.backgroundColor = .systemBackground
 
+    configureNavigationBar()
+    
     configureHierarchy()
     makeConstraints()
+  }
+  
+  func configureNavigationBar() {
+    let titleLabel = UILabel()
+    titleLabel.font = ASAPKitImplemenetationFontFamily.Pretendard.extraBold.font(size: 24)
+    titleLabel.text = "StoryBook"
+    titleLabel.textColor = ASAPKitImplemenetationAsset.Basic.title.color
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
+    navigationItem.largeTitleDisplayMode = .never
+    navigationController?.navigationBar.prefersLargeTitles = false
   }
   
   func configureHierarchy() {
