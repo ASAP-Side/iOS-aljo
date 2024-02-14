@@ -72,7 +72,7 @@ public extension Target {
     resources: ResourceFileElements = []
   ) -> Target {
     return TargetSpec(sources: .tests, resources: resources, dependencies: dependencies)
-      .toTarget(with: module.targetName(type: .tests), product: product)
+      .toTarget(with: module.targetName(type: .tests), product: .unitTests)
   }
   
   static func testing(

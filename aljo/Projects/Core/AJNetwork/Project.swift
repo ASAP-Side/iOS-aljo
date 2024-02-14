@@ -11,16 +11,16 @@ let project = Project.app(
     .interface(
       module: .core(.AJNetwork),
       dependencies: [
-        .external(name: "Alamofire"),
-        .external(name: "RxSwift")
+        .alamofire,
+        .rxSwift
       ]
     ),
     .implements(
       module: .core(.AJNetwork),
       dependencies: [
         .core(target: .AJNetwork, type: .interface),
-        .external(name: "Alamofire"),
-        .external(name: "RxSwift")
+        .alamofire,
+        .rxSwift
       ]
     ),
     .testing(
@@ -28,19 +28,18 @@ let project = Project.app(
       product: .staticLibrary,
       dependencies: [
         .core(target: .AJNetwork, type: .interface),
-        .external(name: "Alamofire"),
-        .external(name: "RxSwift")
+        .alamofire,
+        .rxSwift
       ]
     ),
     .tests(
       module: .core(.AJNetwork),
-      product: .unitTests,
       dependencies: [
         .core(target: .AJNetwork, type: .implementation),
         .core(target: .AJNetwork, type: .testing),
-        .external(name: "Alamofire"),
-        .external(name: "RxSwift"),
-        .external(name: "RxBlocking")
+        .alamofire,
+        .rxSwift,
+        .rxBlocking
       ]
     )
   ]
