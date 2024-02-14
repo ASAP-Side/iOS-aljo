@@ -40,7 +40,7 @@ public extension Target {
 public extension Target {
   static func single(
     module: ModulePaths,
-    product: Product = .staticLibrary,
+    product: Product = .staticFramework,
     dependencies: [TargetDependency] = []
   ) -> Target {
     TargetSpec(sources: .sources, dependencies: dependencies)
