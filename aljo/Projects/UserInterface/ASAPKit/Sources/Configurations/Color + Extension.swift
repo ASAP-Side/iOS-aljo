@@ -6,7 +6,7 @@
 
 import UIKit
 
-extension UIColor {
+public extension UIColor {
   static let title = ASAPKitAsset.Basic.title.color
   static let body01 = ASAPKitAsset.Basic.body01.color
   static let body02 = ASAPKitAsset.Basic.body02.color
