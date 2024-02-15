@@ -38,7 +38,7 @@ public extension UIFont {
     case caption2
     case caption3
     
-    var size: TypoSize {
+    public var size: TypoSize {
       switch self {
         case .headLine1:
           return .extraLarge
@@ -55,7 +55,7 @@ public extension UIFont {
       }
     }
     
-    var weight: TypoWeight {
+    public var weight: TypoWeight {
       switch self {
         case .headLine1, .headLine2, .headLine3, .headLine4, .headLine5:
           return .bold
@@ -63,6 +63,25 @@ public extension UIFont {
           return .medium
         case .body4, .caption2, .caption3:
           return .regular
+      }
+    }
+    
+    public var lineHeight: CGFloat {
+      switch self {
+        case .headLine1:
+          return 30
+        case .headLine2:
+          return 28
+        case .headLine3, .body1:
+          return 26
+        case .headLine4, .body2:
+          return 24
+        case .headLine5, .body3, .body4:
+          return 22
+        case .caption1, .caption2:
+          return 18
+        case .caption3:
+          return 17
       }
     }
   }
