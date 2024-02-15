@@ -2,6 +2,7 @@ import ProjectDescription
 import EnvironmentPlugin
 import AljoPlugin
 
+/// Interface Method
 public extension Target {
   static func interface(
     module: ModulePaths,
@@ -11,7 +12,10 @@ public extension Target {
     return TargetSpec(sources: .interface, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .interface), product: product)
   }
-  
+}
+
+/// Implements Method
+public extension Target {
   static func implements(
     module: ModulePaths,
     product: Product = .staticLibrary,
@@ -31,15 +35,68 @@ public extension Target {
     }
     .toTarget(with: module.targetName(type: .implementation), product: product)
   }
+}
+
+public extension Target {
+  static func single(
+    module: ModulePaths,
+    product: Product = .staticLibrary,
+    dependencies: [TargetDependency] = []
+  ) -> Target {
+    return TargetSpec(sources: .sources, dependencies: dependencies)
+      .toTarget(with: module.targetName(type: .single), product: product)
+  }
   
+  static func single(
+    module: ModulePaths,
+    product: Product = .staticLibrary,
+    spec: TargetSpec
+  ) -> Target {
+    spec.with { spec in
+      spec.sources = .sources
+    }
+    .toTarget(with: module.targetName(type: .single), product: product)
+  }
+}
+
+/// Demo Method
+public extension Target {
   static func demo(
     module: ModulePaths,
     dependencies: [TargetDependency] = []
   ) -> Target {
-    return TargetSpec(infoPlist: .file(path: "Demo/Resources/Info.plist"), sources: .demo, dependencies: dependencies)
+    let infoFile: InfoPlist = .extendingDefault(
+      with: [
+        "UIMainStoryboardFile": "",
+        "UILaunchStoryboardName": "LaunchScreen"
+      ]
+    )
+    
+    return TargetSpec(infoPlist: infoFile, sources: .demo, resources: ["Demo/Resources/**"], dependencies: dependencies)
       .toTarget(with: module.targetName(type: .demo), product: .app)
   }
   
+  static func demo(
+    module: ModulePaths,
+    product: Product = .app,
+    spec: TargetSpec
+  ) -> Target {
+    spec.with { spec in
+      spec.sources = .demo
+      spec.resources = ["Demo/Resources/**"]
+      spec.infoPlist = .extendingDefault(
+        with: [
+          "UIMainStoryboardFile": "",
+          "UILaunchStoryboardName": "LaunchScreen"
+        ]
+      )
+    }
+    .toTarget(with: module.targetName(type: .demo), product: product)
+  }
+}
+
+/// Test Method
+public extension Target {
   static func tests(
     module: ModulePaths,
     dependencies: [TargetDependency] = [],
@@ -51,7 +108,7 @@ public extension Target {
   
   static func testing(
     module: ModulePaths,
-    product: Product,
+    product: Product = .unitTests,
     dependencies:  [TargetDependency] = [],
     resources: ResourceFileElements = []
   ) -> Target {

@@ -22,10 +22,6 @@ private let template = Template(
             templatePath: "../Module/Project.stencil"
         ),
         .file(
-            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Sources/SceneDelegate.swift",
-            templatePath: "../Demo/SceneDelegate.stencil"
-        ),
-        .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Sources/AppDelegate.swift",
             templatePath: "../Demo/AppDelegate.stencil"
         ),

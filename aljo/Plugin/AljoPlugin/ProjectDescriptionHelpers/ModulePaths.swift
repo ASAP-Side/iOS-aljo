@@ -14,7 +14,7 @@ public extension ModulePaths {
     case AuthFeature
   }
   
-  enum Domain: String, TargetPathConvertible { 
+  enum Domain: String, TargetPathConvertible {
     case AuthDomain
   }
   
@@ -22,17 +22,17 @@ public extension ModulePaths {
     case AuthData
   }
   
-  enum Core: String, TargetPathConvertible { 
+  enum Core: String, TargetPathConvertible {
     case AJNetwork
     case AJKeychain
     case AJCoreData
   }
   
-  enum Shared: String, TargetPathConvertible { 
+  enum Shared: String, TargetPathConvertible {
     case Foundation
   }
   
-  enum Design: String, TargetPathConvertible { 
+  enum Design: String, TargetPathConvertible {
     case ASAPKit
   }
 }
@@ -40,28 +40,29 @@ public extension ModulePaths {
 public extension ModulePaths {
   func targetName(type: TargetType) -> String {
     switch self {
-    case .feature(let feature):
-      return feature.targetName(type: type)
-    case .domain(let domain):
-      return domain.targetName(type: type)
-    case .data(let data):
-      return data.targetName(type: type)
-    case .core(let core):
-      return core.targetName(type: type)
-    case .shared(let shared):
-      return shared.targetName(type: type)
-    case .design(let design):
-      return design.targetName(type: type)
+      case .feature(let feature):
+        return feature.targetName(type: type)
+      case .domain(let domain):
+        return domain.targetName(type: type)
+      case .data(let data):
+        return data.targetName(type: type)
+      case .core(let core):
+        return core.targetName(type: type)
+      case .shared(let shared):
+        return shared.targetName(type: type)
+      case .design(let design):
+        return design.targetName(type: type)
     }
   }
 }
 
 public enum TargetType: String {
   case interface = "Interface"
-  case implementation = "Implemenetation"
+  case implementation = "Implementation"
   case tests = "Tests"
   case testing = "Testing"
   case demo = "Demo"
+  case single = ""
 }
 
 public protocol TargetPathConvertible {

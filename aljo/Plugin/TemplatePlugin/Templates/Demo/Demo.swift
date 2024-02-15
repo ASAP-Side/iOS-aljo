@@ -22,10 +22,6 @@ private let template = Template(
             templatePath: "AppDelegate.stencil"
         ),
         .file(
-            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Sources/SceneDelegate.swift",
-            templatePath: "SceneDelegate.stencil"
-        ),
-        .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Resources/LaunchScreen.storyboard",
             templatePath: "LaunchScreen.stencil"
         ),

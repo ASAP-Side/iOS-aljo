@@ -11,7 +11,8 @@ public extension Project {
     settings: Settings = .settings(configurations: [.debug(name: .debug), .release(name: .release)]),
     fileHeaderTemplate: FileHeaderTemplate? = nil,
     additionalFiles: [FileElement] = [],
-    targets: [Target]
+    targets: [Target],
+    resourceSynthesizers: [ResourceSynthesizer] = []
   ) -> Project {
     return Project(
       name: name,
@@ -22,7 +23,7 @@ public extension Project {
       schemes: [],
       fileHeaderTemplate: fileHeaderTemplate,
       additionalFiles: additionalFiles,
-      resourceSynthesizers: []
+      resourceSynthesizers: resourceSynthesizers
     )
   }
 }
@@ -34,8 +35,4 @@ public extension SourceFilesList {
   static let implementation: SourceFilesList = "Implementation/**"
   static let testing: SourceFilesList = "Testing/**"
   static let tests: SourceFilesList = "Tests/**"
-}
-
-public extension ResourceFileElements {
-  static let `default`: Self = [.folderReference(path: "Resources/**", tags: [])]
 }
