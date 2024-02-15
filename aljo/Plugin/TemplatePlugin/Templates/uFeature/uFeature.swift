@@ -30,6 +30,10 @@ private let template = Template(
             templatePath: "../Demo/LaunchScreen.stencil"
         ),
         .file(
+            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Resources/Info.plist",
+            templatePath: "../Demo/AppInfoPlist.stencil"
+        ),
+        .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Interface/Interface.swift",
             templatePath: "../Interface/Interface.stencil"
         ),

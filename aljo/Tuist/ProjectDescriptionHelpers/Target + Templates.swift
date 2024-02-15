@@ -99,12 +99,11 @@ public extension Target {
 public extension Target {
   static func tests(
     module: ModulePaths,
-    product: Product = .unitTests,
     dependencies: [TargetDependency] = [],
     resources: ResourceFileElements = []
   ) -> Target {
     return TargetSpec(sources: .tests, resources: resources, dependencies: dependencies)
-      .toTarget(with: module.targetName(type: .tests), product: product)
+      .toTarget(with: module.targetName(type: .tests), product: .unitTests)
   }
   
   static func testing(

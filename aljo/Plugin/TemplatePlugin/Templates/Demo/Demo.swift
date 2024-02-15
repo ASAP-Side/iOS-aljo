@@ -24,6 +24,10 @@ private let template = Template(
         .file(
             path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Resources/LaunchScreen.storyboard",
             templatePath: "LaunchScreen.stencil"
+        ),
+        .file(
+            path: "Projects/\(layerAttribute)/\(nameAttribute)/Demo/Resources/Info.plist",
+            templatePath: "AppInfoPlist.stencil"
         )
     ]
 )
