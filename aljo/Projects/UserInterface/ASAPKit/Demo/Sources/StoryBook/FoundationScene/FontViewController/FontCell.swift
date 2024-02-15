@@ -80,6 +80,9 @@ final class FontCell: UITableViewCell {
     let weightTitleLabel = makeDistributionLabel()
     let weightLabel = makeDistributionLabel()
     
+    let lineHeightTitleLabel = makeDistributionLabel()
+    let lineHeightLabel = makeDistributionLabel()
+    
     let lineHeight = UIFont.PretendardStyle.headLine4.lineHeight
     sizeTitleLabel.setTextWithLineHeight(text: "Size", lineHeight: lineHeight)
     sizeLabel.setTextWithLineHeight(text: item.size.rawValue.description + " pt", lineHeight: lineHeight)
@@ -87,8 +90,11 @@ final class FontCell: UITableViewCell {
     weightTitleLabel.setTextWithLineHeight(text: "Weight", lineHeight: lineHeight)
     weightLabel.setTextWithLineHeight(text: item.weight.rawValue, lineHeight: lineHeight)
     
-    [sizeTitleLabel, weightTitleLabel].forEach(distributionTitleStackView.addArrangedSubview)
-    [sizeLabel, weightLabel].forEach(distributionValueStackView.addArrangedSubview)
+    lineHeightTitleLabel.setTextWithLineHeight(text: "LineHeight", lineHeight: lineHeight)
+    lineHeightLabel.setTextWithLineHeight(text: item.lineHeight.description, lineHeight: lineHeight)
+    
+    [sizeTitleLabel, weightTitleLabel, lineHeightTitleLabel].forEach(distributionTitleStackView.addArrangedSubview)
+    [sizeLabel, weightLabel, lineHeightLabel].forEach(distributionValueStackView.addArrangedSubview)
   }
   
   private func makeDistributionLabel() -> UILabel {
