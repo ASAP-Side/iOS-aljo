@@ -22,7 +22,7 @@ public extension UIFont {
     case regular = "Regular"
   }
   
-  enum PretendardStyle {
+  enum PretendardStyle: String {
     case headLine1
     case headLine2
     case headLine3
