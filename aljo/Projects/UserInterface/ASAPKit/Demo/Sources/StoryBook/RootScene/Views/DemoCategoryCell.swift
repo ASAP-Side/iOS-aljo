@@ -27,8 +27,8 @@ class DemoCategoryCell: UITableViewCell {
     configureUI()
   }
   
-  func bind(to type: CustomStringConvertible? = nil) {
-    guard let type = type else { return }
+  func bind(to type: Any? = nil) {
+    guard let type = type as? CustomStringConvertible else { return }
     
     self.titleLabel.text = type.description
   }

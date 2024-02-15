@@ -6,6 +6,7 @@
 
 import UIKit
 
+// swiftlint:disable all
 extension UIImage {
   enum Icon {
     static let arrow_circle = ASAPKitAsset.Arrow.circle.image

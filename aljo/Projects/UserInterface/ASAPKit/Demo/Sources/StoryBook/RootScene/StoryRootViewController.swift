@@ -17,13 +17,14 @@ class StoryRootViewController: UIViewController {
     return tableView
   }()
   
-  private let items: [DemoCategory: [CustomStringConvertible]] = DemoCategory.allCaseDictionary
+  private let items: [DemoCategory: [Any]] = DemoCategory.allCaseDictionary
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     configureUI()
     
+    tableView.delegate = self
     tableView.dataSource = self
   }
 }
@@ -56,6 +57,19 @@ extension StoryRootViewController: UITableViewDataSource {
     }
     
     return cell
+  }
+}
+
+extension StoryRootViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+    guard let sectionCategory = DemoCategory(rawValue: indexPath.section),
+          let item = items[sectionCategory]?[indexPath.row] else { return }
+    
+    if let item = item as? SystemConfiguration {
+      let controller = item.instance
+      navigationController?.pushViewController(controller, animated: true)
+    }
   }
 }
 
