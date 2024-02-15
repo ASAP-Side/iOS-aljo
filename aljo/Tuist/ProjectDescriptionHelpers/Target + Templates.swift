@@ -40,11 +40,22 @@ public extension Target {
 public extension Target {
   static func single(
     module: ModulePaths,
-    product: Product = .staticFramework,
+    product: Product = .staticLibrary,
     dependencies: [TargetDependency] = []
   ) -> Target {
-    TargetSpec(sources: .sources, dependencies: dependencies)
+    return TargetSpec(sources: .sources, dependencies: dependencies)
       .toTarget(with: module.targetName(type: .single), product: product)
+  }
+  
+  static func single(
+    module: ModulePaths,
+    product: Product = .staticLibrary,
+    spec: TargetSpec
+  ) -> Target {
+    spec.with { spec in
+      spec.sources = .sources
+    }
+    .toTarget(with: module.targetName(type: .single), product: product)
   }
 }
 

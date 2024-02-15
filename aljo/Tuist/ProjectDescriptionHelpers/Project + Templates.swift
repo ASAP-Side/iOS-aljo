@@ -36,7 +36,3 @@ public extension SourceFilesList {
   static let testing: SourceFilesList = "Testing/**"
   static let tests: SourceFilesList = "Tests/**"
 }
-
-public extension ResourceFileElements {
-  static let `default`: Self = [.folderReference(path: "Resources/", tags: [])]
-}

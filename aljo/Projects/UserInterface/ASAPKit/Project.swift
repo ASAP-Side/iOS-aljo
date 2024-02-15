@@ -8,11 +8,20 @@ import EnvironmentPlugin
 let project = Project.app(
   to: "ASAPKit",
   targets: [
-    .single(module: .design(.ASAPKit)),
+    .single(
+      module: .design(.ASAPKit),
+      spec: TargetSpec(
+        resources: ["Resources/**"],
+        dependencies: [.rxSwift, .rxCocoa, .snapKit]
+      )
+    ),
     .demo(
       module: .design(.ASAPKit),
       dependencies: [
-        .design(target: .ASAPKit, type: .single)
+        .design(target: .ASAPKit, type: .single),
+        .rxSwift,
+        .rxCocoa,
+        .snapKit
       ]
     )
   ],
