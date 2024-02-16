@@ -9,24 +9,24 @@ import UIKit
 // swiftlint:disable all
 public extension UIImage {
   enum Icon {
-    static let arrow_circle = ASAPKitAsset.Arrow.circle.image
-    static let arrow_down = ASAPKitAsset.Arrow.down.image
-    static let arrow_left = ASAPKitAsset.Arrow.leftFill.image
-    static let arrow_right = ASAPKitAsset.Arrow.right
+    public static let arrow_circle: UIImage = ASAPKitAsset.Arrow.circle.image
+    public static let arrow_down: UIImage = ASAPKitAsset.Arrow.down.image
+    public static let arrow_left: UIImage = ASAPKitAsset.Arrow.leftFill.image
+    public static let arrow_right: UIImage = ASAPKitAsset.Arrow.right.image
     
-    static let camera_black = ASAPKitAsset.Camera.black.image
-    static let camera_dark = ASAPKitAsset.Camera.dark.image
-    static let camera_gray = ASAPKitAsset.Camera.grey
+    public static let camera_black: UIImage = ASAPKitAsset.Camera.black.image
+    public static let camera_dark: UIImage = ASAPKitAsset.Camera.dark.image
+    public static let camera_gray: UIImage = ASAPKitAsset.Camera.grey.image
     
-    static let picture_color = ASAPKitAsset.Picture.color.image
-    static let picture_gray = ASAPKitAsset.Picture.grey.image
+    public static let picture_color: UIImage = ASAPKitAsset.Picture.color.image
+    public static let picture_gray: UIImage = ASAPKitAsset.Picture.grey.image
     
-    static let minus = ASAPKitAsset.Symbols.minus.image
-    static let plus = ASAPKitAsset.Symbols.plus.image
-    static let push = ASAPKitAsset.Symbols.push.image
-    static let scope = ASAPKitAsset.Symbols.scope.image
+    public static let minus: UIImage = ASAPKitAsset.Symbols.minus.image
+    public static let plus: UIImage = ASAPKitAsset.Symbols.plus.image
+    public static let push: UIImage = ASAPKitAsset.Symbols.push.image
+    public static let scope: UIImage = ASAPKitAsset.Symbols.scope.image
     
-    static let xmark_black = ASAPKitAsset.Xmark.black.image
-    static let xmark_circle = ASAPKitAsset.Xmark.circle.image
+    public static let xmark_black: UIImage = ASAPKitAsset.Xmark.black.image
+    public static let xmark_circle: UIImage = ASAPKitAsset.Xmark.circle.image
   }
 }

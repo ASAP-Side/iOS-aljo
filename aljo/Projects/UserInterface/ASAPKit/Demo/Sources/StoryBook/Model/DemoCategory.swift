@@ -51,8 +51,8 @@ enum SystemConfiguration: CustomStringConvertible, CaseIterable {
         return FontStoryViewController()
       case .color:
         return ColorStoryViewController()
-      default:
-        return UIViewController()
+      case .icon:
+        return IconStoryViewController()
     }
   }
 }
