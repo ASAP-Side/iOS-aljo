@@ -6,6 +6,8 @@
 
 import UIKit
 
+import SnapKit
+
 final class FontCell: UITableViewCell {
   private let titleLabel: UILabel = {
     let label = UILabel()

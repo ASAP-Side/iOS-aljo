@@ -49,6 +49,8 @@ enum SystemConfiguration: CustomStringConvertible, CaseIterable {
     switch self {
       case .font:
         return FontStoryViewController()
+      case .color:
+        return ColorStoryViewController()
       default:
         return UIViewController()
     }

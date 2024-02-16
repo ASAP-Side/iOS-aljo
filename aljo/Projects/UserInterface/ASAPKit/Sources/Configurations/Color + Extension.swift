@@ -20,7 +20,7 @@ public extension UIColor {
   static let red01 = ASAPKitAsset.Primary.red01.color
   static let red02 = ASAPKitAsset.Primary.red02.color
   
-  static let blue = ASAPKitAsset.System.blue.color
-  static let green = ASAPKitAsset.System.green.color
-  static let red = ASAPKitAsset.System.red.color
+  static let blueColor = ASAPKitAsset.System.blue.color
+  static let greenColor = ASAPKitAsset.System.green.color
+  static let redColor = ASAPKitAsset.System.red.color
 }
