@@ -13,6 +13,7 @@ extension UILabel {
     let style = NSMutableParagraphStyle()
     style.maximumLineHeight = lineHeight
     style.minimumLineHeight = lineHeight
+    style.lineBreakMode = .byTruncatingTail
     
     let attributes: [NSAttributedString.Key: Any] = [
       .paragraphStyle: style,

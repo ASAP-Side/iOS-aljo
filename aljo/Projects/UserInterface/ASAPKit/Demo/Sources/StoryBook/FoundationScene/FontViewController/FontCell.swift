@@ -17,20 +17,15 @@ final class FontCell: UITableViewCell {
   
   private let paragraphLabel: UILabel = {
     let label = UILabel()
-    label.numberOfLines = .zero
+    label.numberOfLines = 3
     return label
   }()
   
-  private let distributionStackView: UIStackView = {
-    let stackView = UIStackView()
-    stackView.axis = .horizontal
-    stackView.spacing = 8
-    stackView.distribution = .fillEqually
-    stackView.isLayoutMarginsRelativeArrangement = true
-    stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-    stackView.layer.backgroundColor = UIColor.gray01.cgColor
-    stackView.layer.cornerRadius = 8
-    return stackView
+  private let distributionContainerView: UIView = {
+    let view = UIView()
+    view.layer.backgroundColor = UIColor.gray01.cgColor
+    view.layer.cornerRadius = 8
+    return view
   }()
   
   private let distributionTitleStackView: UIStackView = {
@@ -73,7 +68,10 @@ final class FontCell: UITableViewCell {
     paragraphLabel.font = .pretendard(item)
     paragraphLabel.textColor = .title
     paragraphLabel.setTextWithLineHeight(text: paragraph, lineHeight: item.lineHeight)
-    
+    setDistributions(to: item)
+  }
+  
+  private func setDistributions(to item: UIFont.PretendardStyle) {
     let sizeTitleLabel = makeDistributionLabel()
     let sizeLabel = makeDistributionLabel()
     
@@ -101,6 +99,7 @@ final class FontCell: UITableViewCell {
     let label = UILabel()
     label.font = .pretendard(.headLine4)
     label.textColor = .title
+    label.numberOfLines = 1
     return label
   }
 }
@@ -112,30 +111,41 @@ private extension FontCell {
   }
   
   func configureHierarchy() {
-    [titleLabel, paragraphLabel, distributionStackView].forEach(contentView.addSubview)
+    [titleLabel, paragraphLabel, distributionContainerView].forEach(contentView.addSubview)
     [
       distributionTitleStackView,
       distributionValueStackView
-    ].forEach(distributionStackView.addArrangedSubview)
+    ].forEach(distributionContainerView.addSubview)
   }
   
   func makeConstraints() {
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(contentView).offset(16)
-      $0.horizontalEdges.equalTo(contentView).inset(16)
+      $0.leading.equalTo(contentView).offset(16)
+      $0.trailing.equalTo(contentView).offset(-16)
+      $0.height.equalTo(30)
     }
     
     paragraphLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(16)
-      $0.leading.equalTo(contentView.snp.leading).offset(24)
-      $0.trailing.equalTo(contentView.snp.trailing).offset(-24)
-      $0.height.lessThanOrEqualTo(100)
+      $0.leading.equalTo(contentView.snp.leading).offset(16)
+      $0.trailing.equalTo(contentView.snp.trailing).offset(-16)
     }
     
-    distributionStackView.snp.makeConstraints {
+    distributionContainerView.snp.makeConstraints {
       $0.leading.trailing.equalTo(paragraphLabel)
       $0.top.equalTo(paragraphLabel.snp.bottom).offset(16)
       $0.bottom.equalTo(contentView.snp.bottom).offset(-16)
+    }
+    
+    distributionTitleStackView.snp.makeConstraints {
+      $0.verticalEdges.leading.equalTo(distributionContainerView).inset(16)
+      $0.width.equalTo(100)
+    }
+    
+    distributionValueStackView.snp.makeConstraints {
+      $0.verticalEdges.trailing.equalTo(distributionContainerView).inset(16)
+      $0.leading.equalTo(distributionTitleStackView.snp.trailing).offset(8)
     }
   }
 }
