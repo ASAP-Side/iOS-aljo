@@ -65,7 +65,7 @@ final class FontCell: UITableViewCell {
   }
   
   func configure(with item: UIFont.PretendardStyle) {
-    let paragraph = "세상에게서 도망쳐 run on, 나와 저 끝까지 가줘 my lover, 나쁜 결말일까 길 잃은 우리 둘 um, 부서지도록 나를 꼭 안아, 더 사랑히 내게 입맞춰 lover"
+    let paragraph = "세상에게서 도망쳐 run on 나와 저 끝까지 가줘 my lover 나쁜 결말일까 길 잃은 우리 둘 um"
     titleLabel.text = item.rawValue.uppercased()
     paragraphLabel.font = .pretendard(item)
     paragraphLabel.textColor = .title

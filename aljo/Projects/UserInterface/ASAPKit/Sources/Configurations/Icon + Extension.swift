@@ -14,12 +14,12 @@ public extension UIImage {
     public static let arrow_left: UIImage = ASAPKitAsset.Arrow.leftFill.image
     public static let arrow_right: UIImage = ASAPKitAsset.Arrow.right.image
     
-    public static let camera_black: UIImage = ASAPKitAsset.Camera.black.image
-    public static let camera_dark: UIImage = ASAPKitAsset.Camera.dark.image
-    public static let camera_gray: UIImage = ASAPKitAsset.Camera.grey.image
+    public static let camera_black: UIImage = ASAPKitAsset.Camera.cameraBlack.image
+    public static let camera_dark: UIImage = ASAPKitAsset.Camera.cameraDark.image
+    public static let camera_gray: UIImage = ASAPKitAsset.Camera.cameraGray.image
     
-    public static let picture_color: UIImage = ASAPKitAsset.Picture.color.image
-    public static let picture_gray: UIImage = ASAPKitAsset.Picture.grey.image
+    public static let picture_color: UIImage = ASAPKitAsset.Picture.pictureColor.image
+    public static let picture_gray: UIImage = ASAPKitAsset.Picture.pictureGray.image
     
     public static let minus: UIImage = ASAPKitAsset.Symbols.minus.image
     public static let plus: UIImage = ASAPKitAsset.Symbols.plus.image

@@ -30,6 +30,13 @@ class IconCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    
+    iconView.image = nil
+    titleLabel.text = nil
+  }
+  
   func configure(with item: IconModel) {
     iconView.image = item.image
     titleLabel.text = item.title

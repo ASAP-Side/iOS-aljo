@@ -12,6 +12,8 @@ class IconStoryViewController: UIViewController {
   private let tableView: UITableView = {
     let tableView = UITableView()
     tableView.register(IconCell.self, forCellReuseIdentifier: IconCell.reuseIdentifier)
+    tableView.separatorStyle = .none
+    tableView.allowsSelection = false
     return tableView
   }()
   

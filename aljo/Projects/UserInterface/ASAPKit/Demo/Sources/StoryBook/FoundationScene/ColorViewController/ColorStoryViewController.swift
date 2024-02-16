@@ -14,6 +14,8 @@ class ColorStoryViewController: UIViewController {
   private let tableView: UITableView = {
     let tableView = UITableView()
     tableView.register(ColorCell.self, forCellReuseIdentifier: ColorCell.reuseIdentifier)
+    tableView.separatorStyle = .none
+    tableView.allowsSelection = false
     return tableView
   }()
   

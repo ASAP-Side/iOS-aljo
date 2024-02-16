@@ -68,6 +68,7 @@ extension StoryRootViewController: UITableViewDelegate {
     
     if let item = item as? SystemConfiguration {
       let controller = item.instance
+      
       navigationController?.pushViewController(controller, animated: true)
     }
   }

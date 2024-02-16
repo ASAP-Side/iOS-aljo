@@ -14,6 +14,8 @@ final class FontStoryViewController: UIViewController {
   private let tableView: UITableView = {
     let tableView = UITableView()
     tableView.register(FontCell.self, forCellReuseIdentifier: FontCell.reuseIdentifier)
+    tableView.separatorStyle = .none
+    tableView.allowsSelection = false
     return tableView
   }()
   
