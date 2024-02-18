@@ -7,17 +7,18 @@
 import UIKit
 
 extension UILabel {
-  func setTextWithLineHeight(text: String?, lineHeight: CGFloat) {
+  func setTextWithStyle(to text: String?, with style: UIFont.PretendardStyle) {
     guard let text = text else { return }
     
-    let style = NSMutableParagraphStyle()
-    style.maximumLineHeight = lineHeight
-    style.minimumLineHeight = lineHeight
-    style.lineBreakMode = .byTruncatingTail
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.maximumLineHeight = style.lineHeight
+    paragraphStyle.minimumLineHeight = style.lineHeight
+    paragraphStyle.lineBreakMode = .byTruncatingTail
     
     let attributes: [NSAttributedString.Key: Any] = [
-      .paragraphStyle: style,
-      .baselineOffset: (lineHeight - font.lineHeight) / 4
+      .paragraphStyle: paragraphStyle,
+      .font: UIFont.pretendard(style) as Any,
+      .baselineOffset: (style.lineHeight - font.lineHeight) / 4
     ]
     
     let attributeString = NSAttributedString(string: text, attributes: attributes)

@@ -69,7 +69,7 @@ final class FontCell: UITableViewCell {
     titleLabel.text = item.rawValue.uppercased()
     paragraphLabel.font = .pretendard(item)
     paragraphLabel.textColor = .title
-    paragraphLabel.setTextWithLineHeight(text: paragraph, lineHeight: item.lineHeight)
+    paragraphLabel.setTextWithStyle(to: paragraph, with: item)
     setDistributions(to: item)
   }
   
@@ -83,15 +83,15 @@ final class FontCell: UITableViewCell {
     let lineHeightTitleLabel = makeDistributionLabel()
     let lineHeightLabel = makeDistributionLabel()
     
-    let lineHeight = UIFont.PretendardStyle.headLine4.lineHeight
-    sizeTitleLabel.setTextWithLineHeight(text: "Size", lineHeight: lineHeight)
-    sizeLabel.setTextWithLineHeight(text: item.size.rawValue.description + " pt", lineHeight: lineHeight)
+    let item = UIFont.PretendardStyle.headLine4
+    sizeTitleLabel.setTextWithStyle(to: "Size", with: item)
+    sizeLabel.setTextWithStyle(to: item.size.description + " pt", with: item)
     
-    weightTitleLabel.setTextWithLineHeight(text: "Weight", lineHeight: lineHeight)
-    weightLabel.setTextWithLineHeight(text: item.weight.rawValue, lineHeight: lineHeight)
+    weightTitleLabel.setTextWithStyle(to: "Weight", with: item)
+    weightLabel.setTextWithStyle(to: item.weight.rawValue, with: item)
     
-    lineHeightTitleLabel.setTextWithLineHeight(text: "LineHeight", lineHeight: lineHeight)
-    lineHeightLabel.setTextWithLineHeight(text: item.lineHeight.description, lineHeight: lineHeight)
+    lineHeightTitleLabel.setTextWithStyle(to: "LineHeight", with: item)
+    lineHeightLabel.setTextWithStyle(to: item.lineHeight.description, with: item)
     
     [sizeTitleLabel, weightTitleLabel, lineHeightTitleLabel].forEach(distributionTitleStackView.addArrangedSubview)
     [sizeLabel, weightLabel, lineHeightLabel].forEach(distributionValueStackView.addArrangedSubview)
