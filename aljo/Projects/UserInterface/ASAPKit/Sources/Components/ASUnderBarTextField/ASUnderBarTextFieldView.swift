@@ -8,20 +8,25 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 
-public final class UnderBarTextFieldView: UIStackView {
+public final class ASUnderBarTextFieldView: UIStackView {
+  private let disposeBag = DisposeBag()
+  
   // MARK: - Components
+  let textField: ASUnderBarTextField = {
+    let textField = ASUnderBarTextField()
+    textField.font = .pretendard(.body1)
+    textField.clearButtonMode = .always
+    textField.textColor = .title
+    return textField
+  }()
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.caption2)
     return label
-  }()
-  private let textField: ASUnderBarTextField = {
-    let textField = ASUnderBarTextField()
-    textField.font = .pretendard(.body1)
-    textField.clearButtonMode = .always
-    return textField
   }()
   private let descriptionLabel: UILabel = {
     let label = UILabel()
@@ -94,11 +99,22 @@ public final class UnderBarTextFieldView: UIStackView {
     }
   }
   
+  public var text: String? {
+    get {
+      textField.text
+    }
+    
+    set {
+      textField.text = newValue
+    }
+  }
+  
   // MARK: - init
   public init() {
     super.init(frame: .zero)
     configureStackView()
     configureSubview()
+    bind()
   }
   
   required init(coder: NSCoder) {
@@ -139,20 +155,30 @@ public final class UnderBarTextFieldView: UIStackView {
   }
   
   private func configureState() {
-    if isFirstResponder == false {
+    if textField.isFirstResponder == false {
       underBar.backgroundColor = .gray01
-      textField.textColor = .disable
+      descriptionLabel.textColor = .disable
       return
     }
     
-    if isInputNegative == false {
+    if isInputNegative == true {
       underBar.backgroundColor = .redColor
       descriptionLabel.textColor = .redColor
     } else {
       underBar.backgroundColor = .body01
       descriptionLabel.textColor = .body02
     }
+  }
+  
+  private func bind() {
+    let endEditing = textField.rx.controlEvent(.editingDidEnd)
+    let beginEditing = textField.rx.controlEvent(.editingDidBegin)
     
-    textField.textColor = .title
+    Observable.from([endEditing, beginEditing])
+      .merge()
+      .subscribe(onNext: { [weak self] in
+        self?.setNeedsDisplay()
+      })
+      .disposed(by: disposeBag)
   }
 }
