@@ -19,7 +19,7 @@ final class ASUnderBarTextField: UITextField {
     return clearButtonRect(forBounds: bounds).width
   }
   
-  // MARK: - Conponents
+  // MARK: - components
   private let textCountLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.body4)
@@ -28,7 +28,7 @@ final class ASUnderBarTextField: UITextField {
     return label
   }()
   
-  // MARK: - Public
+  // MARK: - public
   var maxTextCount: Int = 0 {
     didSet {
       guard maxTextCount > 0 else {
@@ -40,7 +40,7 @@ final class ASUnderBarTextField: UITextField {
     }
   }
   
-  // MARK: - init
+  // MARK: - initializer
   init() {
     super.init(frame: .zero)
     configureSubview()
@@ -51,19 +51,12 @@ final class ASUnderBarTextField: UITextField {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - override
   override func editingRect(forBounds bounds: CGRect) -> CGRect {
     return bounds
   }
   
-  private func configureSubview() {
-    addSubview(textCountLabel)
-    
-    textCountLabel.snp.makeConstraints {
-      $0.centerY.equalToSuperview()
-      textCountLabelTrailingConstraint = $0.trailing.equalToSuperview().offset(-8).constraint
-    }
-  }
-  
+  // MARK: - private method
   private func bind() {
     rx.text.orEmpty
       .scan("", accumulator: { oldValue, newValue in
@@ -100,6 +93,15 @@ final class ASUnderBarTextField: UITextField {
     
     UIView.animate(withDuration: 0.2) {
       self.layoutIfNeeded()
+    }
+  }
+  
+  private func configureSubview() {
+    addSubview(textCountLabel)
+    
+    textCountLabel.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      textCountLabelTrailingConstraint = $0.trailing.equalToSuperview().offset(-8).constraint
     }
   }
 }
