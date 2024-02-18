@@ -14,6 +14,7 @@ final class FontStoryViewController: UIViewController {
   private let tableView: UITableView = {
     let tableView = UITableView()
     tableView.register(FontCell.self, forCellReuseIdentifier: FontCell.reuseIdentifier)
+    tableView.register(FontHeaderView.self, forHeaderFooterViewReuseIdentifier: FontHeaderView.reuseIdentifier)
     tableView.separatorStyle = .none
     tableView.allowsSelection = false
     return tableView
@@ -27,6 +28,7 @@ final class FontStoryViewController: UIViewController {
     configureUI()
     
     tableView.dataSource = self
+    tableView.delegate = self
   }
 }
 
@@ -47,9 +49,14 @@ extension FontStoryViewController: UITableViewDataSource {
     cell.configure(with: item)
     return cell
   }
-  
-  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    return typographyModels[section].description
+}
+
+extension FontStoryViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let view: FontHeaderView = tableView.dequeueReusableHeaderFooterView()
+    let title = typographyModels[section].description
+    view.configure(title: title)
+    return view
   }
 }
 
