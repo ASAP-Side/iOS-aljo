@@ -15,7 +15,8 @@ let project = Project.app(
         dependencies: [
           .snapKit,
           .rxSwift,
-          .rxCocoa
+          .rxCocoa,
+          .rxRelay
         ]
       )
     ),
