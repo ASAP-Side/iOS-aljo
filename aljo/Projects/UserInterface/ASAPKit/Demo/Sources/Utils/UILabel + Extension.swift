@@ -18,6 +18,7 @@ extension UILabel {
     let attributes: [NSAttributedString.Key: Any] = [
       .paragraphStyle: paragraphStyle,
       .font: UIFont.pretendard(style) as Any,
+      .kern: -0.02,
       .baselineOffset: (style.lineHeight - font.lineHeight) / 4
     ]
     
