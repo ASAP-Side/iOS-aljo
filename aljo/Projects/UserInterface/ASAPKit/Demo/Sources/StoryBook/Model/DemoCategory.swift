@@ -4,6 +4,8 @@
 //
 //  Copyright (c) 2024 Minii All rights reserved.
 
+import UIKit
+
 enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
   case systemConfiguration
   
@@ -14,13 +16,13 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
     }
   }
   
-  static var allCaseDictionary: [Self: [CustomStringConvertible]] {
-    var dictionary = [Self: [String]]()
+  static var allCaseDictionary: [Self: [Any]] {
+    var dictionary = [Self: [Any]]()
     
     allCases.forEach {
       switch $0 {
         case .systemConfiguration:
-          dictionary.updateValue(SystemConfiguration.allCases.map(\.description), forKey: $0)
+          dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
       }
     }
     return dictionary
@@ -40,6 +42,17 @@ enum SystemConfiguration: CustomStringConvertible, CaseIterable {
         return "색상"
       case .icon:
         return "아이콘"
+    }
+  }
+  
+  var instance: UIViewController {
+    switch self {
+      case .font:
+        return FontStoryViewController()
+      case .color:
+        return ColorStoryViewController()
+      case .icon:
+        return IconStoryViewController()
     }
   }
 }

@@ -7,71 +7,93 @@
 import UIKit.UIFont
 
 public extension UIFont {
-  enum TypoSize: Int {
-    case extraLarge = 22
-    case large = 20
-    case medium = 18
-    case regular = 16
-    case small = 14
-    case extraSmall = 12
-  }
-  
   enum TypoWeight: String {
     case bold = "Bold"
+    case semiBold = "SemiBold"
     case medium = "Medium"
     case regular = "Regular"
   }
   
-  enum PretendardStyle {
+  enum PretendardStyle: String {
     case headLine1
     case headLine2
     case headLine3
     case headLine4
     case headLine5
+    case headLine6
     
     case body1
     case body2
     case body3
     case body4
+    case body5
+    case body6
     
     case caption1
     case caption2
     case caption3
     
-    var size: TypoSize {
+    public var size: Int {
       switch self {
         case .headLine1:
-          return .extraLarge
+          return 22
         case .headLine2:
-          return .large
+          return 20
         case .headLine3, .body1:
-          return .medium
-        case .headLine4, .body2:
-          return .regular
-        case .headLine5, .body3, .body4:
-          return .small
-        case .caption1, .caption2, .caption3:
-          return .extraSmall
+          return 18
+        case .headLine4, .headLine5, .body2:
+          return 16
+        case .headLine6, .body3, .body4:
+          return 15
+        case .body5, .body6:
+          return 14
+        case .caption1, .caption2:
+          return 13
+        case .caption3:
+          return 11
       }
     }
     
-    var weight: TypoWeight {
+    public var weight: TypoWeight {
       switch self {
-        case .headLine1, .headLine2, .headLine3, .headLine4, .headLine5:
+        case .headLine1, .headLine2, .headLine3, .headLine4, .headLine6:
           return .bold
-        case .body1, .body2, .body3, .caption1:
+        case .headLine5:
+          return .semiBold
+        case .body1, .body2, .body3, .body5, .caption1:
           return .medium
-        case .body4, .caption2, .caption3:
+        case .body4, .body6, .caption2, .caption3:
           return .regular
+      }
+    }
+    
+    public var lineHeight: CGFloat {
+      switch self {
+        case .headLine1:
+          return 30
+        case .headLine2:
+          return 28
+        case .headLine3, .body1:
+          return 26
+        case .headLine4, .headLine5, .headLine6, .body2, .body3, .body4:
+          return 24
+        case .body5, .body6:
+          return 22
+        case .caption1, .caption2:
+          return 20
+        case .caption3:
+          return 17
       }
     }
   }
   
   static func pretendard(_ style: PretendardStyle) -> UIFont? {
-    let size = CGFloat(style.size.rawValue)
+    let size = CGFloat(style.size)
     switch style.weight {
       case .bold:
         return ASAPKitFontFamily.Pretendard.bold.font(size: size)
+      case .semiBold:
+        return ASAPKitFontFamily.Pretendard.semiBold.font(size: size)
       case .medium:
         return ASAPKitFontFamily.Pretendard.medium.font(size: size)
       case .regular:
