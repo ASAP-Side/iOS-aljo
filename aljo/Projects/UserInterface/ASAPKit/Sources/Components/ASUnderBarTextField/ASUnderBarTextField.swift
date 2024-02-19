@@ -24,7 +24,6 @@ final class ASUnderBarTextField: UITextField {
     let label = UILabel()
     label.font = .pretendard(.body4)
     label.textColor = .disable
-    label.isHidden = true
     return label
   }()
   
@@ -37,6 +36,16 @@ final class ASUnderBarTextField: UITextField {
       
       textCountLabel.isHidden = false
       configureTextCount(0)
+    }
+  }
+  
+  var isTextCountLabelHidden: Bool {
+    get {
+      textCountLabel.isHidden
+    }
+    
+    set {
+      textCountLabel.isHidden = newValue
     }
   }
   
@@ -87,6 +96,10 @@ final class ASUnderBarTextField: UITextField {
   }
   
   private func updateTextCountLabelOffset(_ offset: CGFloat) {
+    guard textCountLabel.isHidden == false else {
+      return
+    }
+    
     self.textCountLabel.snp.updateConstraints {
       $0.trailing.equalToSuperview().inset(-offset)
     }

@@ -109,6 +109,16 @@ public final class ASUnderBarTextFieldView: UIStackView {
     }
   }
   
+  public var isTextCountLabelHidden: Bool {
+    get {
+      textField.isTextCountLabelHidden
+    }
+    
+    set {
+      textField.isTextCountLabelHidden = newValue
+    }
+  }
+  
   // MARK: - init
   public init() {
     super.init(frame: .zero)
@@ -133,7 +143,6 @@ public final class ASUnderBarTextFieldView: UIStackView {
     alignment = .fill
     distribution = .fill
     spacing = 8
-    isLayoutMarginsRelativeArrangement = true
   }
   
   private func configureSubview() {
