@@ -57,7 +57,10 @@ public final class ASUnderBarTextFieldView: UIStackView {
     }
     
     set {
-      textField.placeholder = newValue
+      textField.attributedPlaceholder = NSAttributedString(
+        string: newValue ?? "",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.disable]
+      )
     }
   }
   
