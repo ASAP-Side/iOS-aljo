@@ -13,9 +13,14 @@ import RxSwift
 import SnapKit
 
 final class ASUnderBarTextField: UITextField {
+  enum Constant {
+    static let noLimitCount: Int = 0
+    static let rightViewOffset: CGFloat = 8
+  }
+  
   private let disposeBag = DisposeBag()
   private var clearButtonWidth: CGFloat {
-    return clearButtonRect(forBounds: bounds).width
+    return rightViewRect(forBounds: bounds).width + Constant.rightViewOffset
   }
   
   // MARK: - components
@@ -26,15 +31,20 @@ final class ASUnderBarTextField: UITextField {
     label.isHidden = true
     return label
   }()
+  private let clearButton: UIButton = {
+    let button = UIButton()
+    button.setImage(.Icon.xmark_circle, for: .normal)
+    return button
+  }()
   
   // MARK: - public
   var maxTextCount: Int = 0 {
     didSet {
-      guard maxTextCount > 0 else {
+      guard maxTextCount > Constant.noLimitCount else {
         return
       }
       
-      configureTextCount(0)
+      configureTextCount(Constant.noLimitCount)
     }
   }
   
@@ -44,7 +54,7 @@ final class ASUnderBarTextField: UITextField {
     }
     
     set {
-      guard newValue != false || maxTextCount != 0 else {
+      guard newValue != false || maxTextCount != Constant.noLimitCount else {
         return
       }
       
@@ -66,14 +76,22 @@ final class ASUnderBarTextField: UITextField {
   // MARK: - override
   override func editingRect(forBounds bounds: CGRect) -> CGRect {
     var editingRect = super.editingRect(forBounds: bounds)
-    editingRect.size.width -= (textCountLabel.frame.width + 10)
+    editingRect.size.width -= Constant.rightViewOffset
+    
+    if textCountLabel.isHidden == false {
+      editingRect.size.width -= (textCountLabel.frame.width + Constant.rightViewOffset)
+    }
     
     return editingRect
   }
   
   override func textRect(forBounds bounds: CGRect) -> CGRect {
     var textRect = super.textRect(forBounds: bounds)
-    textRect.size.width -= (textCountLabel.frame.width + 10)
+    textRect.size.width -= Constant.rightViewOffset
+    
+    if textCountLabel.isHidden == false {
+      textRect.size.width -= (textCountLabel.frame.width + Constant.rightViewOffset)
+    }
     
     return textRect
   }
@@ -82,7 +100,7 @@ final class ASUnderBarTextField: UITextField {
   private func bind() {
     rx.text.orEmpty
       .scan("", accumulator: { oldValue, newValue in
-        guard self.maxTextCount != 0 else {
+        guard self.maxTextCount != Constant.noLimitCount else {
           return newValue
         }
         
@@ -95,11 +113,42 @@ final class ASUnderBarTextField: UITextField {
         self.configureTextCount(text.count)
         self.text = text
         
-        if text.count == 1 {
-          updateTextCountLabelOffset((-clearButtonWidth - 10))
-        } else if text.isEmpty {
-          updateTextCountLabelOffset(-10)
+        if text.isEmpty == true {
+          rightViewMode = .never
+          self.updateTextCountLabelOffset(-Constant.rightViewOffset)
+        } else if text.count == 1 {
+          self.updateTextCountLabelOffset((-self.clearButtonWidth))
+          rightViewMode = .whileEditing
         }
+      })
+      .disposed(by: disposeBag)
+    
+    rx.controlEvent(.editingDidBegin)
+      .subscribe(onNext: { [weak self] _ in
+        guard let self = self else {
+          return
+        }
+        
+        if text?.isEmpty == true {
+          rightViewMode = .never
+        } else {
+          self.updateTextCountLabelOffset((-self.clearButtonWidth))
+        }
+      })
+      .disposed(by: disposeBag)
+    
+    rx.controlEvent(.editingDidEnd)
+      .subscribe(onNext: { [weak self] _ in
+        self?.updateTextCountLabelOffset(-Constant.rightViewOffset)
+        self?.rightViewMode = .never
+      })
+      .disposed(by: disposeBag)
+    
+    clearButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        self?.text = nil
+        self?.rightViewMode = .never
+        self?.updateTextCountLabelOffset(-Constant.rightViewOffset)
       })
       .disposed(by: disposeBag)
   }
@@ -117,17 +166,18 @@ final class ASUnderBarTextField: UITextField {
       $0.trailing.equalToSuperview().inset(-offset)
     }
     
-    UIView.animate(withDuration: 0.2) {
+    UIView.animate(withDuration: 0.07) {
       self.layoutIfNeeded()
     }
   }
   
   private func configureSubview() {
     addSubview(textCountLabel)
+    rightView = clearButton
     
     textCountLabel.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.trailing.equalToSuperview().offset(-8)
+      $0.trailing.equalToSuperview().offset(-Constant.rightViewOffset)
     }
   }
 }

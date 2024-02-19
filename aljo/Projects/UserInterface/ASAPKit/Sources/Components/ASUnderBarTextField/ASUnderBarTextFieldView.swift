@@ -19,7 +19,7 @@ public final class ASUnderBarTextFieldView: UIStackView {
   let textField: ASUnderBarTextField = {
     let textField = ASUnderBarTextField()
     textField.font = .pretendard(.body1)
-    textField.clearButtonMode = .always
+    textField.rightViewMode = .whileEditing
     textField.textColor = .title
     return textField
   }()
