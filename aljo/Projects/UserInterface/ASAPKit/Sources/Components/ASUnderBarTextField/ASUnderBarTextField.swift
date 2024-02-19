@@ -99,7 +99,11 @@ final class ASUnderBarTextField: UITextField {
   // MARK: - private method
   private func bind() {
     rx.text.orEmpty
-      .scan("", accumulator: { oldValue, newValue in
+      .scan("", accumulator: { [weak self] oldValue, newValue in
+        guard let self = self else {
+          return newValue
+        }
+        
         guard self.maxTextCount != Constant.noLimitCount else {
           return newValue
         }
