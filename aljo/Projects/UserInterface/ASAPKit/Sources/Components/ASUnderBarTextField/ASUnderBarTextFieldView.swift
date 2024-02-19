@@ -186,7 +186,7 @@ public final class ASUnderBarTextFieldView: UIStackView {
     Observable.from([endEditing, beginEditing])
       .merge()
       .subscribe(onNext: { [weak self] in
-        self?.setNeedsDisplay()
+        self?.configureState()
       })
       .disposed(by: disposeBag)
   }

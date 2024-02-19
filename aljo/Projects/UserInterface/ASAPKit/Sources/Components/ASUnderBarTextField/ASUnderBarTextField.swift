@@ -14,7 +14,6 @@ import SnapKit
 
 final class ASUnderBarTextField: UITextField {
   private let disposeBag = DisposeBag()
-  private var textCountLabelTrailingConstraint: Constraint?
   private var clearButtonWidth: CGFloat {
     return clearButtonRect(forBounds: bounds).width
   }
@@ -24,6 +23,7 @@ final class ASUnderBarTextField: UITextField {
     let label = UILabel()
     label.font = .pretendard(.body4)
     label.textColor = .disable
+    label.isHidden = true
     return label
   }()
   
@@ -34,7 +34,6 @@ final class ASUnderBarTextField: UITextField {
         return
       }
       
-      textCountLabel.isHidden = false
       configureTextCount(0)
     }
   }
@@ -45,6 +44,10 @@ final class ASUnderBarTextField: UITextField {
     }
     
     set {
+      guard newValue != false || maxTextCount != 0 else {
+        return
+      }
+      
       textCountLabel.isHidden = newValue
     }
   }
@@ -62,7 +65,17 @@ final class ASUnderBarTextField: UITextField {
   
   // MARK: - override
   override func editingRect(forBounds bounds: CGRect) -> CGRect {
-    return bounds
+    var editingRect = super.editingRect(forBounds: bounds)
+    editingRect.size.width -= (textCountLabel.frame.width + 10)
+    
+    return editingRect
+  }
+  
+  override func textRect(forBounds bounds: CGRect) -> CGRect {
+    var textRect = super.textRect(forBounds: bounds)
+    textRect.size.width -= (textCountLabel.frame.width + 10)
+    
+    return textRect
   }
   
   // MARK: - private method
@@ -114,7 +127,7 @@ final class ASUnderBarTextField: UITextField {
     
     textCountLabel.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      textCountLabelTrailingConstraint = $0.trailing.equalToSuperview().offset(-8).constraint
+      $0.trailing.equalToSuperview().offset(-8)
     }
   }
 }
