@@ -41,12 +41,16 @@ public final class ASUnderBarTextFieldView: UIStackView {
   }()
   
   // MARK: - Public
+  /// 입력값이 올바른지를 나타낼 때 사용합니다.
+  ///
+  /// 기본 값은 false 입니다. Bool값에 따라 underBar와 descriptionText의 색이 변경됩니다.
   public var isInputNegative: Bool = false {
     didSet {
       setNeedsDisplay()
     }
   }
   
+  /// TextField의 text가 없는 경우 나타나는 placeHolder입니다.
   public var placeHolder: String? {
     get {
       textField.placeholder
@@ -57,6 +61,7 @@ public final class ASUnderBarTextFieldView: UIStackView {
     }
   }
   
+  /// TextField의 상단에 나타나는 title의 text입니다.
   public var titleText: String? {
     get {
       titleLabel.text
@@ -73,6 +78,7 @@ public final class ASUnderBarTextFieldView: UIStackView {
     }
   }
   
+  /// TextField의 하단에 나타나는 text입니다.
   public var descriptionText: String? {
     get {
       descriptionLabel.text
@@ -89,6 +95,9 @@ public final class ASUnderBarTextFieldView: UIStackView {
     }
   }
   
+  /// TextField에 입력되는 최대 text 개수입니다.
+  ///
+  /// 기본값은 0입니다. 0인 경우 text의 개수 제한이 없습니다.
   public var maxTextCount: Int {
     get {
       textField.maxTextCount
@@ -99,6 +108,7 @@ public final class ASUnderBarTextFieldView: UIStackView {
     }
   }
   
+  /// TextField에 입력된 text 입니다.
   public var text: String? {
     get {
       textField.text
@@ -109,6 +119,9 @@ public final class ASUnderBarTextFieldView: UIStackView {
     }
   }
   
+  /// TextField에 text 개수와 maxText 개수를 나타내는 label의 표시 유무를 나타낼 때 사용합니다.
+  ///
+  /// 기본값은 true 입니다.
   public var isTextCountLabelHidden: Bool {
     get {
       textField.isTextCountLabelHidden
