@@ -12,7 +12,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-public final class ASUnderBarTextFieldView: UIStackView {
+public final class ASUnderBarTextFieldView: UIView {
   private let disposeBag = DisposeBag()
   
   // MARK: - Components
@@ -38,6 +38,14 @@ public final class ASUnderBarTextFieldView: UIStackView {
     view.backgroundColor = .black
     view.layer.cornerRadius = 3
     return view
+  }()
+  private let stackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .vertical
+    stackView.alignment = .fill
+    stackView.distribution = .fill
+    stackView.spacing = 8
+    return stackView
   }()
   
   // MARK: - Public
@@ -138,7 +146,6 @@ public final class ASUnderBarTextFieldView: UIStackView {
   // MARK: - init
   public init() {
     super.init(frame: .zero)
-    configureStackView()
     configureSubview()
     bind()
   }
@@ -154,23 +161,20 @@ public final class ASUnderBarTextFieldView: UIStackView {
   }
   
   // MARK: - private method
-  private func configureStackView() {
-    axis = .vertical
-    alignment = .fill
-    distribution = .fill
-    spacing = 8
-  }
-  
   private func configureSubview() {
+    addSubview(stackView)
+    stackView.snp.makeConstraints {
+      $0.top.leading.trailing.bottom.equalToSuperview()
+    }
+    
     [
       titleLabel,
       textField,
       underBar,
       descriptionLabel
     ].forEach {
-      addArrangedSubview($0)
+      stackView.addArrangedSubview($0)
     }
-    
     underBar.snp.makeConstraints {
       $0.height.equalTo(2)
     }
