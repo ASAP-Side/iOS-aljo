@@ -14,7 +14,6 @@ import SnapKit
 
 final class ASUnderBarTextField: UITextField {
   enum Constant {
-    static let noLimitCount: Int = 0
     static let rightViewOffset: CGFloat = 8
   }
   
@@ -38,13 +37,11 @@ final class ASUnderBarTextField: UITextField {
   }()
   
   // MARK: - public
-  var maxTextCount: Int = 0 {
+  var maxTextCount: TextLimit = .unLimit {
     didSet {
-      guard maxTextCount > Constant.noLimitCount else {
-        return
+      if case .limit = maxTextCount {
+        configureTextCount(.zero)
       }
-      
-      configureTextCount(Constant.noLimitCount)
     }
   }
   
@@ -54,7 +51,8 @@ final class ASUnderBarTextField: UITextField {
     }
     
     set {
-      guard newValue != false || maxTextCount != Constant.noLimitCount else {
+      if case .limit = maxTextCount {
+        textCountLabel.isHidden = newValue
         return
       }
       
@@ -104,11 +102,11 @@ final class ASUnderBarTextField: UITextField {
           return newValue
         }
         
-        guard self.maxTextCount != Constant.noLimitCount else {
-          return newValue
+        if case let .limit(count) = maxTextCount {
+            return count >= newValue.count ? newValue : oldValue
         }
         
-        return self.maxTextCount >= newValue.count ? newValue : oldValue
+        return newValue
       })
       .subscribe(onNext: { [weak self] text in
         guard let self = self else {

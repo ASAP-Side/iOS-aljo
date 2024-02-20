@@ -98,10 +98,10 @@ public final class ASUnderBarTextFieldView: UIStackView {
     }
   }
   
-  /// TextField에 입력되는 최대 text 개수입니다.
+  /// TextField에 입력 Text 제한사항입니다.
   ///
-  /// 기본값은 0입니다. 0인 경우 text의 개수 제한이 없습니다.
-  public var maxTextCount: Int {
+  /// 기본값은 .unLimit 입니다.
+  public var maxTextCount: TextLimit {
     get {
       textField.maxTextCount
     }
