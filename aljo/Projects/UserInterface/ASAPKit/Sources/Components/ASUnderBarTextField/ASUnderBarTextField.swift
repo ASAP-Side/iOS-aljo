@@ -46,10 +46,7 @@ final class ASUnderBarTextField: UITextField {
   }
   
   var isTextCountLabelHidden: Bool {
-    get {
-      textCountLabel.isHidden
-    }
-    
+    get { textCountLabel.isHidden }
     set {
       if case .limit = maxTextCount {
         textCountLabel.isHidden = newValue

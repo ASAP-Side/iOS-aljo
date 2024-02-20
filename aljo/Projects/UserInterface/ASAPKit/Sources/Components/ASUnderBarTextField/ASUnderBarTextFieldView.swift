@@ -60,10 +60,7 @@ public final class ASUnderBarTextFieldView: UIView {
   
   /// TextField의 text가 없는 경우 나타나는 placeHolder입니다.
   public var placeHolder: String? {
-    get {
-      textField.placeholder
-    }
-    
+    get { textField.placeholder}
     set {
       textField.attributedPlaceholder = NSAttributedString(
         string: newValue ?? "",
@@ -74,10 +71,7 @@ public final class ASUnderBarTextFieldView: UIView {
   
   /// TextField의 상단에 나타나는 title의 text입니다.
   public var titleText: String? {
-    get {
-      titleLabel.text
-    }
-    
+    get { titleLabel.text}
     set {
       titleLabel.text = newValue
       
@@ -91,10 +85,7 @@ public final class ASUnderBarTextFieldView: UIView {
   
   /// TextField의 하단에 나타나는 text입니다.
   public var descriptionText: String? {
-    get {
-      descriptionLabel.text
-    }
-    
+    get { descriptionLabel.text }
     set {
       descriptionLabel.text = newValue
       
@@ -110,24 +101,14 @@ public final class ASUnderBarTextFieldView: UIView {
   ///
   /// 기본값은 .unLimit 입니다.
   public var maxTextCount: TextLimit {
-    get {
-      textField.maxTextCount
-    }
-    
-    set {
-      textField.maxTextCount = newValue
-    }
+    get { textField.maxTextCount }
+    set { textField.maxTextCount = newValue }
   }
   
   /// TextField에 입력된 text 입니다.
   public var text: String? {
-    get {
-      textField.text
-    }
-    
-    set {
-      textField.text = newValue
-    }
+    get { textField.text }
+    set { textField.text = newValue }
   }
   
   /// TextField에 text 개수와 maxText 개수를 나타내는 label의 표시 유무를 나타낼 때 사용합니다.

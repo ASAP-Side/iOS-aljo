@@ -17,10 +17,7 @@ public final class ASBorderHighlightTextField: UITextField {
   
   // MARK: - public
   public override var placeholder: String? {
-    get {
-      super.placeholder
-    }
-    
+    get { super.placeholder }
     set {
       attributedPlaceholder = NSAttributedString(
         string: newValue ?? "",
