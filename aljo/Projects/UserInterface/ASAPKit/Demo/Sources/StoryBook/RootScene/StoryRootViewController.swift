@@ -17,6 +17,8 @@ class StoryRootViewController: UIViewController {
     return tableView
   }()
   
+  private let textView: ASTextView = ASTextView()
+  
   private let items: [DemoCategory: [Any]] = DemoCategory.allCaseDictionary
   
   override func viewDidLoad() {
@@ -95,15 +97,15 @@ private extension StoryRootViewController {
   }
   
   func configureHierarchy() {
-    view.addSubview(tableView)
+//    view.addSubview(tableView)
+    view.addSubview(textView)
   }
   
   func makeConstraints() {
-    NSLayoutConstraint.activate([
-      tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-      tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-      tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-    ])
+    textView.snp.makeConstraints {
+      $0.horizontalEdges.equalToSuperview().inset(16)
+      $0.top.equalToSuperview().offset(16)
+      $0.height.equalTo(128)
+    }
   }
 }
