@@ -56,14 +56,7 @@ extension NSMutableAttributedString {
   }
 }
 
-
-/*
- ASTextView
- - borderColor : Border의 색상을 조절
- - font : Font를 조절
- - shouldShowCount : 글자 수 세기가 필요한가?
- - placeholder: 플레이스 홀더
- */
+/// 여러줄의 글자를 입력할 수 있는 ASAP 팀만의 TextView입니다.
 public class ASTextView: UIView {
   // MARK: View Properties
   private let textView: UITextView = {
@@ -81,6 +74,7 @@ public class ASTextView: UIView {
   }()
   
   // MARK: Public Properties
+  /// 태두리 색상을 결정합니다.
   public var borderColor: UIColor? {
     get {
       guard let color = layer.borderColor else { return nil }
@@ -91,6 +85,7 @@ public class ASTextView: UIView {
     }
   }
   
+  /// 본문의 폰트를 결정합니다.
   public var font: UIFont? {
     get {
       return textView.font
@@ -100,6 +95,7 @@ public class ASTextView: UIView {
     }
   }
   
+  /// 본문에 작성된 글자의 세수를 세주는 뷰에 대해서 숨기는 여부를 결정합니다.
   public var isShowCount: Bool {
     get {
       return countLabel.isHidden
@@ -114,7 +110,11 @@ public class ASTextView: UIView {
   
   private var disposeBag = DisposeBag()
   
-  public convenience init(placeholder: String, maxLength: Int) {
+  /// 생성자입니다. 다른 방법으로 타입을 생성하지 마십시오.
+  /// - Parameters:
+  ///   - placeholder: 본문이 비어있는 경우 표시될 글귀입니다. 기본값으로 제공되는 빈문자열을 통해서 생성하게 되면, 보여지지 않습니다.
+  ///   - maxLength: 본문에 들어갈 수 있는 최대 글자수를 지정합니다. 0 이하의 수를 통해서 생성하게 되면, 최대 글자수가 1이 됩니다.
+  public convenience init(placeholder: String = "", maxLength: Int = .zero) {
     self.init(frame: .zero)
     
     self.placeholder = placeholder
