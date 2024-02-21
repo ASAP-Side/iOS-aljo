@@ -18,7 +18,7 @@ class StoryRootViewController: UIViewController {
   }()
   
   private let textView: ASTextView = {
-    let textView = ASTextView()
+    let textView = ASTextView(placeholder: "내용을 입력해주세요.")
     textView.borderColor = .title
     textView.font = .pretendard(.headLine3)
     textView.isShowCount = true
@@ -34,6 +34,13 @@ class StoryRootViewController: UIViewController {
     
     tableView.delegate = self
     tableView.dataSource = self
+    
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapView))
+    view.addGestureRecognizer(tap)
+  }
+  
+  @objc func didTapView() {
+    self.textView.endEditing(true)
   }
 }
 

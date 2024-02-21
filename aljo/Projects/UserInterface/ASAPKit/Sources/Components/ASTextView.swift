@@ -66,7 +66,12 @@ extension NSMutableAttributedString {
  */
 public class ASTextView: UIView {
   // MARK: View Properties
-  private let textView: UITextView = UITextView()
+  private let textView: UITextView = {
+    let textView = UITextView()
+    textView.textColor = .disable
+    return textView
+  }()
+  
   private let countLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.caption3)
@@ -103,13 +108,17 @@ public class ASTextView: UIView {
       countLabel.isHidden = (newValue == false)
     }
   }
+  
+  private var placeholder: String = ""
+  
   private var disposeBag = DisposeBag()
   
-  public convenience init() {
+  public convenience init(placeholder: String) {
     self.init(frame: .zero)
     
+    self.placeholder = placeholder
+    textView.text = placeholder
     textView.font = .pretendard(.body3)
-    textView.contentInset = UIEdgeInsets(top: 13, left: 16, bottom: 13, right: 16)
     
     layer.borderWidth = 1
     layer.cornerRadius = 6
@@ -123,8 +132,29 @@ public class ASTextView: UIView {
       .disposed(by: disposeBag)
     
     textView.rx.text.orEmpty.changed
+      .filter { $0 != self.placeholder }
       .map(\.count).map(\.description)
       .bind(to: countLabel.rx.text)
+      .disposed(by: disposeBag)
+    
+    textView.rx.didEndEditing
+      .map { _ in self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+      .bind { isEmpty in
+        if isEmpty {
+          self.countLabel.text = "0"
+          self.textView.text = self.placeholder
+          self.textView.textColor = .disable
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    textView.rx.didBeginEditing
+      .map { self.textView.text == self.placeholder }
+      .filter { $0 }
+      .bind { _ in
+        self.textView.text = nil
+        self.textView.textColor = .title
+      }
       .disposed(by: disposeBag)
   }
 }
@@ -143,13 +173,16 @@ private extension ASTextView {
       addSubview(textView)
       
       textView.snp.makeConstraints {
-        $0.edges.equalToSuperview()
+        $0.verticalEdges.equalToSuperview().inset(13)
+        $0.horizontalEdges.equalToSuperview().inset(16)
       }
     } else {
       [textView, countLabel].forEach(addSubview)
       
       textView.snp.makeConstraints {
-        $0.top.horizontalEdges.equalToSuperview()
+        $0.top.equalToSuperview().inset(13)
+        $0.horizontalEdges.equalToSuperview().inset(16)
+        $0.bottom.equalToSuperview().offset(-40)
       }
       
       countLabel.snp.makeConstraints {
