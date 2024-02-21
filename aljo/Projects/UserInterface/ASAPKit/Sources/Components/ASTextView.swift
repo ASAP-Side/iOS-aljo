@@ -56,9 +56,17 @@ extension NSMutableAttributedString {
   }
 }
 
+
+/*
+ ASTextView
+ - borderColor : Border의 색상을 조절
+ - font : Font를 조절
+ - shouldShowCount : 글자 수 세기가 필요한가?
+ - placeholder: 플레이스 홀더
+ 
+ */
 public class ASTextView: UIView {
-  private var shouldShowTextCount: Bool = false
-  
+  // MARK: View Properties
   private let textView: UITextView = UITextView()
   private let countLabel: UILabel = {
     let label = UILabel()
@@ -67,11 +75,19 @@ public class ASTextView: UIView {
     return label
   }()
   
-  private var disposeBag = DisposeBag()
+  // MARK: Public Properties
+  public var borderColor: UIColor? {
+    get {
+      guard let color = layer.borderColor else { return nil }
+      return UIColor(cgColor: color)
+    }
+    set {
+      self.layer.borderColor = newValue?.cgColor
+    }
+  }
   
-  public init(shouldShow: Bool) {
-    self.shouldShowTextCount = shouldShow
-    super.init(frame: .zero)
+  convenience init() {
+    self.init(frame: .zero)
     
     textView.font = .pretendard(.body3)
     textView.contentInset = UIEdgeInsets(top: 13, left: 16, bottom: 13, right: 16)
@@ -83,22 +99,13 @@ public class ASTextView: UIView {
     layer.cornerRadius = 6
   }
   
-  @available(*, unavailable, message: "스토리보드로 생성할 수 없습니다.")
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
-  
-  private func configureUI() {
-    if shouldShowTextCount == false {
-      addSubview(textView)
-      
-      textView.snp.makeConstraints {
-        $0.edges.equalToSuperview()
-      }
-      
-      return
-    }
+  func binding() {
     
+  }
+}
+
+private extension ASTextView {
+  func configureUI() {
     [textView, countLabel].forEach(addSubview)
     
     textView.snp.makeConstraints {

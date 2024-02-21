@@ -17,7 +17,7 @@ class StoryRootViewController: UIViewController {
     return tableView
   }()
   
-  private let textView: ASTextView = ASTextView()
+  private let textView: ASTextView = ASTextView(shouldShow: true)
   
   private let items: [DemoCategory: [Any]] = DemoCategory.allCaseDictionary
   
