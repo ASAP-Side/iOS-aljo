@@ -110,32 +110,40 @@ public class ASTextView: UIView {
   }
   
   private var placeholder: String = ""
+  private var maxLength: Int = 1
   
   private var disposeBag = DisposeBag()
   
-  public convenience init(placeholder: String) {
+  public convenience init(placeholder: String, maxLength: Int) {
     self.init(frame: .zero)
     
     self.placeholder = placeholder
-    textView.text = placeholder
-    textView.font = .pretendard(.body3)
+    self.maxLength = (maxLength == .zero) ? 1 : maxLength
     
-    layer.borderWidth = 1
-    layer.cornerRadius = 6
-    
+    setUpSubViews()
     binding()
   }
-  
+}
+
+// MARK: Binding Methods
+private extension ASTextView {
   func binding() {
     countLabel.rx.observe(\.isHidden, options: [.initial, .new])
       .bind(onNext: configureUI)
       .disposed(by: disposeBag)
     
-    textView.rx.text.orEmpty.changed
-      .filter { $0 != self.placeholder }
-      .map(\.count).map(\.description)
-      .bind(to: countLabel.rx.text)
+    let textChangedEvent = textView.rx.text.orEmpty.changed.filter { $0 != self.placeholder }
+    
+    textChangedEvent.map(\.count)
+      .bind(onNext: updateCountText)
       .disposed(by: disposeBag)
+    
+    textChangedEvent.scan("") { prev, new in
+      if new.count > self.maxLength { return prev }
+      return new
+    }
+    .bind(to: textView.rx.text)
+    .disposed(by: disposeBag)
     
     textView.rx.didEndEditing
       .map { _ in self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
@@ -152,8 +160,15 @@ public class ASTextView: UIView {
 }
 
 private extension ASTextView {
+  func updateCountText(_ currentLength: Int) {
+    countLabel.attributedText = "\(currentLength) / \(maxLength)"
+      .toAttributedString(with: .caption3) { $0.alignment = .right }
+      .color(.disable, of: "/ \(maxLength)")
+      .color(.title, of: "\(currentLength) ")
+  }
+  
   func updateTextWhenEditingEnd(_ isEmpty: Bool) {
-    self.countLabel.text = "0"
+    updateCountText(.zero)
     self.textView.text = self.placeholder
     self.textView.textColor = .disable
   }
@@ -196,5 +211,14 @@ private extension ASTextView {
         $0.bottom.equalToSuperview().offset(-10)
       }
     }
+  }
+  
+  func setUpSubViews() {
+    textView.text = placeholder
+    textView.font = .pretendard(.body3)
+    updateCountText(.zero)
+    
+    layer.borderWidth = 1
+    layer.cornerRadius = 6
   }
 }

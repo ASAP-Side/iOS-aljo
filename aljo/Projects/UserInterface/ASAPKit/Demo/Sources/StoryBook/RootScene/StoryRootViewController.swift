@@ -18,7 +18,7 @@ class StoryRootViewController: UIViewController {
   }()
   
   private let textView: ASTextView = {
-    let textView = ASTextView(placeholder: "내용을 입력해주세요.")
+    let textView = ASTextView(placeholder: "내용을 입력해주세요.", maxLength: 10)
     textView.borderColor = .title
     textView.font = .pretendard(.headLine3)
     textView.isShowCount = true
