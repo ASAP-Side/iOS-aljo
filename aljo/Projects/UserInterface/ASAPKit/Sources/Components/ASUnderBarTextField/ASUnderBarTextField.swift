@@ -1,5 +1,5 @@
 //
-//  ASUnderBarTextField.swift
+//  ASUnderBarTextFieldView.swift
 //  ASAPKit
 //
 //  Created by 이태영 on 2/18/24.
@@ -12,164 +12,172 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-final class ASUnderBarTextField: UITextField {
-  enum Constant {
-    static let rightViewOffset: CGFloat = 8
-  }
-  
+public final class ASUnderBarTextField: UIView {
   private let disposeBag = DisposeBag()
-  private var clearButtonWidth: CGFloat {
-    return rightViewRect(forBounds: bounds).width + Constant.rightViewOffset
-  }
   
-  // MARK: - components
-  private let textCountLabel: UILabel = {
+  // MARK: - Components
+  let textField: CountTextField = {
+    let textField = CountTextField()
+    textField.font = .pretendard(.body1)
+    textField.rightViewMode = .whileEditing
+    textField.textColor = .title
+    return textField
+  }()
+  private let titleLabel: UILabel = {
     let label = UILabel()
-    label.font = .pretendard(.body4)
-    label.textColor = .disable
-    label.isHidden = true
+    label.font = .pretendard(.caption2)
     return label
   }()
-  private let clearButton: UIButton = {
-    let button = UIButton()
-    button.setImage(.Icon.xmark_circle, for: .normal)
-    return button
+  private let descriptionLabel: UILabel = {
+    let label = UILabel()
+    label.font = .pretendard(.caption2)
+    return label
+  }()
+  private let underBar: UIView = {
+    let view = UIView()
+    view.backgroundColor = .black
+    view.layer.cornerRadius = 3
+    return view
+  }()
+  private let stackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .vertical
+    stackView.alignment = .fill
+    stackView.distribution = .fill
+    stackView.spacing = 8
+    return stackView
   }()
   
-  // MARK: - public
-  var maxTextCount: TextLimit = .unLimit {
+  // MARK: - Public
+  /// 입력값이 올바른지를 나타낼 때 사용합니다.
+  ///
+  /// 기본 값은 false 입니다. Bool값에 따라 underBar와 descriptionText의 색이 변경됩니다.
+  public var isInputNegative: Bool = false {
     didSet {
-      if case .limit = maxTextCount {
-        configureTextCount(.zero)
-      }
+      setNeedsDisplay()
     }
   }
   
-  var isTextCountLabelHidden: Bool {
-    get { textCountLabel.isHidden }
+  /// TextField의 text가 없는 경우 나타나는 placeHolder입니다.
+  public var placeHolder: String? {
+    get { textField.placeholder }
     set {
-      if case .limit = maxTextCount {
-        textCountLabel.isHidden = newValue
-        return
-      }
-      
-      textCountLabel.isHidden = newValue
+      textField.attributedPlaceholder = NSAttributedString(
+        string: newValue ?? "",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.disable]
+      )
     }
   }
   
-  // MARK: - initializer
-  init() {
+  /// TextField의 상단에 나타나는 title의 text입니다.
+  public var titleText: String? {
+    get { titleLabel.text }
+    set {
+      titleLabel.text = newValue
+      titleLabel.isHidden = newValue == nil
+    }
+  }
+  
+  /// TextField의 하단에 나타나는 text입니다.
+  public var descriptionText: String? {
+    get { descriptionLabel.text }
+    set {
+      descriptionLabel.text = newValue
+      descriptionLabel.isHidden = newValue == nil
+    }
+  }
+  
+  /// TextField에 입력 Text 제한사항입니다.
+  ///
+  /// 기본값은 .unLimit 입니다.
+  public var maxTextCount: TextLimit {
+    get { textField.maxTextCount }
+    set { textField.maxTextCount = newValue }
+  }
+  
+  /// TextField에 입력된 text 입니다.
+  public var text: String? {
+    get { textField.text }
+    set { textField.text = newValue }
+  }
+  
+  /// TextField에 text 개수와 maxText 개수를 나타내는 label의 표시 유무를 나타낼 때 사용합니다.
+  ///
+  /// 기본값은 true 입니다.
+  public var isTextCountLabelHidden: Bool {
+    get {
+      textField.isTextCountLabelHidden
+    }
+    
+    set {
+      textField.isTextCountLabelHidden = newValue
+    }
+  }
+  
+  // MARK: - init
+  public init() {
     super.init(frame: .zero)
     configureSubview()
     bind()
   }
   
-  required init?(coder: NSCoder) {
+  required init(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
   // MARK: - override
-  override func editingRect(forBounds bounds: CGRect) -> CGRect {
-    var editingRect = super.editingRect(forBounds: bounds)
-    editingRect.size.width -= Constant.rightViewOffset
-    
-    if textCountLabel.isHidden == false {
-      editingRect.size.width -= (textCountLabel.frame.width + Constant.rightViewOffset)
-    }
-    
-    return editingRect
-  }
-  
-  override func textRect(forBounds bounds: CGRect) -> CGRect {
-    var textRect = super.textRect(forBounds: bounds)
-    textRect.size.width -= Constant.rightViewOffset
-    
-    if textCountLabel.isHidden == false {
-      textRect.size.width -= (textCountLabel.frame.width + Constant.rightViewOffset)
-    }
-    
-    return textRect
+  public override func draw(_ rect: CGRect) {
+    super.draw(rect)
+    configureState()
   }
   
   // MARK: - private method
-  private func bind() {
-    rx.text.orEmpty
-      .scan("", accumulator: { [weak self] oldValue, newValue in
-        guard let self = self else {
-          return newValue
-        }
-        
-        if case let .limit(count) = maxTextCount {
-            return count >= newValue.count ? newValue : oldValue
-        }
-        
-        return newValue
-      })
-      .subscribe(with: self, onNext: { object, text in
-        object.configureTextCount(text.count)
-        object.text = text
-        
-        if text.isEmpty == true {
-          object.rightViewMode = .never
-          object.updateTextCountLabelOffset(-Constant.rightViewOffset)
-        } else if text.count == 1 {
-          object.updateTextCountLabelOffset((-self.clearButtonWidth))
-          object.rightViewMode = .whileEditing
-        }
-      })
-      .disposed(by: disposeBag)
+  private func configureSubview() {
+    addSubview(stackView)
+    stackView.snp.makeConstraints {
+      $0.top.leading.trailing.bottom.equalToSuperview()
+    }
     
-    rx.controlEvent(.editingDidBegin)
-      .subscribe(with: self, onNext: { object, _ in
-        if object.text?.isEmpty == true {
-          object.rightViewMode = .never
-        } else {
-          object.updateTextCountLabelOffset((-self.clearButtonWidth))
-        }
-      })
-      .disposed(by: disposeBag)
+    [
+      titleLabel,
+      textField,
+      underBar,
+      descriptionLabel
+    ].forEach {
+      stackView.addArrangedSubview($0)
+    }
+    underBar.snp.makeConstraints {
+      $0.height.equalTo(2)
+    }
     
-    rx.controlEvent(.editingDidEnd)
-      .subscribe(with: self, onNext: { object, _ in
-        object.updateTextCountLabelOffset(-Constant.rightViewOffset)
-        object.rightViewMode = .never
-      })
-      .disposed(by: disposeBag)
-    
-    clearButton.rx.tap
-      .subscribe(with: self, onNext: { object, _ in
-        object.text = nil
-        object.rightViewMode = .never
-        object.updateTextCountLabelOffset(-Constant.rightViewOffset)
-      })
-      .disposed(by: disposeBag)
+    titleText = nil
+    descriptionText = nil
   }
   
-  private func configureTextCount(_ textCount: Int) {
-    textCountLabel.text = "\(textCount)/\(maxTextCount)"
-  }
-  
-  private func updateTextCountLabelOffset(_ offset: CGFloat) {
-    guard textCountLabel.isHidden == false else {
+  private func configureState() {
+    if textField.isFirstResponder == false {
+      underBar.backgroundColor = .gray01
+      descriptionLabel.textColor = .disable
       return
     }
     
-    self.textCountLabel.snp.updateConstraints {
-      $0.trailing.equalToSuperview().inset(-offset)
-    }
-    
-    UIView.animate(withDuration: 0.07) {
-      self.layoutIfNeeded()
+    if isInputNegative == true {
+      underBar.backgroundColor = .redColor
+      descriptionLabel.textColor = .redColor
+    } else {
+      underBar.backgroundColor = .body01
+      descriptionLabel.textColor = .body02
     }
   }
   
-  private func configureSubview() {
-    addSubview(textCountLabel)
-    rightView = clearButton
+  private func bind() {
+    let endEditing = textField.rx.controlEvent(.editingDidEnd)
+    let beginEditing = textField.rx.controlEvent(.editingDidBegin)
     
-    textCountLabel.snp.makeConstraints {
-      $0.centerY.equalToSuperview()
-      $0.trailing.equalToSuperview().offset(-Constant.rightViewOffset)
-    }
+    Observable.merge(endEditing.asObservable(), beginEditing.asObservable())
+      .subscribe(with: self, onNext: { object, _ in
+        object.configureState()
+      })
+      .disposed(by: disposeBag)
   }
 }

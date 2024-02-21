@@ -1,5 +1,5 @@
 //
-//  ASUnderBarTextFieldView+Rx.swift
+//  ASUnderBarTextField+Rx+Rx.swift
 //  ASAPKit
 //
 //  Created by 이태영 on 2/19/24.
@@ -9,7 +9,7 @@
 import RxCocoa
 import RxSwift
 
-extension Reactive where Base: ASUnderBarTextFieldView {
+extension Reactive where Base: ASUnderBarTextField {
   var text: ControlProperty<String?> {
     return base.textField.rx.text
   }
