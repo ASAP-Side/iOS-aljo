@@ -58,7 +58,7 @@ extension NSMutableAttributedString {
 
 /// 여러줄의 글자를 입력할 수 있는 ASAP 팀만의 TextView입니다.
 public class ASTextView: UIView {
-  // MARK: View Properties
+  // MARK: VIEW PROPERTIES
   private let textView: UITextView = {
     let textView = UITextView()
     textView.textColor = .disable
@@ -73,7 +73,7 @@ public class ASTextView: UIView {
     return label
   }()
   
-  // MARK: Public Properties
+  // MARK: PROPERTIES
   /// 태두리 색상을 결정합니다.
   public var borderColor: UIColor? {
     get {
@@ -107,9 +107,9 @@ public class ASTextView: UIView {
   
   private var placeholder: String = ""
   private var maxLength: Int = 1
-  
   private var disposeBag = DisposeBag()
   
+  // MARK: - INITIALIZER
   /// 생성자입니다. 다른 방법으로 타입을 생성하지 마십시오.
   /// - Parameters:
   ///   - placeholder: 본문이 비어있는 경우 표시될 글귀입니다. 기본값으로 제공되는 빈문자열을 통해서 생성하게 되면, 보여지지 않습니다.
@@ -125,7 +125,7 @@ public class ASTextView: UIView {
   }
 }
 
-// MARK: Binding Methods
+// MARK: BINDING METHODS
 private extension ASTextView {
   func binding() {
     countLabel.rx.observe(\.isHidden, options: [.initial, .new])
@@ -156,6 +156,7 @@ private extension ASTextView {
   }
 }
 
+// MARK: VIEW ACTION METHODS
 private extension ASTextView {
   func updateCountText(_ currentLength: Int) {
     countLabel.attributedText = "\(currentLength) / \(maxLength)"
@@ -176,37 +177,41 @@ private extension ASTextView {
   }
 }
 
+// MARK: CONFIGURE UI METHODS
 private extension ASTextView {
   func configureUI(isShowCount: Bool) {
-    if subviews.contains(textView) {
-      textView.removeFromSuperview()
-    }
-    
-    if subviews.contains(countLabel) {
-      countLabel.removeFromSuperview()
-    }
+    subviews.forEach { $0.removeFromSuperview() }
     
     if isShowCount {
-      addSubview(textView)
-      
-      textView.snp.makeConstraints {
-        $0.verticalEdges.equalToSuperview().inset(13)
-        $0.horizontalEdges.equalToSuperview().inset(16)
-      }
-    } else {
-      [textView, countLabel].forEach(addSubview)
-      
-      textView.snp.makeConstraints {
-        $0.top.equalToSuperview().inset(13)
-        $0.horizontalEdges.equalToSuperview().inset(16)
-        $0.bottom.equalToSuperview().offset(-40)
-      }
-      
-      countLabel.snp.makeConstraints {
-        $0.top.equalTo(textView.snp.bottom).offset(15)
-        $0.horizontalEdges.equalToSuperview().inset(16)
-        $0.bottom.equalToSuperview().offset(-10)
-      }
+      showCountLabelConstraints()
+      return
+    }
+    
+    hideCountLabelCostraints()
+  }
+  
+  func showCountLabelConstraints() {
+    addSubview(textView)
+    
+    textView.snp.makeConstraints {
+      $0.verticalEdges.equalToSuperview().inset(13)
+      $0.horizontalEdges.equalToSuperview().inset(16)
+    }
+  }
+  
+  func hideCountLabelCostraints() {
+    [textView, countLabel].forEach(addSubview)
+    
+    textView.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(13)
+      $0.horizontalEdges.equalToSuperview().inset(16)
+      $0.bottom.equalToSuperview().offset(-40)
+    }
+    
+    countLabel.snp.makeConstraints {
+      $0.top.equalTo(textView.snp.bottom).offset(15)
+      $0.horizontalEdges.equalToSuperview().inset(16)
+      $0.bottom.equalToSuperview().offset(-10)
     }
   }
   
