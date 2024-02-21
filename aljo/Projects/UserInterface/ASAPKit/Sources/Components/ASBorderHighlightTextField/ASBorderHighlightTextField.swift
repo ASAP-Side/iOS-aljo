@@ -55,15 +55,12 @@ public final class ASBorderHighlightTextField: UITextField {
     let endEditing = rx.controlEvent(.editingDidEnd)
     let beginEditing = rx.controlEvent(.editingDidBegin)
     
-    Observable.from([endEditing, beginEditing])
-      .merge()
-      .subscribe(onNext: { [weak self] in
-        if self?.isFirstResponder == true {
-          self?.layer.borderColor = UIColor.title.cgColor
-        } else {
-          self?.layer.borderColor = UIColor.gray02.cgColor
-        }
-      })
+    Observable.merge(endEditing.asObservable(), beginEditing.asObservable())
+      .map { [weak self] _ in
+        self?.isFirstResponder == true ? UIColor.title : UIColor.gray02
+      }
+      .map(\.cgColor)
+      .bind(to: layer.rx.borderColor)
       .disposed(by: disposeBag)
   }
 }

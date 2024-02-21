@@ -105,49 +105,42 @@ final class ASUnderBarTextField: UITextField {
         
         return newValue
       })
-      .subscribe(onNext: { [weak self] text in
-        guard let self = self else {
-          return
-        }
-        self.configureTextCount(text.count)
-        self.text = text
+      .subscribe(with: self, onNext: { object, text in
+        object.configureTextCount(text.count)
+        object.text = text
         
         if text.isEmpty == true {
-          rightViewMode = .never
-          self.updateTextCountLabelOffset(-Constant.rightViewOffset)
+          object.rightViewMode = .never
+          object.updateTextCountLabelOffset(-Constant.rightViewOffset)
         } else if text.count == 1 {
-          self.updateTextCountLabelOffset((-self.clearButtonWidth))
-          rightViewMode = .whileEditing
+          object.updateTextCountLabelOffset((-self.clearButtonWidth))
+          object.rightViewMode = .whileEditing
         }
       })
       .disposed(by: disposeBag)
     
     rx.controlEvent(.editingDidBegin)
-      .subscribe(onNext: { [weak self] _ in
-        guard let self = self else {
-          return
-        }
-        
-        if text?.isEmpty == true {
-          rightViewMode = .never
+      .subscribe(with: self, onNext: { object, _ in
+        if object.text?.isEmpty == true {
+          object.rightViewMode = .never
         } else {
-          self.updateTextCountLabelOffset((-self.clearButtonWidth))
+          object.updateTextCountLabelOffset((-self.clearButtonWidth))
         }
       })
       .disposed(by: disposeBag)
     
     rx.controlEvent(.editingDidEnd)
-      .subscribe(onNext: { [weak self] _ in
-        self?.updateTextCountLabelOffset(-Constant.rightViewOffset)
-        self?.rightViewMode = .never
+      .subscribe(with: self, onNext: { object, _ in
+        object.updateTextCountLabelOffset(-Constant.rightViewOffset)
+        object.rightViewMode = .never
       })
       .disposed(by: disposeBag)
     
     clearButton.rx.tap
-      .subscribe(onNext: { [weak self] in
-        self?.text = nil
-        self?.rightViewMode = .never
-        self?.updateTextCountLabelOffset(-Constant.rightViewOffset)
+      .subscribe(with: self, onNext: { object, _ in
+        object.text = nil
+        object.rightViewMode = .never
+        object.updateTextCountLabelOffset(-Constant.rightViewOffset)
       })
       .disposed(by: disposeBag)
   }

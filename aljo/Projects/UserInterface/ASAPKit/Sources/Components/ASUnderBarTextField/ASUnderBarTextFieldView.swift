@@ -60,7 +60,7 @@ public final class ASUnderBarTextFieldView: UIView {
   
   /// TextField의 text가 없는 경우 나타나는 placeHolder입니다.
   public var placeHolder: String? {
-    get { textField.placeholder}
+    get { textField.placeholder }
     set {
       textField.attributedPlaceholder = NSAttributedString(
         string: newValue ?? "",
@@ -71,15 +71,10 @@ public final class ASUnderBarTextFieldView: UIView {
   
   /// TextField의 상단에 나타나는 title의 text입니다.
   public var titleText: String? {
-    get { titleLabel.text}
+    get { titleLabel.text }
     set {
       titleLabel.text = newValue
-      
-      if newValue == nil {
-        titleLabel.isHidden = true
-      } else {
-        titleLabel.isHidden = false
-      }
+      titleLabel.isHidden = newValue == nil
     }
   }
   
@@ -88,12 +83,7 @@ public final class ASUnderBarTextFieldView: UIView {
     get { descriptionLabel.text }
     set {
       descriptionLabel.text = newValue
-      
-      if newValue == nil {
-        descriptionLabel.isHidden = true
-      } else {
-        descriptionLabel.isHidden = false
-      }
+      descriptionLabel.isHidden = newValue == nil
     }
   }
   
@@ -184,10 +174,9 @@ public final class ASUnderBarTextFieldView: UIView {
     let endEditing = textField.rx.controlEvent(.editingDidEnd)
     let beginEditing = textField.rx.controlEvent(.editingDidBegin)
     
-    Observable.from([endEditing, beginEditing])
-      .merge()
-      .subscribe(onNext: { [weak self] in
-        self?.configureState()
+    Observable.merge(endEditing.asObservable(), beginEditing.asObservable())
+      .subscribe(with: self, onNext: { object, _ in
+        object.configureState()
       })
       .disposed(by: disposeBag)
   }
