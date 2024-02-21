@@ -18,9 +18,10 @@ class StoryRootViewController: UIViewController {
   }()
   
   private let textView: ASTextView = {
-    let textView = ASTextView(isShowCount: false)
+    let textView = ASTextView()
     textView.borderColor = .title
     textView.font = .pretendard(.headLine3)
+    textView.isShowCount = true
     return textView
   }()
   

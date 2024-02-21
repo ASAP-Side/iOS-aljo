@@ -63,7 +63,6 @@ extension NSMutableAttributedString {
  - font : Font를 조절
  - shouldShowCount : 글자 수 세기가 필요한가?
  - placeholder: 플레이스 홀더
- 
  */
 public class ASTextView: UIView {
   // MARK: View Properties
@@ -95,9 +94,17 @@ public class ASTextView: UIView {
     }
   }
   
+  public var isShowCount: Bool {
+    get {
+      return countLabel.isHidden
+    }
+    set {
+      countLabel.isHidden = newValue
+    }
+  }
   private var disposeBag = DisposeBag()
   
-  public convenience init(isShowCount: Bool = true) {
+  public convenience init() {
     self.init(frame: .zero)
     
     textView.font = .pretendard(.body3)
@@ -112,11 +119,23 @@ public class ASTextView: UIView {
   }
   
   func binding() {
+    countLabel.rx.observe(\.isHidden, options: [.initial, .new])
+      .bind(onNext: configureUI)
+      .disposed(by: disposeBag)
+    
   }
 }
 
 private extension ASTextView {
   func configureUI(isShowCount: Bool) {
+    if subviews.contains(textView) {
+      textView.removeFromSuperview()
+    }
+    
+    if subviews.contains(countLabel) {
+      countLabel.removeFromSuperview()
+    }
+    
     if isShowCount {
       [textView, countLabel].forEach(addSubview)
       
