@@ -138,10 +138,7 @@ private extension ASTextView {
       .bind(onNext: updateCountText)
       .disposed(by: disposeBag)
     
-    textChangedEvent.scan("") { prev, new in
-      if new.count > self.maxLength { return prev }
-      return new
-    }
+    textChangedEvent.scan("") { ($1.count > self.maxLength) ? $0 : $1 }
     .bind(to: textView.rx.text)
     .disposed(by: disposeBag)
     
