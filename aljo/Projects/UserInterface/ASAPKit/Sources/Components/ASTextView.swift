@@ -71,6 +71,7 @@ public class ASTextView: UIView {
     let label = UILabel()
     label.font = .pretendard(.caption3)
     label.textAlignment = .right
+    label.textColor = .title
     return label
   }()
   
@@ -99,7 +100,7 @@ public class ASTextView: UIView {
       return countLabel.isHidden
     }
     set {
-      countLabel.isHidden = newValue
+      countLabel.isHidden = (newValue == false)
     }
   }
   private var disposeBag = DisposeBag()
@@ -109,8 +110,6 @@ public class ASTextView: UIView {
     
     textView.font = .pretendard(.body3)
     textView.contentInset = UIEdgeInsets(top: 13, left: 16, bottom: 13, right: 16)
-    
-    configureUI(isShowCount: isShowCount)
     
     layer.borderWidth = 1
     layer.cornerRadius = 6
@@ -123,6 +122,10 @@ public class ASTextView: UIView {
       .bind(onNext: configureUI)
       .disposed(by: disposeBag)
     
+    textView.rx.text.orEmpty.changed
+      .map(\.count).map(\.description)
+      .bind(to: countLabel.rx.text)
+      .disposed(by: disposeBag)
   }
 }
 
@@ -137,6 +140,12 @@ private extension ASTextView {
     }
     
     if isShowCount {
+      addSubview(textView)
+      
+      textView.snp.makeConstraints {
+        $0.edges.equalToSuperview()
+      }
+    } else {
       [textView, countLabel].forEach(addSubview)
       
       textView.snp.makeConstraints {
@@ -147,12 +156,6 @@ private extension ASTextView {
         $0.top.equalTo(textView.snp.bottom).offset(15)
         $0.horizontalEdges.equalToSuperview().inset(16)
         $0.bottom.equalToSuperview().offset(-10)
-      }
-    } else {
-      addSubview(textView)
-      
-      textView.snp.makeConstraints {
-        $0.edges.equalToSuperview()
       }
     }
   }
