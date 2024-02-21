@@ -139,23 +139,28 @@ public class ASTextView: UIView {
     
     textView.rx.didEndEditing
       .map { _ in self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-      .bind { isEmpty in
-        if isEmpty {
-          self.countLabel.text = "0"
-          self.textView.text = self.placeholder
-          self.textView.textColor = .disable
-        }
-      }
+      .filter { $0 }
+      .bind(onNext: updateTextWhenEditingEnd)
       .disposed(by: disposeBag)
     
     textView.rx.didBeginEditing
       .map { self.textView.text == self.placeholder }
       .filter { $0 }
-      .bind { _ in
-        self.textView.text = nil
-        self.textView.textColor = .title
-      }
+      .bind(onNext: updateTextWhenEditingStart)
       .disposed(by: disposeBag)
+  }
+}
+
+private extension ASTextView {
+  func updateTextWhenEditingEnd(_ isEmpty: Bool) {
+    self.countLabel.text = "0"
+    self.textView.text = self.placeholder
+    self.textView.textColor = .disable
+  }
+  
+  func updateTextWhenEditingStart(_ isEqual: Bool) {
+    self.textView.text = nil
+    self.textView.textColor = .title
   }
 }
 
