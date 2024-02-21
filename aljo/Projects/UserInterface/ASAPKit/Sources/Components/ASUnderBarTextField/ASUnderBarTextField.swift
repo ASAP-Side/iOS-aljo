@@ -105,13 +105,8 @@ public final class ASUnderBarTextField: UIView {
   ///
   /// 기본값은 true 입니다.
   public var isTextCountLabelHidden: Bool {
-    get {
-      textField.isTextCountLabelHidden
-    }
-    
-    set {
-      textField.isTextCountLabelHidden = newValue
-    }
+    get { textField.isTextCountLabelHidden }
+    set { textField.isTextCountLabelHidden = newValue }
   }
   
   // MARK: - init

@@ -53,7 +53,7 @@ final class CountTextField: UITextField {
         return
       }
       
-      textCountLabel.isHidden = newValue
+      textCountLabel.isHidden = true
     }
   }
   
