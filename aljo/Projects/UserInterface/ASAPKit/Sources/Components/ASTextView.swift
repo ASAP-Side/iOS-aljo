@@ -95,36 +95,46 @@ public class ASTextView: UIView {
     }
   }
   
-  convenience init() {
+  private var disposeBag = DisposeBag()
+  
+  public convenience init(isShowCount: Bool = true) {
     self.init(frame: .zero)
     
     textView.font = .pretendard(.body3)
     textView.contentInset = UIEdgeInsets(top: 13, left: 16, bottom: 13, right: 16)
     
-    configureUI()
+    configureUI(isShowCount: isShowCount)
     
-    layer.borderColor = UIColor.gray03.cgColor
     layer.borderWidth = 1
     layer.cornerRadius = 6
+    
+    binding()
   }
   
   func binding() {
-    
   }
 }
 
 private extension ASTextView {
-  func configureUI() {
-    [textView, countLabel].forEach(addSubview)
-    
-    textView.snp.makeConstraints {
-      $0.top.horizontalEdges.equalToSuperview()
-    }
-    
-    countLabel.snp.makeConstraints {
-      $0.top.equalTo(textView.snp.bottom).offset(15)
-      $0.horizontalEdges.equalToSuperview().inset(16)
-      $0.bottom.equalToSuperview().offset(-10)
+  func configureUI(isShowCount: Bool) {
+    if isShowCount {
+      [textView, countLabel].forEach(addSubview)
+      
+      textView.snp.makeConstraints {
+        $0.top.horizontalEdges.equalToSuperview()
+      }
+      
+      countLabel.snp.makeConstraints {
+        $0.top.equalTo(textView.snp.bottom).offset(15)
+        $0.horizontalEdges.equalToSuperview().inset(16)
+        $0.bottom.equalToSuperview().offset(-10)
+      }
+    } else {
+      addSubview(textView)
+      
+      textView.snp.makeConstraints {
+        $0.edges.equalToSuperview()
+      }
     }
   }
 }
