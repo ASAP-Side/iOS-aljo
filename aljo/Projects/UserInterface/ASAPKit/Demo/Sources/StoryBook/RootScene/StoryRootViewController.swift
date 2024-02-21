@@ -17,7 +17,12 @@ class StoryRootViewController: UIViewController {
     return tableView
   }()
   
-  private let textView: ASTextView = ASTextView(shouldShow: true)
+  private let textView: ASTextView = {
+    let textView = ASTextView()
+    textView.borderColor = .gray02
+    textView.font = .pretendard(.headLine3)
+    return textView
+  }()
   
   private let items: [DemoCategory: [Any]] = DemoCategory.allCaseDictionary
   

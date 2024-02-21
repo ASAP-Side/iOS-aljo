@@ -86,6 +86,15 @@ public class ASTextView: UIView {
     }
   }
   
+  public var font: UIFont? {
+    get {
+      return textView.font
+    }
+    set {
+      textView.font = newValue
+    }
+  }
+  
   convenience init() {
     self.init(frame: .zero)
     
