@@ -56,6 +56,16 @@ extension NSMutableAttributedString {
   }
 }
 
+extension UIColor {
+  convenience init?(coreColor: CGColor?) {
+    if let coreColor = coreColor {
+      self.init(cgColor: coreColor)
+    }
+    
+    return nil
+  }
+}
+
 /// 여러줄의 글자를 입력할 수 있는 ASAP 팀만의 TextView입니다.
 public class ASTextView: UIView {
   // MARK: VIEW PROPERTIES
@@ -76,33 +86,20 @@ public class ASTextView: UIView {
   // MARK: PROPERTIES
   /// 태두리 색상을 결정합니다.
   public var borderColor: UIColor? {
-    get {
-      guard let color = layer.borderColor else { return nil }
-      return UIColor(cgColor: color)
-    }
-    set {
-      self.layer.borderColor = newValue?.cgColor
-    }
+    get { return UIColor(coreColor: layer.borderColor) }
+    set { self.layer.borderColor = newValue?.cgColor }
   }
   
   /// 본문의 폰트를 결정합니다.
   public var font: UIFont? {
-    get {
-      return textView.font
-    }
-    set {
-      textView.font = newValue
-    }
+    get { return textView.font }
+    set { textView.font = newValue }
   }
   
   /// 본문에 작성된 글자의 세수를 세주는 뷰에 대해서 숨기는 여부를 결정합니다.
   public var isShowCount: Bool {
-    get {
-      return countLabel.isHidden
-    }
-    set {
-      countLabel.isHidden = (newValue == false)
-    }
+    get { return countLabel.isHidden }
+    set { countLabel.isHidden = (newValue == false) }
   }
   
   private var placeholder: String = ""
