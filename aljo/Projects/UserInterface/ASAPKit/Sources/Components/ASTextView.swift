@@ -170,6 +170,8 @@ private extension ASTextView {
   }
   
   func updateTextWhenEditingStart(_ isEqual: Bool) {
+    if isEqual == false { return }
+    
     self.textView.text = nil
     self.textView.textColor = .title
   }
