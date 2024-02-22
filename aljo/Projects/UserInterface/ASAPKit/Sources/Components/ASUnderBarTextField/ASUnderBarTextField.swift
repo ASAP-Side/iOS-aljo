@@ -16,10 +16,9 @@ public final class ASUnderBarTextField: UIView {
   private let disposeBag = DisposeBag()
   
   // MARK: - Components
-  let textField: CountTextField = {
-    let textField = CountTextField()
+  let textField: UITextField = {
+    let textField = UITextField()
     textField.font = .pretendard(.body1)
-    textField.rightViewMode = .whileEditing
     textField.textColor = .title
     return textField
   }()
@@ -39,13 +38,34 @@ public final class ASUnderBarTextField: UIView {
     view.layer.cornerRadius = 3
     return view
   }()
-  private let stackView: UIStackView = {
+  private let totalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .fill
     stackView.distribution = .fill
-    stackView.spacing = 8
     return stackView
+  }()
+  private let textFieldStack: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .horizontal
+    stackView.alignment = .fill
+    stackView.distribution = .fill
+    stackView.spacing = 10
+    stackView.isLayoutMarginsRelativeArrangement = true
+    stackView.layoutMargins = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
+    return stackView
+  }()
+  private let textCountLabel: UILabel = {
+    let label = UILabel()
+    label.font = .pretendard(.body4)
+    label.textColor = .disable
+    label.isHidden = true
+    return label
+  }()
+  private let clearButton: UIButton = {
+    let button = UIButton()
+    button.setImage(.Icon.xmark_circle, for: .normal)
+    return button
   }()
   
   // MARK: - Public
@@ -89,10 +109,11 @@ public final class ASUnderBarTextField: UIView {
   
   /// TextField에 입력 Text 제한사항입니다.
   ///
-  /// 기본값은 .unLimit 입니다.
-  public var maxTextCount: TextLimit {
-    get { textField.maxTextCount }
-    set { textField.maxTextCount = newValue }
+  /// 기본값은 0 입니다. 0은 텍스트 개수에 제한이 없습니다.
+  public var maxTextCount: UInt = 0 {
+    didSet {
+      configureTextCountLabel(.zero)
+    }
   }
   
   /// TextField에 입력된 text 입니다.
@@ -103,10 +124,10 @@ public final class ASUnderBarTextField: UIView {
   
   /// TextField에 text 개수와 maxText 개수를 나타내는 label의 표시 유무를 나타낼 때 사용합니다.
   ///
-  /// 기본값은 true 입니다.
+  /// 기본값은 false 입니다.
   public var isTextCountLabelHidden: Bool {
-    get { textField.isTextCountLabelHidden }
-    set { textField.isTextCountLabelHidden = newValue }
+    get { textCountLabel.isHidden }
+    set { textCountLabel.isHidden = newValue }
   }
   
   // MARK: - init
@@ -128,29 +149,37 @@ public final class ASUnderBarTextField: UIView {
   
   // MARK: - private method
   private func configureSubview() {
-    addSubview(stackView)
-    stackView.snp.makeConstraints {
+    addSubview(totalStackView)
+    totalStackView.snp.makeConstraints {
       $0.top.leading.trailing.bottom.equalToSuperview()
     }
     
+    [textField, textCountLabel, clearButton].forEach {
+      textFieldStack.addArrangedSubview($0)
+    }
+    textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+    textCountLabel.setContentHuggingPriority(.required, for: .horizontal)
+    clearButton.setContentHuggingPriority(.required, for: .horizontal)
+    
     [
       titleLabel,
-      textField,
+      textFieldStack,
       underBar,
       descriptionLabel
     ].forEach {
-      stackView.addArrangedSubview($0)
+      totalStackView.addArrangedSubview($0)
     }
+    
     underBar.snp.makeConstraints {
       $0.height.equalTo(2)
     }
-    
+  
     titleText = nil
     descriptionText = nil
   }
   
   private func configureState() {
-    if textField.isFirstResponder == false {
+    guard textField.isFirstResponder else {
       underBar.backgroundColor = .gray01
       descriptionLabel.textColor = .disable
       return
@@ -170,9 +199,67 @@ public final class ASUnderBarTextField: UIView {
     let beginEditing = textField.rx.controlEvent(.editingDidBegin)
     
     Observable.merge(endEditing.asObservable(), beginEditing.asObservable())
+      .subscribe(onNext: configureState)
+      .disposed(by: disposeBag)
+    
+    let editing = textField.rx.text.orEmpty
+      .scan("", accumulator: { [weak self] oldValue, newValue in
+        guard let self = self else {
+          return newValue
+        }
+        
+        guard self.maxTextCount != 0 else {
+          return newValue
+        }
+        
+        return newValue.count > self.maxTextCount ? oldValue : newValue
+      })
+    
+    editing
+      .bind(to: textField.rx.text)
+      .disposed(by: disposeBag)
+    
+    editing
+      .map(\.count)
+      .subscribe(onNext: configureTextCountLabel)
+      .disposed(by: disposeBag)
+    
+    Observable.merge(
+      beginEditing.asObservable(),
+      editing.map { _ in },
+      endEditing.asObservable()
+    )
+    .withUnretained(self)
+    .compactMap { object, _ in
+      object.textField.text?.isEmpty
+    }
+    .subscribe(onNext: animateClearButtonHidden)
+    .disposed(by: disposeBag)
+    
+    clearButton.rx.tap
       .subscribe(with: self, onNext: { object, _ in
-        object.configureState()
+        object.animateClearButtonHidden(true)
+        object.textField.text = nil
       })
       .disposed(by: disposeBag)
+  }
+  
+  private func configureTextCountLabel(_ textCount: Int) {
+    guard maxTextCount != 0 else {
+      textCountLabel.isHidden = true
+      return
+    }
+    
+    textCountLabel.text = "\(textCount)/\(maxTextCount)"
+  }
+  
+  private func animateClearButtonHidden(_ isHidden: Bool) {
+    guard isHidden != clearButton.isHidden else {
+      return
+    }
+    
+    UIView.animate(withDuration: 0.1) {
+      self.clearButton.isHidden = isHidden
+    }
   }
 }
