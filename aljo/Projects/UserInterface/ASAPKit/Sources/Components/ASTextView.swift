@@ -147,7 +147,6 @@ private extension ASTextView {
     
     textView.rx.didBeginEditing
       .map { self.textView.text == self.placeholder }
-      .filter { $0 }
       .bind(onNext: updateTextWhenEditingStart)
       .disposed(by: disposeBag)
   }
@@ -163,6 +162,8 @@ private extension ASTextView {
   }
   
   func updateTextWhenEditingEnd(_ isEmpty: Bool) {
+    if isEmpty == false { return }
+    
     updateCountText(.zero)
     self.textView.text = self.placeholder
     self.textView.textColor = .disable
