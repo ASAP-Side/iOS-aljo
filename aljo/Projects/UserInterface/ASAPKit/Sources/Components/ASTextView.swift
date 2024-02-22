@@ -136,8 +136,8 @@ private extension ASTextView {
       .disposed(by: disposeBag)
     
     textChangedEvent.scan("") { ($1.count > self.maxLength) ? $0 : $1 }
-    .bind(to: textView.rx.text)
-    .disposed(by: disposeBag)
+      .bind(to: textView.rx.text)
+      .disposed(by: disposeBag)
     
     textView.rx.didEndEditing
       .map { _ in self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
