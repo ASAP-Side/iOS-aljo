@@ -17,14 +17,6 @@ class StoryRootViewController: UIViewController {
     return tableView
   }()
   
-  private let textView: ASTextView = {
-    let textView = ASTextView(placeholder: "내용을 입력해주세요.", maxLength: 10)
-    textView.borderColor = .title
-    textView.font = .pretendard(.headLine3)
-    textView.isShowCount = true
-    return textView
-  }()
-  
   private let items: [DemoCategory: [Any]] = DemoCategory.allCaseDictionary
   
   override func viewDidLoad() {
@@ -34,13 +26,6 @@ class StoryRootViewController: UIViewController {
     
     tableView.delegate = self
     tableView.dataSource = self
-    
-    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapView))
-    view.addGestureRecognizer(tap)
-  }
-  
-  @objc func didTapView() {
-    self.textView.endEditing(true)
   }
 }
 
@@ -110,15 +95,13 @@ private extension StoryRootViewController {
   }
   
   func configureHierarchy() {
-//    view.addSubview(tableView)
-    view.addSubview(textView)
+    view.addSubview(tableView)
   }
   
   func makeConstraints() {
-    textView.snp.makeConstraints {
-      $0.horizontalEdges.equalToSuperview().inset(16)
-      $0.top.equalToSuperview().offset(16)
-      $0.height.equalTo(128)
+    tableView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+      $0.horizontalEdges.bottom.equalToSuperview()
     }
   }
 }
