@@ -65,6 +65,7 @@ public final class ASUnderBarTextField: UIView {
   private let clearButton: UIButton = {
     let button = UIButton()
     button.setImage(.Icon.xmark_circle, for: .normal)
+    button.isHidden = true
     return button
   }()
   
@@ -169,6 +170,9 @@ public final class ASUnderBarTextField: UIView {
     ].forEach {
       totalStackView.addArrangedSubview($0)
     }
+    totalStackView.setCustomSpacing(6, after: titleLabel)
+    totalStackView.setCustomSpacing(4, after: textFieldStack)
+    totalStackView.setCustomSpacing(8, after: underBar)
     
     underBar.snp.makeConstraints {
       $0.height.equalTo(2)
@@ -226,7 +230,7 @@ public final class ASUnderBarTextField: UIView {
     
     Observable.merge(
       beginEditing.asObservable(),
-      editing.map { _ in },
+      editing.map { _ in }.skip(1),
       endEditing.asObservable()
     )
     .withUnretained(self)
@@ -257,9 +261,13 @@ public final class ASUnderBarTextField: UIView {
     guard isHidden != clearButton.isHidden else {
       return
     }
+
+    self.textFieldStack.layoutMargins.right = isHidden ? 10 : 1
+    
+    self.clearButton.isHidden = isHidden
     
     UIView.animate(withDuration: 0.1) {
-      self.clearButton.isHidden = isHidden
+      self.layoutIfNeeded()
     }
   }
 }
