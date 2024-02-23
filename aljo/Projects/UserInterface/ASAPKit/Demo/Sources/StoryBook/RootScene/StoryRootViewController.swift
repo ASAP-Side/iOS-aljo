@@ -17,15 +17,7 @@ class StoryRootViewController: UIViewController {
     return tableView
   }()
   
-  private let textView: ASTextView = {
-    let textView = ASTextView(placeholder: "내용을 입력해주세요.", maxLength: 10)
-    textView.borderColor = .title
-    textView.font = .pretendard(.headLine3)
-    textView.isShowCount = true
-    return textView
-  }()
-  
-  private let items: [DemoCategory: [Any]] = DemoCategory.allCaseDictionary
+  private let items: [DemoCategory: [DemoDetail]] = DemoCategory.allCaseDictionary
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -81,11 +73,7 @@ extension StoryRootViewController: UITableViewDelegate {
     guard let sectionCategory = DemoCategory(rawValue: indexPath.section),
           let item = items[sectionCategory]?[indexPath.row] else { return }
     
-    if let item = item as? SystemConfiguration {
-      let controller = item.instance
-      
-      navigationController?.pushViewController(controller, animated: true)
-    }
+    navigationController?.pushViewController(item.instance, animated: true)
   }
 }
 
@@ -110,15 +98,13 @@ private extension StoryRootViewController {
   }
   
   func configureHierarchy() {
-//    view.addSubview(tableView)
-    view.addSubview(textView)
+     view.addSubview(tableView)
   }
   
   func makeConstraints() {
-    textView.snp.makeConstraints {
-      $0.horizontalEdges.equalToSuperview().inset(16)
-      $0.top.equalToSuperview().offset(16)
-      $0.height.equalTo(128)
+    tableView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+      $0.horizontalEdges.bottom.equalToSuperview()
     }
   }
 }
