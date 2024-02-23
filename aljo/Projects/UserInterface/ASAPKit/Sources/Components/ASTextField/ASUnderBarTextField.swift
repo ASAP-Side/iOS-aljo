@@ -14,6 +14,7 @@ import SnapKit
 
 public final class ASUnderBarTextField: UIView {
   private let disposeBag = DisposeBag()
+  private let isInputNegativeRelay = PublishRelay<Void>()
   
   // MARK: - Components
   let textField: UITextField = {
@@ -134,7 +135,7 @@ public final class ASUnderBarTextField: UIView {
   // MARK: - init
   public init() {
     super.init(frame: .zero)
-    configureSubview()
+    configureUI()
     bind()
   }
   
@@ -147,57 +148,10 @@ public final class ASUnderBarTextField: UIView {
     super.draw(rect)
     configureState()
   }
-  
-  // MARK: - private method
-  private func configureSubview() {
-    addSubview(totalStackView)
-    totalStackView.snp.makeConstraints {
-      $0.top.leading.trailing.bottom.equalToSuperview()
-    }
-    
-    [textField, textCountLabel, clearButton].forEach {
-      textFieldStack.addArrangedSubview($0)
-    }
-    textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
-    textCountLabel.setContentHuggingPriority(.required, for: .horizontal)
-    clearButton.setContentHuggingPriority(.required, for: .horizontal)
-    
-    [
-      titleLabel,
-      textFieldStack,
-      underBar,
-      descriptionLabel
-    ].forEach {
-      totalStackView.addArrangedSubview($0)
-    }
-    totalStackView.setCustomSpacing(6, after: titleLabel)
-    totalStackView.setCustomSpacing(4, after: textFieldStack)
-    totalStackView.setCustomSpacing(8, after: underBar)
-    
-    underBar.snp.makeConstraints {
-      $0.height.equalTo(2)
-    }
-  
-    titleText = nil
-    descriptionText = nil
-  }
-  
-  private func configureState() {
-    guard textField.isFirstResponder else {
-      underBar.backgroundColor = .gray01
-      descriptionLabel.textColor = .disable
-      return
-    }
-    
-    if isInputNegative == true {
-      underBar.backgroundColor = .redColor
-      descriptionLabel.textColor = .redColor
-    } else {
-      underBar.backgroundColor = .body01
-      descriptionLabel.textColor = .body02
-    }
-  }
-  
+}
+
+// MARK: Bind Method
+extension ASUnderBarTextField {
   private func bind() {
     let endEditing = textField.rx.controlEvent(.editingDidEnd)
     let beginEditing = textField.rx.controlEvent(.editingDidBegin)
@@ -247,6 +201,25 @@ public final class ASUnderBarTextField: UIView {
       })
       .disposed(by: disposeBag)
   }
+}
+
+// MARK: Private Mehtod
+extension ASUnderBarTextField {
+  private func configureState() {
+    guard textField.isFirstResponder else {
+      underBar.backgroundColor = .gray01
+      descriptionLabel.textColor = .disable
+      return
+    }
+    
+    if isInputNegative == true {
+      underBar.backgroundColor = .redColor
+      descriptionLabel.textColor = .redColor
+    } else {
+      underBar.backgroundColor = .body01
+      descriptionLabel.textColor = .body02
+    }
+  }
   
   private func configureTextCountLabel(_ textCount: Int) {
     guard maxTextCount != 0 else {
@@ -268,6 +241,52 @@ public final class ASUnderBarTextField: UIView {
     
     UIView.animate(withDuration: 0.1) {
       self.layoutIfNeeded()
+    }
+  }
+}
+
+// MARK: Configure UI
+extension ASUnderBarTextField {
+  private func configureUI() {
+    configureHirachy()
+    makeConstratins()
+    titleText = nil
+    descriptionText = nil
+  }
+  
+  private func configureHirachy() {
+    addSubview(totalStackView)
+    
+    [textField, textCountLabel, clearButton].forEach {
+      textFieldStack.addArrangedSubview($0)
+    }
+    
+    [
+      titleLabel,
+      textFieldStack,
+      underBar,
+      descriptionLabel
+    ].forEach {
+      totalStackView.addArrangedSubview($0)
+    }
+
+  }
+  
+  private func makeConstratins() {
+    totalStackView.snp.makeConstraints {
+      $0.top.leading.trailing.bottom.equalToSuperview()
+    }
+    
+    textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+    textCountLabel.setContentHuggingPriority(.required, for: .horizontal)
+    clearButton.setContentHuggingPriority(.required, for: .horizontal)
+    
+    totalStackView.setCustomSpacing(6, after: titleLabel)
+    totalStackView.setCustomSpacing(4, after: textFieldStack)
+    totalStackView.setCustomSpacing(8, after: underBar)
+    
+    underBar.snp.makeConstraints {
+      $0.height.equalTo(2)
     }
   }
 }
