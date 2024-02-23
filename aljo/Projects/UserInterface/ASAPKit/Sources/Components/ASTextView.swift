@@ -120,6 +120,8 @@ public class ASTextView: UIView {
     setUpSubViews()
     binding()
   }
+  
+  // Life Cycle
 }
 
 // MARK: BINDING METHODS

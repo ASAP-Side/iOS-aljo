@@ -66,7 +66,7 @@ extension StoryRootViewController: UITableViewDelegate {
     guard let sectionCategory = DemoCategory(rawValue: indexPath.section),
           let item = items[sectionCategory]?[indexPath.row] else { return }
     
-    if let item = item as? SystemConfiguration {
+    if let item = item as? DemoDetail {
       let controller = item.instance
       
       navigationController?.pushViewController(controller, animated: true)

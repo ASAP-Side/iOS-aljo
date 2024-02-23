@@ -34,7 +34,11 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
   }
 }
 
-enum SystemConfiguration: CustomStringConvertible, CaseIterable {
+protocol DemoDetail {
+  var instance: UIViewController { get }
+}
+
+enum SystemConfiguration: DemoDetail, CustomStringConvertible, CaseIterable {
   case font
   case color
   case icon
@@ -62,13 +66,20 @@ enum SystemConfiguration: CustomStringConvertible, CaseIterable {
   }
 }
 
-enum ComponentsCategory: CustomStringConvertible, CaseIterable {
+enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case textView
   
   var description: String {
     switch self {
       case .textView:
         return "ASTextView"
+    }
+  }
+  
+  var instance: UIViewController {
+    switch self {
+      case .textView:
+        return ASTextViewDemoController()
     }
   }
 }

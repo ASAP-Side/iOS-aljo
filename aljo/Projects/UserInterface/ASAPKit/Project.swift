@@ -18,10 +18,7 @@ let project = Project.app(
     .demo(
       module: .design(.ASAPKit),
       dependencies: [
-        .design(target: .ASAPKit, type: .single),
-        .rxSwift,
-        .rxCocoa,
-        .snapKit
+        .design(target: .ASAPKit, type: .single)
       ]
     )
   ],
