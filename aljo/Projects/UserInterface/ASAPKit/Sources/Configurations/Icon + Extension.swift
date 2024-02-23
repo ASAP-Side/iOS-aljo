@@ -26,7 +26,7 @@ public extension UIImage {
     public static let push: UIImage = ASAPKitAsset.Symbols.push.image
     public static let scope: UIImage = ASAPKitAsset.Symbols.scope.image
     
-    public static let xmark_black: UIImage = ASAPKitAsset.Xmark.black.image
-    public static let xmark_circle: UIImage = ASAPKitAsset.Xmark.circle.image
+    public static let xmark_black: UIImage = ASAPKitAsset.Xmark.removeBlack.image
+    public static let xmark_circle: UIImage = ASAPKitAsset.Xmark.removeCircle.image
   }
 }
