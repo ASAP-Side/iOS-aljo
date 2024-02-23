@@ -70,10 +70,6 @@ public extension Reactive where Base: ASTextView {
   var text: ControlProperty<String?> {
     return base.textView.rx.text
   }
-  
-  var font: ControlProperty<UIFont?> {
-    return base.textView.rx.
-  }
 }
 
 /// 여러줄의 글자를 입력할 수 있는 ASAP 팀만의 TextView입니다.
@@ -94,13 +90,22 @@ public class ASTextView: UIView {
   }()
   
   // MARK: PROPERTIES
-  /// 태두리 색상을 결정합니다.
+  /// 태두리 색상을 변경합니다.
   public var borderColor: UIColor? {
     get { return UIColor(coreColor: layer.borderColor) }
     set { self.layer.borderColor = newValue?.cgColor }
   }
   
-  /// 본문의 폰트를 결정합니다.
+  /// 뷰 백그라운드 색상을 변경합니다.
+  public var layerColor: UIColor? {
+    get { return UIColor(coreColor: layer.backgroundColor) }
+    set {
+      self.layer.backgroundColor = newValue?.cgColor
+      self.textView.backgroundColor = newValue
+    }
+  }
+  
+  /// 본문의 폰트를 변경합니다.
   public var font: UIFont? {
     get { return textView.font }
     set { textView.font = newValue }
