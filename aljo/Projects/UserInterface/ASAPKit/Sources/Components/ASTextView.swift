@@ -66,10 +66,20 @@ extension UIColor {
   }
 }
 
+public extension Reactive where Base: ASTextView {
+  var text: ControlProperty<String?> {
+    return base.textView.rx.text
+  }
+  
+  var font: ControlProperty<UIFont?> {
+    return base.textView.rx.
+  }
+}
+
 /// 여러줄의 글자를 입력할 수 있는 ASAP 팀만의 TextView입니다.
 public class ASTextView: UIView {
   // MARK: VIEW PROPERTIES
-  private let textView: UITextView = {
+  internal let textView: UITextView = {
     let textView = UITextView()
     textView.textColor = .disable
     return textView
