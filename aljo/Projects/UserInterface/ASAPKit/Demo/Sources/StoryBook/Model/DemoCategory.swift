@@ -19,8 +19,8 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
     }
   }
   
-  static var allCaseDictionary: [Self: [Any]] {
-    var dictionary = [Self: [Any]]()
+  static var allCaseDictionary: [Self: [DemoDetail]] {
+    var dictionary = [Self: [DemoDetail]]()
     
     allCases.forEach {
       switch $0 {

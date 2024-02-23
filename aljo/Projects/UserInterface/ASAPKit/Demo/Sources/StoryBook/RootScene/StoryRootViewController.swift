@@ -17,7 +17,7 @@ class StoryRootViewController: UIViewController {
     return tableView
   }()
   
-  private let items: [DemoCategory: [Any]] = DemoCategory.allCaseDictionary
+  private let items: [DemoCategory: [DemoDetail]] = DemoCategory.allCaseDictionary
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -66,11 +66,7 @@ extension StoryRootViewController: UITableViewDelegate {
     guard let sectionCategory = DemoCategory(rawValue: indexPath.section),
           let item = items[sectionCategory]?[indexPath.row] else { return }
     
-    if let item = item as? DemoDetail {
-      let controller = item.instance
-      
-      navigationController?.pushViewController(controller, animated: true)
-    }
+    navigationController?.pushViewController(item.instance, animated: true)
   }
 }
 
