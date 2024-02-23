@@ -12,7 +12,12 @@ let project = Project.app(
       module: .design(.ASAPKit),
       spec: TargetSpec(
         resources: ["Resources/**"],
-        dependencies: [.snapKit]
+        dependencies: [
+          .snapKit,
+          .rxSwift,
+          .rxCocoa,
+          .rxRelay
+        ]
       )
     ),
     .demo(
