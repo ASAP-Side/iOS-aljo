@@ -17,7 +17,7 @@ class StoryRootViewController: UIViewController {
     return tableView
   }()
   
-  private let items: [DemoCategory: [Any]] = DemoCategory.allCaseDictionary
+  private let items: [DemoCategory: [DemoDetail]] = DemoCategory.allCaseDictionary
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -66,11 +66,7 @@ extension StoryRootViewController: UITableViewDelegate {
     guard let sectionCategory = DemoCategory(rawValue: indexPath.section),
           let item = items[sectionCategory]?[indexPath.row] else { return }
     
-    if let item = item as? SystemConfiguration {
-      let controller = item.instance
-      
-      navigationController?.pushViewController(controller, animated: true)
-    }
+    navigationController?.pushViewController(item.instance, animated: true)
   }
 }
 
@@ -99,11 +95,9 @@ private extension StoryRootViewController {
   }
   
   func makeConstraints() {
-    NSLayoutConstraint.activate([
-      tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-      tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-      tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-    ])
+    tableView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+      $0.horizontalEdges.bottom.equalToSuperview()
+    }
   }
 }

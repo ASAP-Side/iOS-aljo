@@ -8,28 +8,37 @@ import UIKit
 
 enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
   case systemConfiguration
+  case component
   
   var description: String {
     switch self {
       case .systemConfiguration:
         return "시스템 설정"
+      case .component:
+        return "COMPONENTS"
     }
   }
   
-  static var allCaseDictionary: [Self: [Any]] {
-    var dictionary = [Self: [Any]]()
+  static var allCaseDictionary: [Self: [DemoDetail]] {
+    var dictionary = [Self: [DemoDetail]]()
     
     allCases.forEach {
       switch $0 {
         case .systemConfiguration:
           dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
+        case .component:
+          dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
       }
     }
     return dictionary
   }
 }
 
-enum SystemConfiguration: CustomStringConvertible, CaseIterable {
+protocol DemoDetail {
+  var instance: UIViewController { get }
+}
+
+enum SystemConfiguration: DemoDetail, CustomStringConvertible, CaseIterable {
   case font
   case color
   case icon
@@ -53,6 +62,24 @@ enum SystemConfiguration: CustomStringConvertible, CaseIterable {
         return ColorStoryViewController()
       case .icon:
         return IconStoryViewController()
+    }
+  }
+}
+
+enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
+  case textView
+  
+  var description: String {
+    switch self {
+      case .textView:
+        return "ASTextView"
+    }
+  }
+  
+  var instance: UIViewController {
+    switch self {
+      case .textView:
+        return ASTextViewDemoController()
     }
   }
 }
