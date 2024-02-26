@@ -9,25 +9,34 @@ import UIKit
 import ASAPKit
 
 class ASRoundButtonDemoController: ComponentViewController {
-  private let stackView: UIStackView = {
-    let stackView = UIStackView()
-    stackView.axis = .horizontal
-    stackView.distribution = .fillEqually
-    stackView.alignment = .fill
-    stackView.spacing = 10
-    stackView.isLayoutMarginsRelativeArrangement = true
-    stackView.layoutMargins = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-    return stackView
+  private let button: ASRoundTextButton = {
+    let button = ASRoundTextButton()
+    button.title = "월"
+    button.baseBackgroundColor = .white
+    button.selectedBackgroundColor = .red02
+    
+    button.baseBorderColor = .gray02
+    button.selectedBorderColor = .red01
+    
+    button.titleColor = .title
+    button.selectedTitleColor = .red01
+    return button
   }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
-    view.addSubview(stackView)
+    view.addSubview(button)
     
-    stackView.snp.makeConstraints {
-      $0.leading.trailing.equalToSuperview()
+    button.snp.makeConstraints {
+      $0.center.equalToSuperview()
+      $0.width.height.equalTo(50)
     }
+    
+    let action = UIAction { _ in
+      self.button.isSelected.toggle()
+    }
+    button.addAction(action, for: .touchUpInside)
   }
 }

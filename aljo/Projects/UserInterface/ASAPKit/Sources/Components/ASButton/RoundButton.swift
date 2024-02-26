@@ -9,36 +9,26 @@ import UIKit
 import RxSwift
 
 public class RoundButton: UIButton {
-  public var titleColor: UIColor? {
-    get { configuration?.baseForegroundColor }
-    set { configuration?.baseForegroundColor = newValue }
-  }
-  
-  public override var backgroundColor: UIColor? {
-    get { configuration?.background.backgroundColor }
-    set { configuration?.background.backgroundColor = newValue }
-  }
-  
-  public var borderColor: UIColor? {
-    get { configuration?.background.strokeColor }
-    set { configuration?.background.strokeColor = newValue }
-  }
-  
-  public var font: UIFont? {
-    get { configuration?.attributedTitle?.font }
-    set { configuration?.attributedTitle?.font = newValue }
-  }
+  public var baseBackgroundColor: UIColor?
+  public var selectedBackgroundColor: UIColor?
+  public var baseBorderColor: UIColor?
+  public var selectedBorderColor: UIColor?
+  public var font: UIFont?
   
   public init() {
     super.init(frame: .zero)
     
-    var configuration = UIButton.Configuration.plain()
+    generateInitConfiguration()
+  }
+  
+  public func generateInitConfiguration() {
+    var configuration = UIButton.Configuration.filled()
     configuration.titleAlignment = .center
     configuration.background.strokeWidth = 1
     configuration.cornerStyle = .fixed
+    configuration.baseForegroundColor = .black
     
     self.configuration = configuration
-    self.automaticallyUpdatesConfiguration = false
     translatesAutoresizingMaskIntoConstraints = false
   }
   
