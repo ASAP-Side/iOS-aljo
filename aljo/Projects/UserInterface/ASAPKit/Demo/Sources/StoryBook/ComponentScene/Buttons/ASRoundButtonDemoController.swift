@@ -12,6 +12,7 @@ class ASRoundButtonDemoController: ComponentViewController {
   private let button: ASRoundTextButton = {
     let button = ASRoundTextButton()
     button.title = "월"
+    button.font = .pretendard(.body3)
     button.baseBackgroundColor = .white
     button.selectedBackgroundColor = .red02
     
@@ -23,20 +24,39 @@ class ASRoundButtonDemoController: ComponentViewController {
     return button
   }()
   
+  private let imageButton: ASRoundImageButton = {
+    let button = ASRoundImageButton()
+    button.selectedImage = .Icon.check
+    button.selectedBackgroundColor = .red01
+    button.baseBorderColor = .gray03
+    return button
+  }()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
     view.addSubview(button)
+    view.addSubview(imageButton)
     
     button.snp.makeConstraints {
       $0.center.equalToSuperview()
       $0.width.height.equalTo(50)
     }
     
+    imageButton.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      $0.leading.equalTo(button.snp.trailing).offset(8)
+      $0.width.height.equalTo(30)
+    }
+    
     let action = UIAction { _ in
       self.button.isSelected.toggle()
     }
+    let action2 = UIAction { _ in
+      self.imageButton.isSelected.toggle()
+    }
     button.addAction(action, for: .touchUpInside)
+    imageButton.addAction(action2, for: .touchUpInside)
   }
 }

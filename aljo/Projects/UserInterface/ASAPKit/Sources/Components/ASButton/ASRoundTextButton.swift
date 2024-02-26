@@ -13,8 +13,6 @@ public final class ASRoundTextButton: RoundButton {
   public var titleColor: UIColor?
   public var selectedTitleColor: UIColor?
   
-  private var disposeBag = DisposeBag()
-  
   public override func generateInitConfiguration() {
     super.generateInitConfiguration()
     
