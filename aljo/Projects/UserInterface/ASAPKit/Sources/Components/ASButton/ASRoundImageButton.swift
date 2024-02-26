@@ -20,10 +20,10 @@ public final class ASRoundImageButton: RoundButton {
         case .selected:
           button.configuration?.image = self?.selectedImage
           button.configuration?.background.strokeColor = .clear
-          button.configuration?.background.backgroundColor = self?.selectedBackgroundColor
+          button.configuration?.background.backgroundColor = self?.selectedBackgroundColor ?? .clear
         case .normal:
           button.configuration?.image = self?.baseImage
-          button.configuration?.background.strokeColor = self?.baseBorderColor
+          button.configuration?.background.strokeColor = self?.baseBorderColor ?? .clear
           button.configuration?.background.backgroundColor = .clear
         default:
           return

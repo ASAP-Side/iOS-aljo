@@ -26,9 +26,16 @@ class ASRoundButtonDemoController: ComponentViewController {
   
   private let imageButton: ASRoundImageButton = {
     let button = ASRoundImageButton()
-    button.selectedImage = .Icon.check
+    button.selectedImage = .Icon.check.withTintColor(.white)
     button.selectedBackgroundColor = .red01
     button.baseBorderColor = .gray03
+    return button
+  }()
+  
+  private let onlyImageButton: ASRoundImageButton = {
+    let button = ASRoundImageButton()
+    button.selectedImage = .Icon.check.withTintColor(.red01)
+    button.baseImage = .Icon.check.withTintColor(.gray03)
     return button
   }()
   
@@ -38,6 +45,7 @@ class ASRoundButtonDemoController: ComponentViewController {
     
     view.addSubview(button)
     view.addSubview(imageButton)
+    view.addSubview(onlyImageButton)
     
     button.snp.makeConstraints {
       $0.center.equalToSuperview()
@@ -50,13 +58,23 @@ class ASRoundButtonDemoController: ComponentViewController {
       $0.width.height.equalTo(30)
     }
     
+    onlyImageButton.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      $0.leading.equalTo(imageButton.snp.trailing).offset(8)
+      $0.width.height.equalTo(30)
+    }
+    
     let action = UIAction { _ in
       self.button.isSelected.toggle()
     }
     let action2 = UIAction { _ in
       self.imageButton.isSelected.toggle()
     }
+    let action3 = UIAction { _ in
+      self.onlyImageButton.isSelected.toggle()
+    }
     button.addAction(action, for: .touchUpInside)
     imageButton.addAction(action2, for: .touchUpInside)
+    onlyImageButton.addAction(action3, for: .touchUpInside)
   }
 }
