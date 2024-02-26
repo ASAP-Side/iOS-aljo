@@ -6,16 +6,9 @@
 
 import UIKit
 
-public class ASRoundButton: UIButton {
-  private var paddingValue: NSDirectionalEdgeInsets {
-    return NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 7, trailing: 7)
-  }
-  
-  public var title: String? {
-    get { configuration?.title }
-    set { configuration?.title = newValue }
-  }
-  
+import RxSwift
+
+public class RoundButton: UIButton {
   public var titleColor: UIColor? {
     get { configuration?.baseForegroundColor }
     set { configuration?.baseForegroundColor = newValue }
@@ -42,9 +35,10 @@ public class ASRoundButton: UIButton {
     var configuration = UIButton.Configuration.plain()
     configuration.titleAlignment = .center
     configuration.background.strokeWidth = 1
-    configuration.contentInsets = paddingValue
     configuration.cornerStyle = .fixed
+    
     self.configuration = configuration
+    self.automaticallyUpdatesConfiguration = false
     translatesAutoresizingMaskIntoConstraints = false
   }
   

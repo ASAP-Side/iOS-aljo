@@ -29,21 +29,5 @@ class ASRoundButtonDemoController: ComponentViewController {
     stackView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview()
     }
-    
-    for idx in 0..<7 {
-      let button = generateButton(idx)
-      stackView.addArrangedSubview(button)
-    }
-  }
-  
-  func generateButton(_ idx: Int) -> ASRoundButton {
-    let button = ASRoundButton()
-    let title = Calendar.current.veryShortWeekdaySymbols[idx]
-    button.title = title
-    button.titleColor = .gray02
-    button.font = .pretendard(.body3)
-    button.backgroundColor = .red
-    button.borderColor = .gray02
-    return button
   }
 }
