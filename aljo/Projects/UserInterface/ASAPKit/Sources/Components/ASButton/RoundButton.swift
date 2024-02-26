@@ -13,8 +13,6 @@ public class RoundButton: UIButton {
   public var selectedBackgroundColor: UIColor?
   public var baseBorderColor: UIColor?
   public var selectedBorderColor: UIColor?
-  public var selectedFont: UIFont?
-  public var font: UIFont?
   
   public init() {
     super.init(frame: .zero)

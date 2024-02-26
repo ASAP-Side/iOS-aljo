@@ -13,6 +13,8 @@ class ASRoundButtonDemoController: ComponentViewController {
     let button = ASRoundTextButton()
     button.title = "월"
     button.font = .pretendard(.body3)
+    button.selectedFont = .pretendard(.headLine6)
+    
     button.baseBackgroundColor = .white
     button.selectedBackgroundColor = .red02
     
