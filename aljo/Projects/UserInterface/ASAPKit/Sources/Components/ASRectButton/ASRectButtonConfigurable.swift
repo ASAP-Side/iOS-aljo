@@ -8,10 +8,11 @@
 
 import UIKit
 
-protocol ASRectButtonConfigurable {
+public protocol ASRectButtonConfigurable {
   var contentInsets: NSDirectionalEdgeInsets? { get set }
   
   var title: String? { get set }
+  var titleColor: UIColor? { get set }
   var font: UIFont? { get set }
   var titleAlignment: UIButton.Configuration.TitleAlignment? { get set }
   
@@ -33,21 +34,32 @@ protocol ASRectButtonConfigurable {
 }
 
 extension ASRectButtonConfigurable {
-  func makeConfiguration() -> UIButton.Configuration {
+  public func makeConfiguration() -> UIButton.Configuration {
     var configuration = UIButton.Configuration.plain()
     if let contentInsets = contentInsets {
       configuration.contentInsets = contentInsets
     }
     
+    configureTitle(at: &configuration)
+    configureImage(at: &configuration)
+    configureBackground(at: &configuration)
+    
+    return configuration
+  }
+  
+  private func configureTitle(at configuration: inout UIButton.Configuration) {
     if let titleAlignment = titleAlignment {
       configuration.titleAlignment = titleAlignment
     }
     if let title = title {
       var titleContainer = AttributeContainer()
       titleContainer.font = font
+      titleContainer.foregroundColor = titleColor
       configuration.attributedTitle = AttributedString(title, attributes: titleContainer)
     }
-    
+  }
+  
+  private func configureImage(at configuration: inout UIButton.Configuration) {
     if let image = image {
       configuration.image = image
     }
@@ -57,8 +69,11 @@ extension ASRectButtonConfigurable {
     if case let .fixed(padding) = imagePadding {
       configuration.imagePadding = padding
     }
-    
+  }
+  
+  private func configureBackground(at configuration: inout UIButton.Configuration) {
     var backgroundCofiguration = UIBackgroundConfiguration.clear()
+    
     if let backgroundColor = backgroundColor {
       backgroundCofiguration.backgroundColor = backgroundColor
     }
@@ -71,13 +86,12 @@ extension ASRectButtonConfigurable {
     if let strokeColor = strokeColor {
       backgroundCofiguration.strokeColor = strokeColor
     }
-    configuration.background = backgroundCofiguration
     
-    return configuration
+    configuration.background = backgroundCofiguration
   }
 }
 
-enum ImagePaddingStyle {
+public enum ImagePaddingStyle {
   case fixed(padding: CGFloat)
   case dynamic
 }
