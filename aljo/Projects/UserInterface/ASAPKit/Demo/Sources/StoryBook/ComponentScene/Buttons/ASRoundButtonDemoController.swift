@@ -8,55 +8,79 @@ import UIKit
 
 import ASAPKit
 
+import RxSwift
+
 class ASRoundButtonDemoController: ComponentViewController {
-  private let textButton: RoundButton = .titleButton(with: "월")
-  private let imageButton: RoundButton = .imageButton(
-    normal: .Icon.check.withTintColor(.gray02),
-    selected: .Icon.check.withTintColor(.red01)
-  )
-  private let imageBorderButton: RoundButton = .imageBorderButton(
-    selected: .Icon.check.withTintColor(.white)
-  )
+  private let textButton: RoundButton = {
+    let button = RoundButton(style: .text)
+    button.title = "월"
+    return button
+  }()
+  
+  private let imageButton: RoundButton = {
+    let button = RoundButton(style: .image)
+    button.image = .Icon.check.withTintColor(.gray02)
+    button.selectedImage = .Icon.check.withTintColor(.red01)
+    return button
+  }()
+  
+  private let imageBorderButton: RoundButton = {
+    let button = RoundButton(style: .imageBorder)
+    button.selectedImage = .Icon.check_small.withTintColor(.white)
+    return button
+  }()
+  
+  private let disposeBag = DisposeBag()
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    configureUI()
+    binding()
+  }
+}
+
+private extension ASRoundButtonDemoController {
+  func binding() {
+    textButton.rx.tap
+      .withUnretained(self)
+      .asObservable()
+      .bind { $0.0.textButton.isSelected.toggle() }
+      .disposed(by: disposeBag)
+    
+    imageBorderButton.rx.tap
+      .withUnretained(self)
+      .bind { $0.0.imageBorderButton.isSelected.toggle() }
+      .disposed(by: disposeBag)
+    
+    imageButton.rx.tap
+      .withUnretained(self)
+      .bind { $0.0.imageButton.isSelected.toggle() }
+      .disposed(by: disposeBag)
+  }
+}
+
+private extension ASRoundButtonDemoController {
+  func configureUI() {
     view.backgroundColor = .systemBackground
     
-    view.addSubview(textButton)
-    view.addSubview(imageButton)
-    view.addSubview(imageBorderButton)
+    [textButton, imageButton, imageBorderButton].forEach(view.addSubview)
     
     textButton.snp.makeConstraints {
-      $0.center.equalToSuperview()
-      $0.width.height.equalTo(40)
-    }
-    
-    imageButton.snp.makeConstraints {
-      $0.top.equalTo(textButton.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
+      $0.trailing.equalTo(imageBorderButton.snp.leading).offset(-20)
+      $0.centerY.equalToSuperview()
       $0.width.height.equalTo(40)
     }
     
     imageBorderButton.snp.makeConstraints {
-      $0.top.equalTo(imageButton.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
-      $0.width.height.equalTo(40)
+      $0.center.equalToSuperview()
+      $0.width.height.equalTo(20)
     }
     
-    let action = UIAction { _ in
-      self.textButton.isSelected.toggle()
+    imageButton.snp.makeConstraints {
+      $0.leading.equalTo(imageBorderButton.snp.trailing).offset(20)
+      $0.centerY.equalToSuperview()
+      $0.width.height.equalTo(16)
     }
-    
-    let action2 = UIAction { _ in
-      self.imageButton.isSelected.toggle()
-    }
-    
-    let action3 = UIAction { _ in
-      self.imageBorderButton.isSelected.toggle()
-    }
-    
-    textButton.addAction(action, for: .touchUpInside)
-    imageButton.addAction(action2, for: .touchUpInside)
-    imageBorderButton.addAction(action3, for: .touchUpInside)
   }
 }
