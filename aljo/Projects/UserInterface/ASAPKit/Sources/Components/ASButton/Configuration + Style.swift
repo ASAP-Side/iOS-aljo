@@ -6,14 +6,6 @@
 
 import UIKit
 
-/*
- - Round Button
-  - imageBorder
-  - image
-  - text
- 
- */
-
 public extension UIButton.Configuration {
   enum RoundStyle {
     case text
@@ -44,6 +36,7 @@ public extension UIButton.Configuration {
     var selectedBackgroundColor: UIColor? {
       switch self {
         case .text:   return .red02
+        case .imageBorder:  return .red01
         default:      return nil
       }
     }
@@ -74,6 +67,17 @@ public extension UIButton.Configuration {
       switch self {
         case .text:     return .pretendard(.headLine6)
         default:        return nil
+      }
+    }
+    
+    var selectedStrokeWidth: CGFloat {
+      switch self {
+        case .text:
+          return 1.5
+        case .imageBorder:
+          return 1
+        case .image:
+          return .zero
       }
     }
   }
