@@ -9,34 +9,13 @@ import UIKit
 import RxSwift
 
 public class RoundButton: UIButton {
-  private var title: String?
-  
-  private var image: UIImage?
-  private var selectedImage: UIImage?
+  public var title: String?
+  public var image: UIImage?
+  public var selectedImage: UIImage?
   
   private let style: UIButton.Configuration.RoundStyle
   
-  public static func titleButton(with title: String) -> RoundButton {
-    let button = RoundButton(style: .text)
-    button.title = title
-    return button
-  }
-  
-  public static func imageButton(normal: UIImage? = nil, selected: UIImage? = nil) -> RoundButton {
-    let button = RoundButton(style: .image)
-    button.image = normal
-    button.selectedImage = selected
-    return button
-  }
-  
-  public static func imageBorderButton(normal: UIImage? = nil, selected: UIImage? = nil) -> RoundButton {
-    let button = RoundButton(style: .imageBorder)
-    button.image = normal
-    button.selectedImage = selected
-    return button
-  }
-  
-  private init(style: UIButton.Configuration.RoundStyle) {
+  public init(style: UIButton.Configuration.RoundStyle) {
     self.style = style
     super.init(frame: .zero)
     
