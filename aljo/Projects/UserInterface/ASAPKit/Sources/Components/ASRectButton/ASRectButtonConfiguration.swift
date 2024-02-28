@@ -8,13 +8,12 @@
 
 import UIKit
 
-public struct ASRectButtonConfiguration: ASRectButtonConfigurable {
+public struct ASFillRectButtonConfiguration: ASRectButtonConfigurable {
   public var contentInsets: NSDirectionalEdgeInsets?
   
   public var title: String?
   public var titleColor: UIColor?
   public var font: UIFont?
-  public var titleAlignment: UIButton.Configuration.TitleAlignment?
   
   public var image: UIImage?
   public var imagePlacement: NSDirectionalRectEdge?

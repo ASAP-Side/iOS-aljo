@@ -14,7 +14,6 @@ public protocol ASRectButtonConfigurable {
   var title: String? { get set }
   var titleColor: UIColor? { get set }
   var font: UIFont? { get set }
-  var titleAlignment: UIButton.Configuration.TitleAlignment? { get set }
   
   var image: UIImage? { get set }
   var imagePlacement: NSDirectionalRectEdge? { get set }
@@ -48,9 +47,6 @@ extension ASRectButtonConfigurable {
   }
   
   private func configureTitle(at configuration: inout UIButton.Configuration) {
-    if let titleAlignment = titleAlignment {
-      configuration.titleAlignment = titleAlignment
-    }
     if let title = title {
       var titleContainer = AttributeContainer()
       titleContainer.font = font
