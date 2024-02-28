@@ -22,7 +22,7 @@ public final class ASRoundTextButton: RoundButton {
     configuration?.background.backgroundColor = baseBackgroundColor
     configuration?.baseForegroundColor = titleColor
     configuration?.background.strokeColor = baseBorderColor
-    configuration?.automaticallyUpdateForSelection = true
+    configuration?.automaticallyUpdateForSelection = false
     
     configurationUpdateHandler = updateRoundButton
   }

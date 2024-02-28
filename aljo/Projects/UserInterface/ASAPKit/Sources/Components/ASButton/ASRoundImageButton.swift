@@ -14,20 +14,23 @@ public final class ASRoundImageButton: RoundButton {
     super.generateInitConfiguration()
     
     configuration?.image = baseImage
+    configuration?.automaticallyUpdateForSelection = false
     
-    configurationUpdateHandler = { [weak self] button in
-      switch button.state {
-        case .selected:
-          button.configuration?.image = self?.selectedImage
-          button.configuration?.background.strokeColor = .clear
-          button.configuration?.background.backgroundColor = self?.selectedBackgroundColor ?? .clear
-        case .normal:
-          button.configuration?.image = self?.baseImage
-          button.configuration?.background.strokeColor = self?.baseBorderColor ?? .clear
-          button.configuration?.background.backgroundColor = .clear
-        default:
-          return
-      }
+    configurationUpdateHandler = updateState
+  }
+  
+  private func updateState(with button: UIButton) {
+    switch button.state {
+      case .selected:
+        button.configuration?.image = self.selectedImage
+        button.configuration?.background.strokeColor = .clear
+        button.configuration?.background.backgroundColor = self.selectedBackgroundColor ?? .clear
+      case .normal:
+        button.configuration?.image = self.baseImage
+        button.configuration?.background.strokeColor = self.baseBorderColor ?? .clear
+        button.configuration?.background.backgroundColor = .clear
+      default:
+        return
     }
   }
 }

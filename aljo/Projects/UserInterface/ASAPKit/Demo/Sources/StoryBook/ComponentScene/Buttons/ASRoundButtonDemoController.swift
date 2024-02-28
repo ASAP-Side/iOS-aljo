@@ -9,7 +9,7 @@ import UIKit
 import ASAPKit
 
 class ASRoundButtonDemoController: ComponentViewController {
-  private let button: ASRoundTextButton = {
+  private let textButton: ASRoundTextButton = {
     let button = ASRoundTextButton()
     button.title = "월"
     button.font = .pretendard(.body3)
@@ -29,6 +29,7 @@ class ASRoundButtonDemoController: ComponentViewController {
   private let imageButton: ASRoundImageButton = {
     let button = ASRoundImageButton()
     button.selectedImage = .Icon.check.withTintColor(.white)
+    button.baseImage = .Icon.check.withTintColor(.clear)
     button.selectedBackgroundColor = .red01
     button.baseBorderColor = .gray03
     return button
@@ -44,38 +45,31 @@ class ASRoundButtonDemoController: ComponentViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    [textButton, imageButton, onlyImageButton].forEach(view.addSubview)
     
-    view.addSubview(button)
-    view.addSubview(imageButton)
-    view.addSubview(onlyImageButton)
-    
-    button.snp.makeConstraints {
-      $0.center.equalToSuperview()
-      $0.width.height.equalTo(50)
+    textButton.snp.makeConstraints {
+      $0.width.equalTo(textButton.snp.height).multipliedBy(1).priority(.required)
+      $0.centerY.equalToSuperview()
     }
     
     imageButton.snp.makeConstraints {
+      $0.width.equalTo(imageButton.snp.height).multipliedBy(1).priority(.required)
+      $0.leading.equalTo(textButton.snp.trailing).offset(30)
       $0.centerY.equalToSuperview()
-      $0.leading.equalTo(button.snp.trailing).offset(8)
-      $0.width.height.equalTo(30)
     }
     
-    onlyImageButton.snp.makeConstraints {
-      $0.centerY.equalToSuperview()
-      $0.leading.equalTo(imageButton.snp.trailing).offset(8)
-      $0.width.height.equalTo(30)
+    let action = UIAction { [weak self] _ in
+      self?.textButton.isSelected.toggle()
+    }
+    let action2 = UIAction { [weak self] _ in
+      self?.imageButton.isSelected.toggle()
     }
     
-    let action = UIAction { _ in
-      self.button.isSelected.toggle()
+    let action3 = UIAction { [weak self] _ in
+      self?.onlyImageButton.isSelected.toggle()
     }
-    let action2 = UIAction { _ in
-      self.imageButton.isSelected.toggle()
-    }
-    let action3 = UIAction { _ in
-      self.onlyImageButton.isSelected.toggle()
-    }
-    button.addAction(action, for: .touchUpInside)
+    
+    textButton.addAction(action, for: .touchUpInside)
     imageButton.addAction(action2, for: .touchUpInside)
     onlyImageButton.addAction(action3, for: .touchUpInside)
   }
