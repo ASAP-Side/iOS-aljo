@@ -18,9 +18,7 @@ public class RoundButton: UIButton {
   public init(style: UIButton.Configuration.RoundStyle) {
     self.style = style
     super.init(frame: .zero)
-    
-    var configuration = UIButton.Configuration.round(with: style)
-    self.configuration = configuration
+    self.configuration = UIButton.Configuration.round(with: style)
     
     switch style {
       case .text:

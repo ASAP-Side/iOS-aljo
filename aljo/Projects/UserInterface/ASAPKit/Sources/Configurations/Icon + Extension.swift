@@ -32,3 +32,4 @@ public extension UIImage {
     public static let xmark_circle: UIImage = ASAPKitAsset.Xmark.removeCircle.image
   }
 }
+// swiftlint: enable all
