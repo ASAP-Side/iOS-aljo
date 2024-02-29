@@ -104,6 +104,19 @@ public extension UIButton.Configuration {
       }
     }
   }
+  
+  static func rect(style: ASRectStyle) -> Self {
+    var configuration = plain()
+    configuration.contentInsets = style.contentInsets
+    
+    var backgroundConfiguration = UIBackgroundConfiguration.clear()
+    backgroundConfiguration.strokeColor = style.strokeColor
+    backgroundConfiguration.strokeWidth = style.strokeWidth
+    backgroundConfiguration.cornerRadius = style.cornerRadius
+    configuration.background = backgroundConfiguration
+    
+    return configuration
+  }
 }
 
 public enum PaddingStyle {

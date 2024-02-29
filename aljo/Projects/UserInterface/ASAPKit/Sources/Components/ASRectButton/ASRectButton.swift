@@ -32,9 +32,7 @@ public final class ASRectButton: UIButton {
     self.style = style
     super.init(frame: .zero)
     
-    configuration = Configuration.plain()
-    configuration?.contentInsets = style.contentInsets
-    configureBackgroundConfiguration(with: style)
+    configuration = Configuration.rect(style: style)
     
     switch style {
     case .fill:
@@ -68,14 +66,6 @@ public final class ASRectButton: UIButton {
     titleContainer.font = style.font
     titleContainer.foregroundColor = style.titleColor
     configuration?.attributedTitle = AttributedString(title ?? "", attributes: titleContainer)
-  }
-  
-  private func configureBackgroundConfiguration(with style: Configuration.ASRectStyle) {
-    var backgroundConfiguration = UIBackgroundConfiguration.clear()
-    backgroundConfiguration.strokeColor = style.strokeColor
-    backgroundConfiguration.strokeWidth = style.strokeWidth
-    backgroundConfiguration.cornerRadius = style.cornerRadius
-    configuration?.background = backgroundConfiguration
   }
   
   private func configureImageConfiguration(with style: Configuration.ASRectStyle) {
