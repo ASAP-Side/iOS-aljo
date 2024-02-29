@@ -13,7 +13,6 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-
 final class ASRectButtonDemoController: UIViewController {
   private let disposeBag = DisposeBag()
   
