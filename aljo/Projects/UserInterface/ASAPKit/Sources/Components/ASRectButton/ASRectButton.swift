@@ -79,9 +79,7 @@ public final class ASRectButton: UIButton {
   }
   
   private func configureImageConfiguration(with style: Configuration.ASRectStyle) {
-    if let image = image {
-      configuration?.image = image
-    }
+    configuration?.image = image
     
     if case let .fixed(padding) = style.imagePadding {
       configuration?.imagePadding = padding
@@ -129,19 +127,13 @@ public final class ASRectButton: UIButton {
       configuration?.background.backgroundColor = .white
       configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body3)
       configuration?.attributedTitle?[ForegroundColorAttribute.self] = .title
-      
-      if let image = image {
-        configuration?.image = image
-      }
+      configuration?.image = image
     case .selected:
       configuration?.background.strokeColor = .red01
       configuration?.background.backgroundColor = .red02
       configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.headLine6)
       configuration?.attributedTitle?[ForegroundColorAttribute.self] = .red01
-      
-      if let selectedImage = selectedImage {
-        configuration?.image = selectedImage
-      }
+      configuration?.image = selectedImage
     default:
       break
     }
