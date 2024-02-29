@@ -24,7 +24,7 @@ public final class ASSlider: UISlider {
     tintColor = .clear
     maximumTrackTintColor = .clear
     backgroundColor = .clear
-    thumbTintColor = .clear
+    thumbTintColor = .gray01
   }
   
   private func createTrackLabel() {
@@ -35,11 +35,11 @@ public final class ASSlider: UISlider {
   private func createBaseLayer() {
     baseLayer.masksToBounds = true
     baseLayer.backgroundColor = UIColor.gray03.cgColor
-    if let size = minimumValueImage?.size {
+    if let minSize = minimumValueImage?.size, let maxSize = maximumValueImage?.size {
       baseLayer.frame = .init(
-        x: size.width + 16,
-        y: size.height / 2,
-        width: frame.width - size.width * 2 - 32,
+        x: minSize.width + 16,
+        y: minSize.height / 2,
+        width: frame.width - minSize.width - maxSize.width - 32,
         height: 4
       )
     }
@@ -51,7 +51,16 @@ public final class ASSlider: UISlider {
     let color = UIColor.red01
     trackLayer.backgroundColor = color.cgColor
     let baseFrame = baseLayer.frame
-    trackLayer.frame = baseFrame
+    
+    if let minSize = minimumValueImage?.size {
+      trackLayer.frame = .init(
+        x: minSize.width + 16,
+        y: minSize.height / 2,
+        width: .zero,
+        height: 4
+      )
+    }
+    trackLayer.cornerRadius = min(trackLayer.frame.width, trackLayer.frame.height) / 2
     layer.insertSublayer(trackLayer, at: 1)
   }
 }
