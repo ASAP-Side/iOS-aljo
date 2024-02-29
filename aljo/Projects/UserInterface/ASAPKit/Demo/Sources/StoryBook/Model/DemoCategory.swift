@@ -69,6 +69,7 @@ enum SystemConfiguration: DemoDetail, CustomStringConvertible, CaseIterable {
 enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case textView
   case roundButton
+  case slider
   
   var description: String {
     switch self {
@@ -76,6 +77,8 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
         return "ASTextView"
       case .roundButton:
         return "ASRoundButton"
+      case .slider:
+        return "ASSlider"
     }
   }
   
@@ -85,6 +88,8 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
         return ASTextViewDemoController()
       case .roundButton:
         return ASRoundButtonDemoController()
+      case .slider:
+        return ASSliderDemoController()
     }
   }
 }

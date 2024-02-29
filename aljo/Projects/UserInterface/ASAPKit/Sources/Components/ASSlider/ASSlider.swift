@@ -6,6 +6,6 @@
 
 import UIKit
 
-final class ASSlider: UISlider {
+public final class ASSlider: UISlider {
   
 }
