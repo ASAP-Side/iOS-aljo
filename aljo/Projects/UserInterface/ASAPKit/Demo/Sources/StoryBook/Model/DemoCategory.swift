@@ -12,10 +12,10 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
   
   var description: String {
     switch self {
-      case .systemConfiguration:
-        return "시스템 설정"
-      case .component:
-        return "COMPONENTS"
+    case .systemConfiguration:
+      return "시스템 설정"
+    case .component:
+      return "COMPONENTS"
     }
   }
   
@@ -24,10 +24,10 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
     
     allCases.forEach {
       switch $0 {
-        case .systemConfiguration:
-          dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
-        case .component:
-          dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
+      case .systemConfiguration:
+        dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
+      case .component:
+        dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
       }
     }
     return dictionary
@@ -45,35 +45,38 @@ enum SystemConfiguration: DemoDetail, CustomStringConvertible, CaseIterable {
   
   var description: String {
     switch self {
-      case .font:
-        return "폰트"
-      case .color:
-        return "색상"
-      case .icon:
-        return "아이콘"
+    case .font:
+      return "폰트"
+    case .color:
+      return "색상"
+    case .icon:
+      return "아이콘"
     }
   }
   
   var instance: UIViewController {
     switch self {
-      case .font:
-        return FontStoryViewController()
-      case .color:
-        return ColorStoryViewController()
-      case .icon:
-        return IconStoryViewController()
+    case .font:
+      return FontStoryViewController()
+    case .color:
+      return ColorStoryViewController()
+    case .icon:
+      return IconStoryViewController()
     }
   }
 }
 
 enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case textView
+  case rectButton
   case roundButton
   
   var description: String {
     switch self {
       case .textView:
         return "ASTextView"
+      case .rectButton:
+        return "ASRectButton"
       case .roundButton:
         return "ASRoundButton"
     }
@@ -83,6 +86,8 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
     switch self {
       case .textView:
         return ASTextViewDemoController()
+      case .rectButton:
+        return ASRectButtonDemoController()
       case .roundButton:
         return ASRoundButtonDemoController()
     }
