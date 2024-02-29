@@ -23,6 +23,8 @@ public class RoundButton: UIButton {
     switch style {
       case .text:
         configurationUpdateHandler = updateShapeForTextStyle
+        configuration?.titleTextAttributesTransformer = .init(updateTitleContainer)
+        
       case .image, .imageBorder:
         configurationUpdateHandler = updateShapeForImageStyle
     }
@@ -31,15 +33,6 @@ public class RoundButton: UIButton {
   @available(*, unavailable, message: "스토리보드로 생성할 수 없습니다.")
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  private func updateTitle(for isSelected: Bool) {
-    guard let title = title else { return }
-    
-    var container = AttributeContainer()
-    container.font = (isSelected ? style.selectedFont : style.font)
-    container.foregroundColor = (isSelected ? style.selectedTitleColor : style.titleColor)
-    configuration?.attributedTitle = AttributedString(title, attributes: container)
   }
   
   private func updateShapeForImageStyle(_ button: UIButton) {
@@ -60,13 +53,19 @@ public class RoundButton: UIButton {
     return
   }
   
-  private func updateShapeForTextStyle(_ button: UIButton) {
-    updateTitle(for: button.state == .selected)
-    
+  private func updateTitleContainer(_ container: AttributeContainer) -> AttributeContainer {
+    var container = container
+    container.font = (isSelected ? style.selectedFont : style.font)
+    container.foregroundColor = (isSelected ? style.selectedTitleColor : style.titleColor)
+    return container
+  }
+  
+  private func updateShapeForTextStyle(_ button: UIButton) {  
     if button.state == .selected {
       configuration?.background.backgroundColor = style.selectedBackgroundColor
       configuration?.background.strokeColor = style.selectedBorderColor
       configuration?.background.strokeWidth = style.selectedStrokeWidth
+      button.configuration?.title = title
       return
     }
     
@@ -74,6 +73,7 @@ public class RoundButton: UIButton {
       configuration?.background.backgroundColor = style.backgroundColor
       configuration?.background.strokeColor = style.borderColor
       configuration?.background.strokeWidth = 1
+      button.configuration?.title = title
       return
     }
     
