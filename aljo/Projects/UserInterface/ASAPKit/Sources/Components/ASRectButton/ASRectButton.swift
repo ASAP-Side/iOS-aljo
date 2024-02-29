@@ -12,12 +12,28 @@ typealias ForegroundColorAttribute = AttributeScopes.UIKitAttributes.ForegroundC
 typealias FontAttribute = AttributeScopes.UIKitAttributes.FontAttribute
 
 public final class ASRectButton: UIButton {
+  private let style: Configuration.ASRectStyle
+  
+  public var title: String? {
+    didSet {
+      configureTitleConfiguration(with: style)
+    }
+  }
+  
+  public var image: UIImage? {
+    didSet {
+      configureImageConfiguration(with: style)
+    }
+  }
+  
+  public var selectedImage: UIImage?
+  
   public init(style: Configuration.ASRectStyle) {
+    self.style = style
     super.init(frame: .zero)
     
     configuration = Configuration.plain()
     configuration?.contentInsets = style.contentInsets
-    configureTitleConfiguration(with: style)
     configureBackgroundConfiguration(with: style)
     
     switch style {
@@ -25,6 +41,8 @@ public final class ASRectButton: UIButton {
       configurationUpdateHandler = fillStyleUpdatehandler
     case .stroke:
       configurationUpdateHandler = strokeStyleUpdatehandler
+    case .strokeImage:
+      configurationUpdateHandler = strokeImageUpdateHandler
     }
   }
   
@@ -32,11 +50,24 @@ public final class ASRectButton: UIButton {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override public func draw(_ rect: CGRect) {
+    super.draw(rect)
+    
+    if case .dynamic = style.imagePadding {
+      let titleWidth = titleLabel?.frame.width ?? 0
+      let imageWidth = imageView?.frame.width ?? 0
+      let leadingPadding = style.contentInsets.leading
+      let trailingPadding = style.contentInsets.trailing
+      let contentWidth = titleWidth + imageWidth + leadingPadding + trailingPadding
+      configuration?.imagePadding = frame.width - contentWidth - 10
+    }
+  }
+  
   private func configureTitleConfiguration(with style: Configuration.ASRectStyle) {
     var titleContainer = AttributeContainer()
     titleContainer.font = style.font
     titleContainer.foregroundColor = style.titleColor
-    configuration?.attributedTitle = AttributedString(style.title, attributes: titleContainer)
+    configuration?.attributedTitle = AttributedString(title ?? "", attributes: titleContainer)
   }
   
   private func configureBackgroundConfiguration(with style: Configuration.ASRectStyle) {
@@ -45,6 +76,20 @@ public final class ASRectButton: UIButton {
     backgroundConfiguration.strokeWidth = style.strokeWidth
     backgroundConfiguration.cornerRadius = style.cornerRadius
     configuration?.background = backgroundConfiguration
+  }
+  
+  private func configureImageConfiguration(with style: Configuration.ASRectStyle) {
+    if let image = image {
+      configuration?.image = image
+    }
+    
+    if case let .fixed(padding) = style.imagePadding {
+      configuration?.imagePadding = padding
+    }
+    
+    if let imagePlacement = style.imagePlacement {
+      configuration?.imagePlacement = imagePlacement
+    }
   }
   
   private func fillStyleUpdatehandler(_ button: UIButton) {
@@ -72,6 +117,31 @@ public final class ASRectButton: UIButton {
       configuration?.background.backgroundColor = .red02
       configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.headLine6)
       configuration?.attributedTitle?[ForegroundColorAttribute.self] = .red01
+    default:
+      break
+    }
+  }
+  
+  private func strokeImageUpdateHandler(_ button: UIButton) {
+    switch button.state {
+    case .normal:
+      configuration?.background.strokeColor = .gray02
+      configuration?.background.backgroundColor = .white
+      configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body3)
+      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .title
+      
+      if let image = image {
+        configuration?.image = image
+      }
+    case .selected:
+      configuration?.background.strokeColor = .red01
+      configuration?.background.backgroundColor = .red02
+      configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.headLine6)
+      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .red01
+      
+      if let selectedImage = selectedImage {
+        configuration?.image = selectedImage
+      }
     default:
       break
     }

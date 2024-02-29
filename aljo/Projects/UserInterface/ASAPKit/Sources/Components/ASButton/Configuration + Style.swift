@@ -8,8 +8,13 @@ import UIKit
 
 public extension UIButton.Configuration {
   enum ASRectStyle {
-    case fill(title: String)
-    case stroke(title: String)
+    case fill
+    case stroke
+    case strokeImage(
+      padding: PaddingStyle,
+      placement: NSDirectionalRectEdge,
+      contentInsets: NSDirectionalEdgeInsets
+    )
 
     var contentInsets: NSDirectionalEdgeInsets {
       switch self {
@@ -17,15 +22,8 @@ public extension UIButton.Configuration {
         return .init(top: 14, leading: 0, bottom: 14, trailing: 0)
       case .stroke:
         return .init(top: 12, leading: 0, bottom: 12, trailing: 0)
-      }
-    }
-    
-    var title: String {
-      switch self {
-      case .fill(let title):
-        return title
-      case .stroke(let title):
-        return title
+      case .strokeImage(_, _, let contentInsets):
+        return contentInsets
       }
     }
     
@@ -34,6 +32,8 @@ public extension UIButton.Configuration {
       case .fill:
         return .white
       case .stroke:
+        return .title
+      case .strokeImage:
         return .title
       }
     }
@@ -44,6 +44,8 @@ public extension UIButton.Configuration {
         return .pretendard(.headLine5)
       case .stroke:
         return .pretendard(.body2)
+      case .strokeImage:
+        return .pretendard(.body3)
       }
     }
     
@@ -52,6 +54,8 @@ public extension UIButton.Configuration {
       case .fill:
         return 10
       case .stroke:
+        return 6
+      case .strokeImage:
         return 10
       }
     }
@@ -62,6 +66,8 @@ public extension UIButton.Configuration {
         return 0
       case .stroke:
         return 1.5
+      case .strokeImage:
+        return 1.5
       }
     }
     
@@ -71,7 +77,36 @@ public extension UIButton.Configuration {
         return nil
       case .stroke:
         return .red02
+      case .strokeImage:
+        return .red02
+      }
+    }
+    
+    var imagePlacement: NSDirectionalRectEdge? {
+      switch self {
+      case .fill:
+        return nil
+      case .stroke:
+        return nil
+      case .strokeImage(_, let placement, _):
+        return placement
+      }
+    }
+    
+    var imagePadding: PaddingStyle? {
+      switch self {
+      case .fill:
+        return nil
+      case .stroke:
+        return nil
+      case .strokeImage(let padding, _, _):
+        return padding
       }
     }
   }
+}
+
+public enum PaddingStyle {
+  case fixed(padding: CGFloat)
+  case dynamic
 }
