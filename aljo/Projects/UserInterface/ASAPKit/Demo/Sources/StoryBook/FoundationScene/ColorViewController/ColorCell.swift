@@ -27,7 +27,7 @@ class ColorCell: UITableViewCell {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.headLine3)
-    label.textColor = .title
+    label.textColor = .black01
     label.textAlignment = .left
     return label
   }()
@@ -35,7 +35,7 @@ class ColorCell: UITableViewCell {
   private let distributionLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.body4)
-    label.textColor = .disable
+    label.textColor = .black04
     return label
   }()
   

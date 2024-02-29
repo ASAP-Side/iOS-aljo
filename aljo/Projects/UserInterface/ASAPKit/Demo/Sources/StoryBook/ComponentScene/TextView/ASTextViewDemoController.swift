@@ -11,7 +11,7 @@ import ASAPKit
 final class ASTextViewDemoController: ComponentViewController {
   private let textView: ASTextView = {
     let textView = ASTextView(placeholder: "입력해보세요.", maxLength: 10)
-    textView.borderColor = .disable
+    textView.borderColor = .black04
     textView.isShowCount = true
     textView.backgroundColor = .systemBackground
     return textView

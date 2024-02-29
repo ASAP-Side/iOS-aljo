@@ -20,7 +20,7 @@ public final class ASUnderBarTextField: UIView {
   let textField: UITextField = {
     let textField = UITextField()
     textField.font = .pretendard(.body1)
-    textField.textColor = .title
+    textField.textColor = .black01
     return textField
   }()
   private let titleLabel: UILabel = {
@@ -59,7 +59,7 @@ public final class ASUnderBarTextField: UIView {
   private let textCountLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.body4)
-    label.textColor = .disable
+    label.textColor = .black04
     label.isHidden = true
     return label
   }()
@@ -86,7 +86,7 @@ public final class ASUnderBarTextField: UIView {
     set {
       textField.attributedPlaceholder = NSAttributedString(
         string: newValue ?? "",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.disable]
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.black04]
       )
     }
   }
@@ -208,7 +208,7 @@ extension ASUnderBarTextField {
   private func configureState() {
     guard textField.isFirstResponder else {
       underBar.backgroundColor = .gray01
-      descriptionLabel.textColor = .disable
+      descriptionLabel.textColor = .black04
       return
     }
     
@@ -216,8 +216,8 @@ extension ASUnderBarTextField {
       underBar.backgroundColor = .redColor
       descriptionLabel.textColor = .redColor
     } else {
-      underBar.backgroundColor = .body01
-      descriptionLabel.textColor = .body02
+      underBar.backgroundColor = .black02
+      descriptionLabel.textColor = .black03
     }
   }
   

@@ -84,7 +84,7 @@ private extension StoryRootViewController {
     let titleLabel = UILabel()
     titleLabel.font = .pretendard(.headLine1)
     titleLabel.text = "StoryBook"
-    titleLabel.textColor = ASAPKitAsset.Basic.title.color
+    titleLabel.textColor = .black01
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
     navigationItem.largeTitleDisplayMode = .never
     navigationController?.navigationBar.prefersLargeTitles = false

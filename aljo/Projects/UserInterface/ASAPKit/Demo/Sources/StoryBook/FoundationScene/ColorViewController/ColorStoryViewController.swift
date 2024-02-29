@@ -64,7 +64,7 @@ private extension ColorStoryViewController {
     let titleLabel = UILabel()
     titleLabel.text = "색상"
     titleLabel.font = .pretendard(.headLine3)
-    titleLabel.textColor = .title
+    titleLabel.textColor = .black01
     navigationItem.titleView = titleLabel
   }
   

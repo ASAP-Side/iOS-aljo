@@ -77,7 +77,7 @@ public class ASTextView: UIView {
   // MARK: VIEW PROPERTIES
   internal let textView: UITextView = {
     let textView = UITextView()
-    textView.textColor = .disable
+    textView.textColor = .black04
     return textView
   }()
   
@@ -85,7 +85,7 @@ public class ASTextView: UIView {
     let label = UILabel()
     label.font = .pretendard(.caption3)
     label.textAlignment = .right
-    label.textColor = .title
+    label.textColor = .black01
     return label
   }()
   
@@ -172,8 +172,8 @@ private extension ASTextView {
   func updateCountText(_ currentLength: Int) {
     countLabel.attributedText = "\(currentLength) / \(maxLength)"
       .toAttributedString(with: .caption3) { $0.alignment = .right }
-      .color(.disable, of: "/ \(maxLength)")
-      .color(.title, of: "\(currentLength) ")
+      .color(.black04, of: "/ \(maxLength)")
+      .color(.black01, of: "\(currentLength) ")
   }
   
   func updateTextWhenEditingEnd(_ isEmpty: Bool) {
@@ -181,14 +181,14 @@ private extension ASTextView {
     
     updateCountText(.zero)
     self.textView.text = self.placeholder
-    self.textView.textColor = .disable
+    self.textView.textColor = .black04
   }
   
   func updateTextWhenEditingStart(_ isEqual: Bool) {
     if isEqual == false { return }
     
     self.textView.text = nil
-    self.textView.textColor = .title
+    self.textView.textColor = .black01
   }
 }
 

@@ -16,7 +16,7 @@ class IconCell: UITableViewCell {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.headLine4)
-    label.textColor = .title
+    label.textColor = .black01
     return label
   }()
   

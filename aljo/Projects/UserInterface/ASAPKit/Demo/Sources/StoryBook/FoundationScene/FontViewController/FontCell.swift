@@ -12,7 +12,7 @@ final class FontCell: UITableViewCell {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.headLine3)
-    label.textColor = .title
+    label.textColor = .black01
     label.textAlignment = .left
     return label
   }()
@@ -68,7 +68,7 @@ final class FontCell: UITableViewCell {
     let paragraph = "세상에게서 도망쳐 run on 나와 저 끝까지 가줘 my lover 나쁜 결말일까 길 잃은 우리 둘 um"
     titleLabel.text = item.rawValue.uppercased()
     paragraphLabel.font = .pretendard(item)
-    paragraphLabel.textColor = .title
+    paragraphLabel.textColor = .black01
     paragraphLabel.setTextWithStyle(to: paragraph, with: item)
     setDistributions(to: item)
   }
@@ -101,7 +101,7 @@ final class FontCell: UITableViewCell {
   private func makeDistributionLabel() -> UILabel {
     let label = UILabel()
     label.font = .pretendard(.headLine4)
-    label.textColor = .title
+    label.textColor = .black01
     label.numberOfLines = 1
     return label
   }

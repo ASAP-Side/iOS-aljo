@@ -11,7 +11,7 @@ import SnapKit
 class FontHeaderView: UITableViewHeaderFooterView {
   private let titleLabel: UILabel = {
     let label = UILabel()
-    label.textColor = .title
+    label.textColor = .black01
     return label
   }()
   
