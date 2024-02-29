@@ -69,22 +69,27 @@ enum SystemConfiguration: DemoDetail, CustomStringConvertible, CaseIterable {
 enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case textView
   case rectButton
+  case roundButton
   
   var description: String {
     switch self {
-    case .textView:
-      return "ASTextView"
-    case .rectButton:
-      return "ASRectButton"
+      case .textView:
+        return "ASTextView"
+      case .rectButton:
+        return "ASRectButton"
+      case .roundButton:
+        return "ASRoundButton"
     }
   }
   
   var instance: UIViewController {
     switch self {
-    case .textView:
-      return ASTextViewDemoController()
-    case .rectButton:
-      return ASRectButtonDemoController()
+      case .textView:
+        return ASTextViewDemoController()
+      case .rectButton:
+        return ASRectButtonDemoController()
+      case .roundButton:
+        return ASRoundButtonDemoController()
     }
   }
 }

@@ -21,7 +21,7 @@ extension UILabel {
     
     additionalSetting?(&paragraphStyle)
     
-    var attributes: [NSAttributedString.Key: Any] = [
+    let attributes: [NSAttributedString.Key: Any] = [
       .paragraphStyle: paragraphStyle,
       .font: UIFont.pretendard(style) as Any,
       .kern: -0.02,

@@ -36,12 +36,11 @@ class DemoCategoryCell: UITableViewCell {
   func configureUI() {
     contentView.addSubview(titleLabel)
     
-    NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 8),
-      titleLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-      titleLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-      titleLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -8)
-    ])
-    
+    titleLabel.snp.makeConstraints {
+      $0.top.equalToSuperview().offset(8)
+      $0.leading.equalToSuperview().offset(16)
+      $0.trailing.equalToSuperview().offset(-16)
+      $0.bottom.equalToSuperview().offset(-8)
+    }
   }
 }

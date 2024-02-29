@@ -7,6 +7,83 @@
 import UIKit
 
 public extension UIButton.Configuration {
+  enum RoundStyle {
+    case text
+    case image
+    case imageBorder
+    
+    var titleColor: UIColor? {
+      switch self {
+        case .text:   return .title
+        default:      return nil
+      }
+    }
+    
+    var selectedTitleColor: UIColor? {
+      switch self {
+        case .text:   return .red01
+        default:      return nil
+      }
+    }
+    
+    var backgroundColor: UIColor? {
+      switch self {
+        case .text:   return .white
+        default:      return .clear
+      }
+    }
+    
+    var selectedBackgroundColor: UIColor? {
+      switch self {
+        case .text:         return .red02
+        case .imageBorder:  return .red01
+        default:            return nil
+      }
+    }
+    
+    var borderColor: UIColor? {
+      switch self {
+        case .text:           return .gray02
+        case .imageBorder:    return .gray03
+        default:              return nil
+      }
+    }
+    
+    var selectedBorderColor: UIColor? {
+      switch self {
+        case .text:      return .red01
+        default:         return nil
+      }
+    }
+    
+    var font: UIFont? {
+      switch self {
+        case .text:     return .pretendard(.body3)
+        default:        return nil
+      }
+    }
+    
+    var selectedFont: UIFont? {
+      switch self {
+        case .text:     return .pretendard(.headLine6)
+        default:        return nil
+      }
+    }
+    
+    var selectedStrokeWidth: CGFloat {
+      switch self {
+        case .text:         return 1.5
+        case .imageBorder:  return 1
+        case .image:        return .zero
+      }
+    }
+  }
+  
+  enum PaddingStyle {
+    case fixed(padding: CGFloat)
+    case dynamic
+  }
+  
   enum ASRectStyle {
     case fill
     case stroke
@@ -104,6 +181,13 @@ public extension UIButton.Configuration {
       }
     }
   }
+  static func round(with style: RoundStyle) -> Self {
+    var configuration = Self.plain()
+    configuration.titleAlignment = .center
+    configuration.background.strokeWidth = 1
+    configuration.cornerStyle = .capsule
+    return configuration
+  }
   
   static func rect(style: ASRectStyle) -> Self {
     var configuration = plain()
@@ -117,9 +201,4 @@ public extension UIButton.Configuration {
     
     return configuration
   }
-}
-
-public enum PaddingStyle {
-  case fixed(padding: CGFloat)
-  case dynamic
 }

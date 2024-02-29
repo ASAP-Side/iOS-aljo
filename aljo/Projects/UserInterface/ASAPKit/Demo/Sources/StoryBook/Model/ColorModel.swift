@@ -52,4 +52,3 @@ struct ASAPColorModel {
   let title: String
   let color: UIColor
 }
-

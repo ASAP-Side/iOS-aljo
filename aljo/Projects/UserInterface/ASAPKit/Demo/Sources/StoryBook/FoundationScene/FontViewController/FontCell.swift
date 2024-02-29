@@ -93,7 +93,8 @@ final class FontCell: UITableViewCell {
     lineHeightTitleLabel.setTextWithStyle(to: "LineHeight", with: item)
     lineHeightLabel.setTextWithStyle(to: item.lineHeight.description, with: item)
     
-    [sizeTitleLabel, weightTitleLabel, lineHeightTitleLabel].forEach(distributionTitleStackView.addArrangedSubview)
+    [sizeTitleLabel, weightTitleLabel, lineHeightTitleLabel]
+      .forEach(distributionTitleStackView.addArrangedSubview)
     [sizeLabel, weightLabel, lineHeightLabel].forEach(distributionValueStackView.addArrangedSubview)
   }
   
