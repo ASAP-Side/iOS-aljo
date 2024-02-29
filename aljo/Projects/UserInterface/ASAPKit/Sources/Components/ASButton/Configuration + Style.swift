@@ -35,15 +35,15 @@ public extension UIButton.Configuration {
     
     var selectedBackgroundColor: UIColor? {
       switch self {
-        case .text:   return .red02
+        case .text:         return .red02
         case .imageBorder:  return .red01
-        default:      return nil
+        default:            return nil
       }
     }
     
     var borderColor: UIColor? {
       switch self {
-        case .text:            return .gray02
+        case .text:           return .gray02
         case .imageBorder:    return .gray03
         default:              return nil
       }
@@ -72,12 +72,9 @@ public extension UIButton.Configuration {
     
     var selectedStrokeWidth: CGFloat {
       switch self {
-        case .text:
-          return 1.5
-        case .imageBorder:
-          return 1
-        case .image:
-          return .zero
+        case .text:         return 1.5
+        case .imageBorder:  return 1
+        case .image:        return .zero
       }
     }
   }
