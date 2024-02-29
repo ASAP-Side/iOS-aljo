@@ -110,7 +110,7 @@ public final class ASRectButton: UIButton {
     case .normal:
       configuration?.background.strokeColor = .gray02
       configuration?.background.backgroundColor = .white
-      configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body3)
+      configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body5)
       configuration?.attributedTitle?[ForegroundColorAttribute.self] = .title
     case .selected:
       configuration?.background.strokeColor = .red01

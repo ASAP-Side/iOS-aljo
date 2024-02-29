@@ -43,7 +43,7 @@ public extension UIButton.Configuration {
       case .fill:
         return .pretendard(.headLine5)
       case .stroke:
-        return .pretendard(.body2)
+        return .pretendard(.body5)
       case .strokeImage:
         return .pretendard(.body3)
       }
