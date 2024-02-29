@@ -7,15 +7,17 @@
 import UIKit
 
 public final class ASSlider: UISlider {
+  private let baseLayer = CALayer()
   private let trackLayer = CALayer()
   
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
     
     clear()
-    createTrack()
     
     createTrackLabel()
+    createBaseLayer()
+    createTrackLayer()
   }
   
   private func clear() {
@@ -30,11 +32,26 @@ public final class ASSlider: UISlider {
     minimumValueImage = .Icon.mute
   }
   
-  private func createTrack() {
-    trackLayer.masksToBounds = true
-    trackLayer.backgroundColor = UIColor.gray03.cgColor
-    trackLayer.frame = .init(x: .zero, y: frame.height / 4, width: frame.width, height: 4)
-    trackLayer.cornerRadius = min(trackLayer.frame.width, trackLayer.frame.height) / 2
-    layer.insertSublayer(trackLayer, at: 0)
+  private func createBaseLayer() {
+    baseLayer.masksToBounds = true
+    baseLayer.backgroundColor = UIColor.gray03.cgColor
+    if let size = minimumValueImage?.size {
+      baseLayer.frame = .init(
+        x: size.width + 16,
+        y: size.height / 2,
+        width: frame.width - size.width * 2 - 32,
+        height: 4
+      )
+    }
+    baseLayer.cornerRadius = min(baseLayer.frame.width, baseLayer.frame.height) / 2
+    layer.insertSublayer(baseLayer, at: 0)
+  }
+  
+  func createTrackLayer() {
+    let color = UIColor.red01
+    trackLayer.backgroundColor = color.cgColor
+    let baseFrame = baseLayer.frame
+    trackLayer.frame = baseFrame
+    layer.insertSublayer(trackLayer, at: 1)
   }
 }
