@@ -21,9 +21,6 @@ public final class ASStepper: UIView {
     let button = UIButton()
     button.configuration = UIButton.Configuration.plain()
     button.configuration?.image = .Icon.plus
-    button.configurationUpdateHandler = { _ in
-      
-    }
     return button
   }()
   
@@ -31,9 +28,6 @@ public final class ASStepper: UIView {
     let button = UIButton()
     button.configuration = UIButton.Configuration.plain()
     button.configuration?.image = .Icon.minus
-    button.configurationUpdateHandler = { _ in
-      
-    }
     return button
   }()
   
@@ -69,6 +63,10 @@ extension ASStepper {
   private func configureUI() {
     configureHirachy()
     makeConstratins()
+    
+    [upButton, downButton].forEach {
+      $0.configurationUpdateHandler = stepperButtonUpdateHandler
+    }
   }
   
   private func configureHirachy() {
@@ -82,6 +80,21 @@ extension ASStepper {
   private func makeConstratins() {
     totalStackView.snp.makeConstraints {
       $0.top.leading.trailing.bottom.equalToSuperview()
+    }
+  }
+  
+  private func stepperButtonUpdateHandler(_ button: UIButton) {
+    switch button.state {
+    case .normal:
+      button.configuration?.imageColorTransformer = .init({ _ in
+        return .black01
+      })
+    case .disabled:
+      button.configuration?.imageColorTransformer = .init({ _ in
+        return .gray02
+      })
+    default:
+      break
     }
   }
 }
