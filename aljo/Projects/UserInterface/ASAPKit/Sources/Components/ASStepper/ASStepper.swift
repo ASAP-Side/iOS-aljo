@@ -49,21 +49,8 @@ public final class ASStepper: UIView {
   
   // MARK: Public
   @objc dynamic public var currentValue: Int = 1
-  @objc dynamic public var minimumValue: Int = 0 {
-    didSet {
-      if minimumValue < 0 {
-        minimumValue = 0
-      }
-    }
-  }
-  @objc dynamic public var maximumValue: Int = 100 {
-    didSet {
-      let width = maximumValue.description.count * 9
-      currentValueLabel.snp.updateConstraints {
-        $0.width.equalTo(width)
-      }
-    }
-  }
+  @objc dynamic public var minimumValue: Int = 0
+  @objc dynamic public var maximumValue: Int = 100
   public var stepValue: Int = 1
   
   // MARK: - init
