@@ -14,7 +14,6 @@ import SnapKit
 
 public final class ASStepper: UIView {
   private let disposeBag = DisposeBag()
-  private var currentValue: Int = 0
   
   // MARK: - Components
   private let upButton: UIButton = {
@@ -34,7 +33,8 @@ public final class ASStepper: UIView {
   private let currentValueLabel: UILabel = {
     let label = UILabel()
     label.textColor = .black01
-    label.text = "0"
+    label.font = .pretendard(.body4)
+    label.textAlignment = .center
     return label
   }()
   
@@ -47,14 +47,109 @@ public final class ASStepper: UIView {
     return stackView
   }()
   
+  // MARK: Public
+  @objc dynamic public var currentValue: Int = 1
+  @objc dynamic public var minimumValue: Int = 0 {
+    didSet {
+      if minimumValue < 0 {
+        minimumValue = 0
+      }
+    }
+  }
+  @objc dynamic public var maximumValue: Int = 100 {
+    didSet {
+      let width = maximumValue.description.count * 9
+      currentValueLabel.snp.updateConstraints {
+        $0.width.equalTo(width)
+      }
+    }
+  }
+  public var stepValue: Int = 1
+  
   // MARK: - init
   public init() {
     super.init(frame: .zero)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func shouldClampedCurrentValue() {
+    guard currentValue <= maximumValue else {
+      currentValue = maximumValue
+      return
+    }
+    
+    guard currentValue >= minimumValue else {
+      currentValue = minimumValue
+      return
+    }
+  }
+}
+
+// MARK: Bind
+extension ASStepper {
+  
+  private func bind() {
+    upButton.rx.tap
+      .subscribe(with: self) { object, _ in
+        object.currentValue += object.stepValue
+      }
+      .disposed(by: disposeBag)
+    
+    downButton.rx.tap
+      .subscribe(with: self) { object, _ in
+        object.currentValue -= object.stepValue
+      }
+      .disposed(by: disposeBag)
+    
+    let currentValue = rx.observe(\.currentValue).share()
+    let minimumValue = rx.observe(\.minimumValue).share()
+    let maximumValue = rx.observe(\.maximumValue).share()
+    
+    currentValue
+      .map { $0.description }
+      .bind(to: currentValueLabel.rx.text)
+      .disposed(by: disposeBag)
+    
+    currentValue
+      .map { self.maximumValue > $0 }
+      .bind(to: upButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    currentValue
+      .map { self.minimumValue < $0 }
+      .bind(to: downButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    minimumValue
+      .filter { $0 < 0 }
+      .subscribe(with: self) { object, _ in
+        object.minimumValue = 0
+      }
+      .disposed(by: disposeBag)
+      
+    maximumValue
+      .subscribe(with: self) { object, value in
+        let width = value.description.count * 9
+        
+        object.currentValueLabel.snp.updateConstraints {
+          $0.width.equalTo(width)
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    Observable.merge(
+      currentValue,
+      minimumValue,
+      maximumValue
+    )
+    .map { _ in }
+    .bind(onNext: shouldClampedCurrentValue)
+    .disposed(by: disposeBag)
   }
 }
 
@@ -62,7 +157,7 @@ public final class ASStepper: UIView {
 extension ASStepper {
   private func configureUI() {
     configureHirachy()
-    makeConstratins()
+    makeConstraints()
     
     [upButton, downButton].forEach {
       $0.configurationUpdateHandler = stepperButtonUpdateHandler
@@ -77,9 +172,13 @@ extension ASStepper {
     }
   }
   
-  private func makeConstratins() {
+  private func makeConstraints() {
     totalStackView.snp.makeConstraints {
       $0.top.leading.trailing.bottom.equalToSuperview()
+    }
+    
+    currentValueLabel.snp.makeConstraints {
+      $0.width.equalTo(27)
     }
   }
   
