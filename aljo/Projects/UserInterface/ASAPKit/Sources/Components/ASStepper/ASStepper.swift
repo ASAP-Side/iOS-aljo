@@ -13,6 +13,10 @@ import RxSwift
 import SnapKit
 
 public final class ASStepper: UIView {
+  deinit {
+    print("내려감")
+  }
+  
   private let disposeBag = DisposeBag()
   
   // MARK: - Components
@@ -47,7 +51,7 @@ public final class ASStepper: UIView {
     return stackView
   }()
   
-  // MARK: Public
+  // MARK: - Public
   @objc dynamic public var currentValue: Int = 1
   @objc dynamic public var minimumValue: Int = 0
   @objc dynamic public var maximumValue: Int = 100
@@ -57,7 +61,6 @@ public final class ASStepper: UIView {
   public init() {
     super.init(frame: .zero)
     configureUI()
-    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -77,9 +80,8 @@ public final class ASStepper: UIView {
   }
 }
 
-// MARK: Bind
+// MARK: - Bind
 extension ASStepper {
-  
   private func bind() {
     upButton.rx.tap
       .subscribe(with: self) { object, _ in
@@ -103,12 +105,14 @@ extension ASStepper {
       .disposed(by: disposeBag)
     
     currentValue
-      .map { self.maximumValue > $0 }
+      .withUnretained(self)
+      .map { $0.maximumValue > $1 }
       .bind(to: upButton.rx.isEnabled)
       .disposed(by: disposeBag)
     
     currentValue
-      .map { self.minimumValue < $0 }
+      .withUnretained(self)
+      .map { $0.minimumValue < $1 }
       .bind(to: downButton.rx.isEnabled)
       .disposed(by: disposeBag)
     
@@ -147,7 +151,20 @@ extension ASStepper {
     makeConstraints()
     
     [upButton, downButton].forEach {
-      $0.configurationUpdateHandler = stepperButtonUpdateHandler
+      $0.configurationUpdateHandler = { button in
+        switch button.state {
+        case .normal:
+          button.configuration?.imageColorTransformer = .init({ _ in
+            return .black01
+          })
+        case .disabled:
+          button.configuration?.imageColorTransformer = .init({ _ in
+            return .gray02
+          })
+        default:
+          break
+        }
+      }
     }
   }
   
@@ -166,21 +183,6 @@ extension ASStepper {
     
     currentValueLabel.snp.makeConstraints {
       $0.width.equalTo(27)
-    }
-  }
-  
-  private func stepperButtonUpdateHandler(_ button: UIButton) {
-    switch button.state {
-    case .normal:
-      button.configuration?.imageColorTransformer = .init({ _ in
-        return .black01
-      })
-    case .disabled:
-      button.configuration?.imageColorTransformer = .init({ _ in
-        return .gray02
-      })
-    default:
-      break
     }
   }
 }

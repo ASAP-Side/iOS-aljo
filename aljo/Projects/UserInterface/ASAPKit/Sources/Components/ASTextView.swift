@@ -135,6 +135,10 @@ public class ASTextView: UIView {
     setUpSubViews()
     binding()
   }
+  
+  deinit {
+    print("내려감")
+  }
 }
 
 // MARK: BINDING METHODS
