@@ -13,10 +13,6 @@ import RxSwift
 import SnapKit
 
 public final class ASStepper: UIView {
-  deinit {
-    print("내려감")
-  }
-  
   private let disposeBag = DisposeBag()
   
   // MARK: - Components
@@ -61,6 +57,7 @@ public final class ASStepper: UIView {
   public init() {
     super.init(frame: .zero)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
