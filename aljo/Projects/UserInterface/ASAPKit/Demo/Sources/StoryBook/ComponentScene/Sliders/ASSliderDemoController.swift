@@ -9,7 +9,15 @@ import UIKit
 import ASAPKit
 
 class ASSliderDemoController: UIViewController {
-  private let slider = ASSlider()
+  private let slider: ASSlider = {
+    let slider = ASSlider(height: .small)
+    slider.backgroundTintColor = .clear
+    slider.rightTintColor = .gray03
+    slider.leftTintColor = .red01
+    slider.rightImage = .Icon.sound
+    slider.leftImage = .Icon.mute
+    return slider
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
