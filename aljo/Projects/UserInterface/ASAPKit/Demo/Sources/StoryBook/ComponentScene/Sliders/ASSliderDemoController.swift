@@ -6,9 +6,9 @@
 
 import UIKit
 
-import RxSwift
-
 import ASAPKit
+
+import RxSwift
 
 class ASSliderDemoController: UIViewController {
   private let label: UILabel = {
