@@ -24,10 +24,7 @@ public extension UIImage {
     public static let picture_color: UIImage = ASAPKitAsset.Picture.pictureColor.image
     public static let picture_gray: UIImage = ASAPKitAsset.Picture.pictureGray.image
     
-<<<<<<< HEAD
     // symbols
-=======
->>>>>>> develop
     public static let check: UIImage = ASAPKitAsset.Symbols.check.image
     public static let check_small: UIImage = ASAPKitAsset.Symbols.checkSmall.image
     public static let minus: UIImage = ASAPKitAsset.Symbols.minus.image
