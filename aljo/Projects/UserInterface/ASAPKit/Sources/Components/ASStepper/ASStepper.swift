@@ -121,16 +121,6 @@ extension ASStepper {
       }
       .disposed(by: disposeBag)
       
-    maximumValue
-      .subscribe(with: self) { object, value in
-        let width = value.description.count * 9
-        
-        object.currentValueLabel.snp.updateConstraints {
-          $0.width.equalTo(width)
-        }
-      }
-      .disposed(by: disposeBag)
-    
     Observable.merge(
       currentValue,
       minimumValue,
@@ -180,7 +170,7 @@ extension ASStepper {
     }
     
     currentValueLabel.snp.makeConstraints {
-      $0.width.equalTo(27)
+      $0.width.equalTo(50)
     }
   }
 }
