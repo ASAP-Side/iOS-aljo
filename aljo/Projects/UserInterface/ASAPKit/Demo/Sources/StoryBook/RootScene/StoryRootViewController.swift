@@ -26,6 +26,13 @@ class StoryRootViewController: UIViewController {
     
     tableView.delegate = self
     tableView.dataSource = self
+    
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapView))
+    view.addGestureRecognizer(tap)
+  }
+  
+  @objc func didTapView() {
+    self.textView.endEditing(true)
   }
 }
 
