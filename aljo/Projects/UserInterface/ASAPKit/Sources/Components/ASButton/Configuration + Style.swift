@@ -6,6 +6,7 @@
 
 import UIKit
 
+// MARK: - Button Style Static Method
 public extension UIButton.Configuration {
   enum RoundStyle {
     case text

@@ -71,15 +71,18 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case rectButton
   case roundButton
   case stepper
+  case slider
   
   var description: String {
     switch self {
     case .textView:
       return "ASTextView"
-    case .rectButton:
-      return "ASRectButton"
     case .roundButton:
       return "ASRoundButton"
+    case .rectButton:
+      return "ASRectButton"
+    case .slider:
+      return "ASSlider"
     case .stepper:
       return "ASStepper"
     }
@@ -89,10 +92,12 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
     switch self {
     case .textView:
       return ASTextViewDemoController()
-    case .rectButton:
-      return ASRectButtonDemoController()
     case .roundButton:
       return ASRoundButtonDemoController()
+    case .rectButton:
+      return ASRectButtonDemoController()
+    case .slider:
+      return ASSliderDemoController()
     case .stepper:
       return ASStepperDemoController()
     }
