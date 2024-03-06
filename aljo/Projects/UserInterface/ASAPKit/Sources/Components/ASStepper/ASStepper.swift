@@ -80,11 +80,8 @@ public final class ASStepper: UIControl {
   }
   
   private func checkCurrentValueOutOfRange() {
-    guard currentValue <= maximumValue,
-          currentValue >= minimumValue
-    else {
+    if currentValue > maximumValue || currentValue < minimumValue {
       assert(false, "currentValue가 max, min 범위를 벗어날 수 없습니다.")
-      return
     }
   }
 }
