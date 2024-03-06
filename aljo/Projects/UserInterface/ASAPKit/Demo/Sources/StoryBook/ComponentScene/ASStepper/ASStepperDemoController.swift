@@ -13,15 +13,14 @@ import ASAPKit
 import SnapKit
 
 final class ASStepperDemoController: UIViewController {
-  private let stepper = ASStepper()
+  private let stepper = ASStepper(
+    currentValue: 0,
+    maximumValue: 8,
+    minimumValue: 1
+  )
   
   override func viewDidLoad() {
     view.backgroundColor = .systemBackground
-    
-    stepper.currentValue = 5
-    stepper.maximumValue = 8
-    stepper.minimumValue = 1
-    
     view.addSubview(stepper)
     
     stepper.snp.makeConstraints {

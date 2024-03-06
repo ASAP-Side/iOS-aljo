@@ -12,7 +12,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-public final class ASStepper: UIView {
+public final class ASStepper: UIControl {
   private let disposeBag = DisposeBag()
   
   // MARK: - Components
@@ -48,14 +48,28 @@ public final class ASStepper: UIView {
   }()
   
   // MARK: - Public
-  @objc dynamic public var currentValue: Int = 1
-  @objc dynamic public var minimumValue: Int = 0
-  @objc dynamic public var maximumValue: Int = 100
+  public var currentValue: Int {
+    didSet {
+      checkCurrentValueOutOfRange()
+      sendActions(for: .valueChanged)
+    }
+  }
+  var maximumValue: Int
+  var minimumValue: Int
+  
   public var stepValue: Int = 1
   
   // MARK: - init
-  public init() {
+  public init(
+    currentValue: Int = 1,
+    maximumValue: Int = 100,
+    minimumValue: Int = 1
+  ) {
+    self.currentValue = currentValue
+    self.maximumValue = maximumValue
+    self.minimumValue = minimumValue
     super.init(frame: .zero)
+    checkCurrentValueOutOfRange()
     configureUI()
     bind()
   }
@@ -65,14 +79,11 @@ public final class ASStepper: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func shouldClampedCurrentValue() {
-    guard currentValue <= maximumValue else {
-      currentValue = maximumValue
-      return
-    }
-    
-    guard currentValue >= minimumValue else {
-      currentValue = minimumValue
+  private func checkCurrentValueOutOfRange() {
+    guard currentValue <= maximumValue,
+          currentValue >= minimumValue
+    else {
+      assert(false, "currentValue가 max, min 범위를 벗어날 수 없습니다.")
       return
     }
   }
@@ -93,42 +104,22 @@ extension ASStepper {
       }
       .disposed(by: disposeBag)
     
-    let currentValue = rx.observe(\.currentValue).share()
-    let minimumValue = rx.observe(\.minimumValue).share()
-    let maximumValue = rx.observe(\.maximumValue).share()
-    
-    currentValue
+    rx.value
       .map { $0.description }
       .bind(to: currentValueLabel.rx.text)
       .disposed(by: disposeBag)
     
-    currentValue
+    rx.value
       .withUnretained(self)
       .map { $0.maximumValue > $1 }
       .bind(to: upButton.rx.isEnabled)
       .disposed(by: disposeBag)
     
-    currentValue
+    rx.value
       .withUnretained(self)
       .map { $0.minimumValue < $1 }
       .bind(to: downButton.rx.isEnabled)
       .disposed(by: disposeBag)
-    
-    minimumValue
-      .filter { $0 < 0 }
-      .subscribe(with: self) { object, _ in
-        object.minimumValue = 0
-      }
-      .disposed(by: disposeBag)
-      
-    Observable.merge(
-      currentValue,
-      minimumValue,
-      maximumValue
-    )
-    .map { _ in }
-    .bind(onNext: shouldClampedCurrentValue)
-    .disposed(by: disposeBag)
   }
 }
 
