@@ -24,7 +24,6 @@ public class RoundButton: UIButton {
       case .text:
         configurationUpdateHandler = updateShapeForTextStyle
         configuration?.titleTextAttributesTransformer = .init(updateTitleContainer)
-        
       case .image, .imageBorder:
         configurationUpdateHandler = updateShapeForImageStyle
     }
@@ -33,6 +32,10 @@ public class RoundButton: UIButton {
   @available(*, unavailable, message: "스토리보드로 생성할 수 없습니다.")
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func updateTitleContainer() {
+    
   }
   
   private func updateShapeForImageStyle(_ button: UIButton) {
@@ -60,12 +63,11 @@ public class RoundButton: UIButton {
     return container
   }
   
-  private func updateShapeForTextStyle(_ button: UIButton) {  
+  private func updateShapeForTextStyle(_ button: UIButton) {
     if button.state == .selected {
       configuration?.background.backgroundColor = style.selectedBackgroundColor
       configuration?.background.strokeColor = style.selectedBorderColor
       configuration?.background.strokeWidth = style.selectedStrokeWidth
-      button.configuration?.title = title
       return
     }
     
@@ -73,7 +75,6 @@ public class RoundButton: UIButton {
       configuration?.background.backgroundColor = style.backgroundColor
       configuration?.background.strokeColor = style.borderColor
       configuration?.background.strokeWidth = 1
-      button.configuration?.title = title
       return
     }
     
