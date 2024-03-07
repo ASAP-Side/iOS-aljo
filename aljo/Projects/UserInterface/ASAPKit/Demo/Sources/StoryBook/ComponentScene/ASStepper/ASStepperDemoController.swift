@@ -10,21 +10,33 @@ import UIKit
 
 import ASAPKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 
-final class ASStepperDemoController: UIViewController {
+final class ASStepperDemoController: ComponentViewController {
   private let stepper = ASStepper(
     currentValue: 0,
-    maximumValue: 8,
-    minimumValue: 1
+    maximumValue: 5,
+    minimumValue: 0
   )
   
+  private var disposeBag = DisposeBag()
+  
   override func viewDidLoad() {
-    view.backgroundColor = .systemBackground
-    view.addSubview(stepper)
+    super.viewDidLoad()
     
-    stepper.snp.makeConstraints {
+    addSampleView(to: stepper) {
       $0.centerX.centerY.equalToSuperview()
     }
+    
+    binding()
+  }
+  
+  private func binding() {
+    stepper.rx.value
+      .map(\.description)
+      .bind(to: navigationItem.rx.title)
+      .disposed(by: disposeBag)
   }
 }
