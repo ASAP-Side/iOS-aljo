@@ -74,7 +74,7 @@ public final class ASUnderBarTextField: UIView {
   /// 입력값이 올바른지를 나타낼 때 사용합니다.
   ///
   /// 기본 값은 false 입니다. Bool값에 따라 underBar와 descriptionText의 색이 변경됩니다.
-  public var isInputVerify: Bool = false {
+  public var isInputVerify: Bool = true {
     didSet {
       setNeedsDisplay()
     }
