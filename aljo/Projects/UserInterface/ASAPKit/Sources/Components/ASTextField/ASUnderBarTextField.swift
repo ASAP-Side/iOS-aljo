@@ -14,7 +14,6 @@ import SnapKit
 
 public final class ASUnderBarTextField: UIView {
   private let disposeBag = DisposeBag()
-  private let isInputNegativeRelay = PublishRelay<Void>()
   
   // MARK: - Components
   let textField: UITextField = {
@@ -199,6 +198,7 @@ extension ASUnderBarTextField {
         object.animateClearButtonHidden(true)
         object.configureTextCountLabel(0)
         object.textField.text = nil
+        object.textField.sendActions(for: .editingChanged)
       })
       .disposed(by: disposeBag)
   }
