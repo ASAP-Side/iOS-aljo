@@ -15,7 +15,7 @@ class DemoCategoryCell: UITableViewCell {
   
   private let titleLabel: UILabel = {
     let label = UILabel()
-    label.textColor = ASAPKitAsset.Basic.title.color
+    label.textColor = .black01
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()

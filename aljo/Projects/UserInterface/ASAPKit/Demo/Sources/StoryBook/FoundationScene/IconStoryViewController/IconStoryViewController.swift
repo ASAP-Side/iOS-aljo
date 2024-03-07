@@ -57,7 +57,7 @@ private extension IconStoryViewController {
     let titleLabel = UILabel()
     titleLabel.text = "아이콘"
     titleLabel.font = .pretendard(.headLine3)
-    titleLabel.textColor = .title
+    titleLabel.textColor = .black01
     navigationItem.titleView = titleLabel
   }
   

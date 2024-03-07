@@ -25,10 +25,10 @@ enum ColorModel: String, CaseIterable, CustomStringConvertible {
         return [UIColor.red01.toDemoModel(to: "Red 1"), UIColor.red02.toDemoModel(to: "Red 2")]
       case .basic:
         return [
-          UIColor.title.toDemoModel(to: "Title"),
-          UIColor.body01.toDemoModel(to: "Body 1"),
-          UIColor.body02.toDemoModel(to: "Body 2"),
-          UIColor.disable.toDemoModel(to: "Disable")
+          UIColor.black01.toDemoModel(to: "Title"),
+          UIColor.black02.toDemoModel(to: "Body 1"),
+          UIColor.black03.toDemoModel(to: "Body 2"),
+          UIColor.black04.toDemoModel(to: "Disable")
         ]
       case .greyScale:
         return [

@@ -21,7 +21,7 @@ public final class ASBorderHighlightTextField: UITextField {
     set {
       attributedPlaceholder = NSAttributedString(
         string: newValue ?? "",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.disable]
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.black04]
       )
     }
   }
@@ -30,7 +30,7 @@ public final class ASBorderHighlightTextField: UITextField {
   public init() {
     super.init(frame: .zero)
     font = .pretendard(.body3)
-    textColor = .title
+    textColor = .black01
     layer.borderWidth = 1.5
     layer.borderColor = UIColor.gray02.cgColor
     layer.cornerRadius = 6
@@ -57,7 +57,7 @@ public final class ASBorderHighlightTextField: UITextField {
     
     Observable.merge(endEditing.asObservable(), beginEditing.asObservable())
       .map { [weak self] _ in
-        self?.isFirstResponder == true ? UIColor.title : UIColor.gray02
+        self?.isFirstResponder == true ? UIColor.black01 : UIColor.gray02
       }
       .map(\.cgColor)
       .bind(to: layer.rx.borderColor)

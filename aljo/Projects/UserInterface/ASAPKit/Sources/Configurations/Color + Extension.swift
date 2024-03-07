@@ -7,10 +7,10 @@
 import UIKit
 
 public extension UIColor {
-  static let title = ASAPKitAsset.Basic.title.color
-  static let body01 = ASAPKitAsset.Basic.body01.color
-  static let body02 = ASAPKitAsset.Basic.body02.color
-  static let disable = ASAPKitAsset.Basic.disable.color
+  static let black01 = ASAPKitAsset.Basic.black01.color
+  static let black02 = ASAPKitAsset.Basic.black02.color
+  static let black03 = ASAPKitAsset.Basic.black03.color
+  static let black04 = ASAPKitAsset.Basic.black04.color
   
   static let gray01 = ASAPKitAsset.Gray.gray01.color
   static let gray02 = ASAPKitAsset.Gray.gray02.color

@@ -15,7 +15,7 @@ public extension UIButton.Configuration {
     
     var titleColor: UIColor? {
       switch self {
-        case .text:   return .title
+        case .text:   return .black01
         default:      return nil
       }
     }
@@ -110,9 +110,9 @@ public extension UIButton.Configuration {
       case .fill:
         return .white
       case .stroke:
-        return .title
+        return .black01
       case .strokeImage:
-        return .title
+        return .black01
       }
     }
   

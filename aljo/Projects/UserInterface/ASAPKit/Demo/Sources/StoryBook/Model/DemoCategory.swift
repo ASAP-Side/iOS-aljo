@@ -70,31 +70,36 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case textView
   case rectButton
   case roundButton
+  case stepper
   case slider
   
   var description: String {
     switch self {
-      case .textView:
-        return "ASTextView"
-      case .roundButton:
-        return "ASRoundButton"
-      case .rectButton:
-        return "ASRectButton"
-      case .slider:
-        return "ASSlider"
+    case .textView:
+      return "ASTextView"
+    case .roundButton:
+      return "ASRoundButton"
+    case .rectButton:
+      return "ASRectButton"
+    case .slider:
+      return "ASSlider"
+    case .stepper:
+      return "ASStepper"
     }
   }
   
   var instance: UIViewController {
     switch self {
-      case .textView:
-        return ASTextViewDemoController()
-      case .roundButton:
-        return ASRoundButtonDemoController()
-      case .rectButton:
-        return ASRectButtonDemoController()
-      case .slider:
-        return ASSliderDemoController()
+    case .textView:
+      return ASTextViewDemoController()
+    case .roundButton:
+      return ASRoundButtonDemoController()
+    case .rectButton:
+      return ASRectButtonDemoController()
+    case .slider:
+      return ASSliderDemoController()
+    case .stepper:
+      return ASStepperDemoController()
     }
   }
 }

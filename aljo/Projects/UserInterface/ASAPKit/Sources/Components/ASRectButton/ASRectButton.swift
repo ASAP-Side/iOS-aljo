@@ -87,7 +87,7 @@ public final class ASRectButton: UIButton {
       configuration?.attributedTitle?[ForegroundColorAttribute.self] = .white
     case .disabled:
       configuration?.background.backgroundColor = .gray02
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .disable
+      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black04
     default:
       break
     }
@@ -99,7 +99,7 @@ public final class ASRectButton: UIButton {
       configuration?.background.strokeColor = .gray02
       configuration?.background.backgroundColor = .white
       configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body5)
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .title
+      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black01
     case .selected:
       configuration?.background.strokeColor = .red01
       configuration?.background.backgroundColor = .red02
@@ -116,7 +116,7 @@ public final class ASRectButton: UIButton {
       configuration?.background.strokeColor = .gray02
       configuration?.background.backgroundColor = .white
       configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body3)
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .title
+      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black01
       configuration?.image = image
     case .selected:
       configuration?.background.strokeColor = .red01
