@@ -14,9 +14,9 @@ extension Reactive where Base: ASUnderBarTextField {
     return base.textField.rx.text
   }
   
-  var isInputNegative: Binder<Bool> {
-    return Binder(self.base) { asUnderBarTextField, isInputNegative in
-      asUnderBarTextField.isInputNegative = isInputNegative
+  var isInputVerify: Binder<Bool> {
+    return Binder(self.base) { asUnderBarTextField, isInputVerify in
+      asUnderBarTextField.isInputVerify = isInputVerify
     }
   }
 }
