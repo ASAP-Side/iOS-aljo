@@ -97,7 +97,6 @@ public final class ASRectButton: UIButton {
       
       self?.configuration = configuration
     }
-    
   }
   
   private func makeStrokeStyleUpdatehandler() -> ((UIButton) -> Void) {
@@ -121,7 +120,6 @@ public final class ASRectButton: UIButton {
       
       self?.configuration = configuration
     }
-    
   }
   
   private func makeStrokeImageStyleUpdateHandler() -> ((UIButton) -> Void) {
