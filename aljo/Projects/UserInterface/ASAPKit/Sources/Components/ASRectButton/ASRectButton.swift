@@ -36,11 +36,11 @@ public final class ASRectButton: UIButton {
     
     switch style {
     case .fill:
-      configurationUpdateHandler = fillStyleUpdatehandler
+      configurationUpdateHandler = makeFillStyleUpdatehandler()
     case .stroke:
-      configurationUpdateHandler = strokeStyleUpdatehandler
+      configurationUpdateHandler = makeStrokeStyleUpdatehandler()
     case .strokeImage:
-      configurationUpdateHandler = strokeImageUpdateHandler
+      configurationUpdateHandler = makeStrokeImageStyleUpdateHandler()
     }
   }
   
@@ -80,52 +80,72 @@ public final class ASRectButton: UIButton {
     }
   }
   
-  private func fillStyleUpdatehandler(_ button: UIButton) {
-    switch button.state {
-    case .normal:
-      configuration?.background.backgroundColor = .red01
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .white
-    case .disabled:
-      configuration?.background.backgroundColor = .gray02
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black04
-    default:
-      break
+  private func makeFillStyleUpdatehandler() -> ((UIButton) -> Void) {
+    return { [weak self] button in
+      var configuration = self?.configuration
+      
+      switch button.state {
+      case .normal:
+        configuration?.background.backgroundColor = .red01
+        configuration?.attributedTitle?[ForegroundColorAttribute.self] = .white
+      case .disabled:
+        configuration?.background.backgroundColor = .gray02
+        configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black04
+      default:
+        break
+      }
+      
+      self?.configuration = configuration
     }
+    
   }
   
-  private func strokeStyleUpdatehandler(_ button: UIButton) {
-    switch button.state {
-    case .normal:
-      configuration?.background.strokeColor = .gray02
-      configuration?.background.backgroundColor = .white
-      configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body5)
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black01
-    case .selected:
-      configuration?.background.strokeColor = .red01
-      configuration?.background.backgroundColor = .red02
-      configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.headLine6)
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .red01
-    default:
-      break
+  private func makeStrokeStyleUpdatehandler() -> ((UIButton) -> Void) {
+    return { [weak self] button in
+      var configuration = self?.configuration
+      
+      switch button.state {
+      case .normal:
+        configuration?.background.strokeColor = .gray02
+        configuration?.background.backgroundColor = .white
+        configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body5)
+        configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black01
+      case .selected:
+        configuration?.background.strokeColor = .red01
+        configuration?.background.backgroundColor = .red02
+        configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.headLine6)
+        configuration?.attributedTitle?[ForegroundColorAttribute.self] = .red01
+      default:
+        break
+      }
+      
+      self?.configuration = configuration
     }
+    
   }
   
-  private func strokeImageUpdateHandler(_ button: UIButton) {
-    switch button.state {
-    case .normal:
-      configuration?.background.strokeColor = .gray02
-      configuration?.background.backgroundColor = .white
-      configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body3)
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black01
-      configuration?.image = image
-    case .selected:
-      configuration?.background.strokeColor = .red01
-      configuration?.background.backgroundColor = .red02
-      configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.headLine6)
-      configuration?.attributedTitle?[ForegroundColorAttribute.self] = .red01
-      configuration?.image = selectedImage
-    default:
-      break
+  private func makeStrokeImageStyleUpdateHandler() -> ((UIButton) -> Void) {
+    return { [weak self] button in
+      var configuration = self?.configuration
+      
+      switch button.state {
+      case .normal:
+        configuration?.background.strokeColor = .gray02
+        configuration?.background.backgroundColor = .white
+        configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.body3)
+        configuration?.attributedTitle?[ForegroundColorAttribute.self] = .black01
+        configuration?.image = self?.image
+      case .selected:
+        configuration?.background.strokeColor = .red01
+        configuration?.background.backgroundColor = .red02
+        configuration?.attributedTitle?[FontAttribute.self] = .pretendard(.headLine6)
+        configuration?.attributedTitle?[ForegroundColorAttribute.self] = .red01
+        configuration?.image = self?.selectedImage
+      default:
+        break
+      }
+      
+      self?.configuration = configuration
     }
   }
 }
