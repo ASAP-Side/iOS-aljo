@@ -35,8 +35,24 @@ class ASRoundButtonDemoController: ComponentViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    configureUI()
     binding()
+    
+    addSampleView(to: imageBorderButton) {
+      $0.center.equalToSuperview()
+      $0.width.height.equalTo(20)
+    }
+    
+    addSampleView(to: textButton) {
+      $0.trailing.equalTo(self.imageBorderButton.snp.leading).offset(-20)
+      $0.centerY.equalToSuperview()
+      $0.width.height.equalTo(40)
+    }
+    
+    addSampleView(to: imageButton) {
+      $0.leading.equalTo(self.imageBorderButton.snp.trailing).offset(20)
+      $0.centerY.equalToSuperview()
+      $0.width.height.equalTo(16)
+    }
   }
 }
 
@@ -57,30 +73,5 @@ private extension ASRoundButtonDemoController {
       .withUnretained(self)
       .bind { $0.0.imageButton.isSelected.toggle() }
       .disposed(by: disposeBag)
-  }
-}
-
-private extension ASRoundButtonDemoController {
-  func configureUI() {
-    view.backgroundColor = .systemBackground
-    
-    [textButton, imageButton, imageBorderButton].forEach(view.addSubview)
-    
-    textButton.snp.makeConstraints {
-      $0.trailing.equalTo(imageBorderButton.snp.leading).offset(-20)
-      $0.centerY.equalToSuperview()
-      $0.width.height.equalTo(40)
-    }
-    
-    imageBorderButton.snp.makeConstraints {
-      $0.center.equalToSuperview()
-      $0.width.height.equalTo(20)
-    }
-    
-    imageButton.snp.makeConstraints {
-      $0.leading.equalTo(imageBorderButton.snp.trailing).offset(20)
-      $0.centerY.equalToSuperview()
-      $0.width.height.equalTo(16)
-    }
   }
 }

@@ -34,10 +34,6 @@ public class RoundButton: UIButton {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func updateTitleContainer() {
-    
-  }
-  
   private func updateShapeForImageStyle(_ button: UIButton) {
     if button.state == .selected {
       button.configuration?.image = selectedImage
@@ -68,6 +64,7 @@ public class RoundButton: UIButton {
       configuration?.background.backgroundColor = style.selectedBackgroundColor
       configuration?.background.strokeColor = style.selectedBorderColor
       configuration?.background.strokeWidth = style.selectedStrokeWidth
+      configuration?.title = title
       return
     }
     
@@ -75,6 +72,7 @@ public class RoundButton: UIButton {
       configuration?.background.backgroundColor = style.backgroundColor
       configuration?.background.strokeColor = style.borderColor
       configuration?.background.strokeWidth = 1
+      configuration?.title = title
       return
     }
     
