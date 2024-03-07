@@ -280,6 +280,7 @@ extension ASUnderBarTextField {
     textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
     textCountLabel.setContentHuggingPriority(.required, for: .horizontal)
     clearButton.setContentHuggingPriority(.required, for: .horizontal)
+    clearButton.setContentCompressionResistancePriority(.required, for: .horizontal)
     
     totalStackView.setCustomSpacing(6, after: titleLabel)
     totalStackView.setCustomSpacing(4, after: textFieldStack)
