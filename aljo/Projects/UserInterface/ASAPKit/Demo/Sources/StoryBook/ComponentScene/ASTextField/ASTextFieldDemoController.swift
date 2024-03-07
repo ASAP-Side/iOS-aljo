@@ -49,7 +49,7 @@ class ASTextFieldDemoController: ComponentViewController {
   }
   
   private func binding() {
-    underLineTextField.rx.textValue
+    underLineTextField.rx.text
       .map { $0?.isEmpty == true }
       .bind(to: underLineTextField.rx.isInputNegative)
       .disposed(by: disposeBag)
