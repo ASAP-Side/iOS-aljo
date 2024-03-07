@@ -12,10 +12,10 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
   
   var description: String {
     switch self {
-    case .systemConfiguration:
-      return "시스템 설정"
-    case .component:
-      return "COMPONENTS"
+      case .systemConfiguration:
+        return "시스템 설정"
+      case .component:
+        return "COMPONENTS"
     }
   }
   
@@ -24,10 +24,10 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
     
     allCases.forEach {
       switch $0 {
-      case .systemConfiguration:
-        dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
-      case .component:
-        dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
+        case .systemConfiguration:
+          dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
+        case .component:
+          dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
       }
     }
     return dictionary
@@ -45,28 +45,29 @@ enum SystemConfiguration: DemoDetail, CustomStringConvertible, CaseIterable {
   
   var description: String {
     switch self {
-    case .font:
-      return "폰트"
-    case .color:
-      return "색상"
-    case .icon:
-      return "아이콘"
+      case .font:
+        return "폰트"
+      case .color:
+        return "색상"
+      case .icon:
+        return "아이콘"
     }
   }
   
   var instance: UIViewController {
     switch self {
-    case .font:
-      return FontStoryViewController()
-    case .color:
-      return ColorStoryViewController()
-    case .icon:
-      return IconStoryViewController()
+      case .font:
+        return FontStoryViewController()
+      case .color:
+        return ColorStoryViewController()
+      case .icon:
+        return IconStoryViewController()
     }
   }
 }
 
 enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
+  case textField
   case textView
   case rectButton
   case roundButton
@@ -75,31 +76,35 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   
   var description: String {
     switch self {
-    case .textView:
-      return "ASTextView"
-    case .roundButton:
-      return "ASRoundButton"
-    case .rectButton:
-      return "ASRectButton"
-    case .slider:
-      return "ASSlider"
-    case .stepper:
-      return "ASStepper"
+      case .textField:
+        return "TextField"
+      case .textView:
+        return "TextView"
+      case .roundButton:
+        return "RoundButton"
+      case .rectButton:
+        return "RectButton"
+      case .slider:
+        return "Slider"
+      case .stepper:
+        return "Stepper"
     }
   }
   
   var instance: UIViewController {
     switch self {
-    case .textView:
-      return ASTextViewDemoController()
-    case .roundButton:
-      return ASRoundButtonDemoController()
-    case .rectButton:
-      return ASRectButtonDemoController()
-    case .slider:
-      return ASSliderDemoController()
-    case .stepper:
-      return ASStepperDemoController()
+      case .textField:
+        return ASTextFieldDemoController()
+      case .textView:
+        return ASTextViewDemoController()
+      case .roundButton:
+        return ASRoundButtonDemoController()
+      case .rectButton:
+        return ASRectButtonDemoController()
+      case .slider:
+        return ASSliderDemoController()
+      case .stepper:
+        return ASStepperDemoController()
     }
   }
 }
