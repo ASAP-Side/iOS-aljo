@@ -6,6 +6,9 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 import ASAPKit
 
 class ASTextFieldDemoController: ComponentViewController {
@@ -19,6 +22,14 @@ class ASTextFieldDemoController: ComponentViewController {
     return textField
   }()
   
+  private let rectTextField: ASBorderHighlightTextField = {
+    let textField = ASBorderHighlightTextField()
+    textField.placeholder = "내용을 입력해주세요."
+    return textField
+  }()
+  
+  private var disposeBag = DisposeBag()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -27,5 +38,20 @@ class ASTextFieldDemoController: ComponentViewController {
       $0.trailing.equalToSuperview().offset(-16)
       $0.top.equalToSuperview().offset(16)
     }
+    
+    addSampleView(to: rectTextField) { [weak self] in
+      guard let underLineTextField = self?.underLineTextField else { return }
+      $0.top.equalTo(underLineTextField.snp.bottom).offset(32)
+      $0.horizontalEdges.equalTo(underLineTextField)
+    }
+    
+    binding()
+  }
+  
+  private func binding() {
+    underLineTextField.rx.textValue
+      .map { $0?.isEmpty == true }
+      .bind(to: underLineTextField.rx.isInputNegative)
+      .disposed(by: disposeBag)
   }
 }

@@ -9,7 +9,7 @@
 import RxCocoa
 import RxSwift
 
-extension Reactive where Base: ASUnderBarTextField {
+public extension Reactive where Base: ASUnderBarTextField {
   var text: ControlProperty<String?> {
     return base.textField.rx.text
   }
