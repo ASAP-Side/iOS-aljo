@@ -49,9 +49,33 @@ class ASTextFieldDemoController: ComponentViewController {
   }
   
   private func binding() {
-    underLineTextField.rx.text
-      .map { $0?.isEmpty == true }
+    let text = underLineTextField.rx.text
+    
+    let isEmpty = text.map { $0?.isEmpty == true }
+    let isVerify = text.map(checkFormat(to:))
+    
+    let description = Observable.combineLatest(isEmpty, isVerify) { isEmpty, isVerify in
+      return isEmpty ? "사용할 닉네임을 입력하세요." : isVerify ? "한글과 영어만 입력할 수 있습니다." : ""
+    }
+    
+    let isError = Observable.merge(isEmpty, isVerify)
+    
+    isError
       .bind(to: underLineTextField.rx.isInputNegative)
       .disposed(by: disposeBag)
+    
+    description.withUnretained(self)
+    .bind { owner, text in
+      owner.underLineTextField.descriptionText = text
+    }
+    .disposed(by: disposeBag)
+  }
+  
+  private func checkFormat(to text: String?) -> Bool {
+    guard let text = text else { return false }
+    
+    if text.isEmpty == true { return true }
+    
+    return text.range(of: "^[가-힣a-zA-Z]+$", options: .regularExpression) == nil
   }
 }
