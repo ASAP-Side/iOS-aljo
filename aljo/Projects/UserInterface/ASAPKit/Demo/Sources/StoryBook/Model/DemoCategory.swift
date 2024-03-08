@@ -83,7 +83,7 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
       case .roundButton:
         return "RoundButton"
       case .rectButton:
-        return "RectButton"
+        return "RectangleButton"
       case .slider:
         return "Slider"
       case .stepper:
