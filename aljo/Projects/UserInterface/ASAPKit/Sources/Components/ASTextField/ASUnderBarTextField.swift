@@ -14,7 +14,6 @@ import SnapKit
 
 public final class ASUnderBarTextField: UIView {
   private let disposeBag = DisposeBag()
-  private let isInputNegativeRelay = PublishRelay<Void>()
   
   // MARK: - Components
   let textField: UITextField = {
@@ -53,7 +52,7 @@ public final class ASUnderBarTextField: UIView {
     stackView.distribution = .fill
     stackView.spacing = 10
     stackView.isLayoutMarginsRelativeArrangement = true
-    stackView.layoutMargins = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
+    stackView.layoutMargins = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 10)
     return stackView
   }()
   private let textCountLabel: UILabel = {
@@ -74,7 +73,7 @@ public final class ASUnderBarTextField: UIView {
   /// 입력값이 올바른지를 나타낼 때 사용합니다.
   ///
   /// 기본 값은 false 입니다. Bool값에 따라 underBar와 descriptionText의 색이 변경됩니다.
-  public var isInputNegative: Bool = false {
+  public var isInputVerify: Bool = true {
     didSet {
       setNeedsDisplay()
     }
@@ -127,9 +126,9 @@ public final class ASUnderBarTextField: UIView {
   /// TextField에 text 개수와 maxText 개수를 나타내는 label의 표시 유무를 나타낼 때 사용합니다.
   ///
   /// 기본값은 false 입니다.
-  public var isTextCountLabelHidden: Bool {
+  public var isLabelVisible: Bool {
     get { textCountLabel.isHidden }
-    set { textCountLabel.isHidden = newValue }
+    set { textCountLabel.isHidden = !newValue }
   }
   
   // MARK: - init
@@ -197,7 +196,9 @@ extension ASUnderBarTextField {
     clearButton.rx.tap
       .subscribe(with: self, onNext: { object, _ in
         object.animateClearButtonHidden(true)
+        object.configureTextCountLabel(0)
         object.textField.text = nil
+        object.textField.sendActions(for: .editingChanged)
       })
       .disposed(by: disposeBag)
   }
@@ -212,7 +213,7 @@ extension ASUnderBarTextField {
       return
     }
     
-    if isInputNegative == true {
+    if isInputVerify == false {
       underBar.backgroundColor = .redColor
       descriptionLabel.textColor = .redColor
     } else {
@@ -236,7 +237,6 @@ extension ASUnderBarTextField {
     }
 
     self.textFieldStack.layoutMargins.right = isHidden ? 10 : 1
-    
     self.clearButton.isHidden = isHidden
     
     UIView.animate(withDuration: 0.1) {
@@ -280,6 +280,7 @@ extension ASUnderBarTextField {
     textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
     textCountLabel.setContentHuggingPriority(.required, for: .horizontal)
     clearButton.setContentHuggingPriority(.required, for: .horizontal)
+    clearButton.setContentCompressionResistancePriority(.required, for: .horizontal)
     
     totalStackView.setCustomSpacing(6, after: titleLabel)
     totalStackView.setCustomSpacing(4, after: textFieldStack)
