@@ -8,9 +8,13 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 
 public final class ASListView: UIView {
+  private let disposeBag = DisposeBag()
+  
   private let scrollView = UIScrollView()
   private let itemStackView: UIStackView = {
     let stackView = UIStackView()
@@ -42,8 +46,8 @@ public final class ASListView: UIView {
   // MARK: - init
   public init() {
     super.init(frame: .zero)
-    
     configureUI()
+    bind()
   }
   
   @available(*, unavailable, message: "스토리 보드로 생성할 수 없습니다.")
@@ -52,11 +56,29 @@ public final class ASListView: UIView {
   }
 }
 
+// MARK: Bind
+extension ASListView {
+  private func bind() {
+    let tapGesture = UITapGestureRecognizer()
+    scrollView.addGestureRecognizer(tapGesture)
+    
+    Observable.merge(
+      scrollView.rx.willBeginDragging.asObservable(),
+      tapGesture.rx.event.map { _ in }.asObservable()
+    )
+    .subscribe(with: self) { object, _ in
+      object.endEditing(true)
+    }
+    .disposed(by: disposeBag)
+  }
+}
+
 // MARK: UI Configuration
 extension ASListView {
   private func configureUI() {
     configureHirearchy()
     configureConstraints()
+
   }
   
   private func configureHirearchy() {
