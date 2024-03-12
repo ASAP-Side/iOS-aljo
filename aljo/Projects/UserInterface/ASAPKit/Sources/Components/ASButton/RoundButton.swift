@@ -22,10 +22,10 @@ public class RoundButton: UIButton {
     
     switch style {
       case .text:
-        configurationUpdateHandler = updateShapeForTextStyle
-        configuration?.titleTextAttributesTransformer = .init(updateTitleContainer)
+        configurationUpdateHandler = makeTextStyleUpdateHandler()
+        configuration?.titleTextAttributesTransformer = .init(makeTextStyleHandler())
       case .image, .imageBorder:
-        configurationUpdateHandler = updateShapeForImageStyle
+        configurationUpdateHandler = makeImageStyleUpdateHandler()
     }
   }
   
@@ -34,50 +34,59 @@ public class RoundButton: UIButton {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func updateTitleContainer() {
-    
+  private func makeImageStyleUpdateHandler() -> ((UIButton) -> Void) {
+    return { [weak self] button in
+      guard let self = self else { return }
+      
+      var configuration = button.configuration
+      
+      if button.state == .selected {
+        configuration?.image = selectedImage
+        configuration?.background.strokeColor = style.selectedBorderColor ?? .clear
+        configuration?.background.backgroundColor = style.selectedBackgroundColor ?? .clear
+        configuration?.background.strokeWidth = style.selectedStrokeWidth
+      }
+      
+      if button.state == .normal {
+        configuration?.image = image
+        configuration?.background.strokeColor = style.borderColor ?? .clear
+        configuration?.background.backgroundColor = style.backgroundColor ?? .clear
+        configuration?.background.strokeWidth = 1
+      }
+      
+      button.configuration = configuration
+    }
+  }
+  private func makeTextStyleHandler() -> ((AttributeContainer) -> AttributeContainer) {
+    return { [weak self] container in
+      guard let self = self else { return container }
+      var container = container
+      container.font = (isSelected ? style.selectedFont : style.font)
+      container.foregroundColor = (isSelected ? style.selectedTitleColor : style.titleColor)
+      return container
+    }
   }
   
-  private func updateShapeForImageStyle(_ button: UIButton) {
-    if button.state == .selected {
-      button.configuration?.image = selectedImage
-      button.configuration?.background.strokeColor = style.selectedBorderColor ?? .clear
-      button.configuration?.background.backgroundColor = style.selectedBackgroundColor ?? .clear
-      button.configuration?.background.strokeWidth = style.selectedStrokeWidth
+  private func makeTextStyleUpdateHandler() -> ((UIButton) -> Void) {
+    return { [weak self] button in
+      guard let self = self else { return }
+      
+      var configuration = button.configuration
+      
+      if button.state == .selected {
+        configuration?.background.backgroundColor = style.selectedBackgroundColor
+        configuration?.background.strokeColor = style.selectedBorderColor
+        configuration?.background.strokeWidth = style.selectedStrokeWidth
+      }
+      
+      if button.state == .normal {
+        configuration?.background.backgroundColor = style.backgroundColor
+        configuration?.background.strokeColor = style.borderColor
+        configuration?.background.strokeWidth = 1
+        configuration?.title = title
+      }
+      
+      button.configuration = configuration
     }
-    
-    if button.state == .normal {
-      button.configuration?.image = image
-      button.configuration?.background.strokeColor = style.borderColor ?? .clear
-      button.configuration?.background.backgroundColor = style.backgroundColor ?? .clear
-      button.configuration?.background.strokeWidth = 1
-    }
-    
-    return
-  }
-  
-  private func updateTitleContainer(_ container: AttributeContainer) -> AttributeContainer {
-    var container = container
-    container.font = (isSelected ? style.selectedFont : style.font)
-    container.foregroundColor = (isSelected ? style.selectedTitleColor : style.titleColor)
-    return container
-  }
-  
-  private func updateShapeForTextStyle(_ button: UIButton) {
-    if button.state == .selected {
-      configuration?.background.backgroundColor = style.selectedBackgroundColor
-      configuration?.background.strokeColor = style.selectedBorderColor
-      configuration?.background.strokeWidth = style.selectedStrokeWidth
-      return
-    }
-    
-    if button.state == .normal {
-      configuration?.background.backgroundColor = style.backgroundColor
-      configuration?.background.strokeColor = style.borderColor
-      configuration?.background.strokeWidth = 1
-      return
-    }
-    
-    return
   }
 }
