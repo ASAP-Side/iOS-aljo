@@ -22,7 +22,7 @@ final class ASTextViewDemoController: ComponentViewController {
     
     addSampleView(to: textView) {
       $0.horizontalEdges.equalToSuperview().inset(30)
-      $0.height.equalTo(300)
+      $0.height.equalTo(130)
     }
   }
 }

@@ -12,7 +12,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-public final class ASUnderBarTextField: UIView {
+public final class ASUnderBarTextField: UIControl {
   private let disposeBag = DisposeBag()
   
   // MARK: - Components
