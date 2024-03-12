@@ -13,10 +13,4 @@ public extension Reactive where Base: ASUnderBarTextField {
   var text: ControlProperty<String?> {
     return base.textField.rx.text
   }
-  
-  var isInputNegative: Binder<Bool> {
-    return Binder(self.base) { asUnderBarTextField, isInputNegative in
-      asUnderBarTextField.isInputNegative = isInputNegative
-    }
-  }
 }
