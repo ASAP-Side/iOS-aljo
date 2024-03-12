@@ -66,6 +66,13 @@ extension StoryRootViewController: UITableViewDelegate {
     guard let sectionCategory = DemoCategory(rawValue: indexPath.section),
           let item = items[sectionCategory]?[indexPath.row] else { return }
     
+    if item is ControllerCategory {
+      let controller = item.instance
+      controller.modalPresentationStyle = .fullScreen
+      present(controller, animated: true)
+      return
+    }
+    
     navigationController?.pushViewController(item.instance, animated: true)
   }
 }

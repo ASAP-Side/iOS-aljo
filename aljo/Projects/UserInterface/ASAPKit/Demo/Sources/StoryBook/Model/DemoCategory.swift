@@ -9,6 +9,7 @@ import UIKit
 enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
   case systemConfiguration
   case component
+  case controller
   
   var description: String {
     switch self {
@@ -16,6 +17,8 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
         return "시스템 설정"
       case .component:
         return "COMPONENTS"
+      case .controller:
+        return "CONTROLLERS"
     }
   }
   
@@ -28,6 +31,8 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
           dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
         case .component:
           dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
+        case .controller:
+          dictionary.updateValue(ControllerCategory.allCases, forKey: $0)
       }
     }
     return dictionary
@@ -105,6 +110,26 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
         return ASSliderDemoController()
       case .stepper:
         return ASStepperDemoController()
+    }
+  }
+}
+
+enum ControllerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
+  case navigationController
+  
+  var instance: UIViewController {
+    switch self {
+      case .navigationController:
+        let controller = UIViewController()
+        controller.view.backgroundColor = .systemBackground
+        return ASNavigationController(rootViewController: controller)
+    }
+  }
+  
+  var description: String {
+    switch self {
+      case .navigationController:
+        return "네비게이션"
     }
   }
 }
