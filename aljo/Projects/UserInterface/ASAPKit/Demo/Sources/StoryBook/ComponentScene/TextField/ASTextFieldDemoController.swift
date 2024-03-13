@@ -14,7 +14,7 @@ import ASAPKit
 class ASTextFieldDemoController: ComponentViewController {
   private let underLineTextField: ASUnderBarTextField = {
     let textField = ASUnderBarTextField()
-    textField.descriptionText = "내용을 입력하세요."
+    textField.descriptionText = "사용할 닉네임을 입력하세요."
     textField.isInputVerify = false
     textField.maxTextCount = 8
     textField.titleText = "닉네임"
@@ -51,7 +51,6 @@ class ASTextFieldDemoController: ComponentViewController {
   
   private func binding() {
     let text = underLineTextField.rx.text
-      .debounce(.milliseconds(500), scheduler: MainScheduler())
     
     let isEmpty = text.map { $0?.isEmpty == true }
       
