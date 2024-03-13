@@ -8,13 +8,9 @@
 
 import UIKit
 
-import RxCocoa
-import RxSwift
 import SnapKit
 
 public final class ASUnderBarTextField: UIControl {
-  private let disposeBag = DisposeBag()
-  
   // MARK: - Components
   let textField: UITextField = {
     let textField = UITextField()
@@ -134,8 +130,9 @@ public final class ASUnderBarTextField: UIControl {
   // MARK: - init
   public init() {
     super.init(frame: .zero)
+    textField.delegate = self
     configureUI()
-    bind()
+    configureAction()
   }
   
   required init(coder: NSCoder) {
@@ -146,61 +143,6 @@ public final class ASUnderBarTextField: UIControl {
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
     configureState()
-  }
-}
-
-// MARK: Bind Method
-extension ASUnderBarTextField {
-  private func bind() {
-    let endEditing = textField.rx.controlEvent(.editingDidEnd)
-    let beginEditing = textField.rx.controlEvent(.editingDidBegin)
-    
-    Observable.merge(endEditing.asObservable(), beginEditing.asObservable())
-      .subscribe(onNext: configureState)
-      .disposed(by: disposeBag)
-    
-    let editing = textField.rx.text.orEmpty
-      .scan("", accumulator: { [weak self] oldValue, newValue in
-        guard let self = self else {
-          return newValue
-        }
-        
-        guard self.maxTextCount != 0 else {
-          return newValue
-        }
-        
-        return newValue.count > self.maxTextCount ? oldValue : newValue
-      })
-    
-    editing
-      .bind(to: textField.rx.text)
-      .disposed(by: disposeBag)
-    
-    editing
-      .map(\.count)
-      .subscribe(onNext: configureTextCountLabel)
-      .disposed(by: disposeBag)
-    
-    Observable.merge(
-      beginEditing.asObservable(),
-      editing.map { _ in }.skip(1),
-      endEditing.asObservable()
-    )
-    .withUnretained(self)
-    .compactMap { object, _ in
-      object.textField.text?.isEmpty
-    }
-    .subscribe(onNext: animateClearButtonHidden)
-    .disposed(by: disposeBag)
-    
-    clearButton.rx.tap
-      .subscribe(with: self, onNext: { object, _ in
-        object.animateClearButtonHidden(true)
-        object.configureTextCountLabel(0)
-        object.textField.text = nil
-        object.textField.sendActions(for: .editingChanged)
-      })
-      .disposed(by: disposeBag)
   }
 }
 
@@ -231,17 +173,94 @@ extension ASUnderBarTextField {
     textCountLabel.text = "\(textCount)/\(maxTextCount)"
   }
   
-  private func animateClearButtonHidden(_ isHidden: Bool) {
-    guard isHidden != clearButton.isHidden else {
+  private func animateClearButtonHidden(_ isHidden: Bool?) {
+    guard let isHidden = isHidden,
+          isHidden != clearButton.isHidden
+    else {
       return
     }
-
-    self.textFieldStack.layoutMargins.right = isHidden ? 10 : 1
-    self.clearButton.isHidden = isHidden
+    
+    textFieldStack.layoutMargins.right = isHidden ? 10 : 1
+    clearButton.isHidden = isHidden
     
     UIView.animate(withDuration: 0.1) {
       self.layoutIfNeeded()
     }
+  }
+}
+
+// MARK: UITextFieldDelegate
+extension ASUnderBarTextField: UITextFieldDelegate {
+  public func textFieldDidEndEditing(_ textField: UITextField) {
+    animateClearButtonHidden(textField.text?.isEmpty)
+    configureState()
+  }
+  
+  public func textFieldDidBeginEditing(_ textField: UITextField) {
+    animateClearButtonHidden(textField.text?.isEmpty)
+    configureState()
+  }
+  
+  public func textField(
+    _ textField: UITextField,
+    shouldChangeCharactersIn range: NSRange,
+    replacementString string: String
+  ) -> Bool {
+    let currentText = textField.text as NSString? ?? ""
+    
+    let changedText = currentText.replacingCharacters(in: range, with: string)
+    if changedText.count <= maxTextCount {
+      return true
+    }
+    
+    let lastCharacter = (currentText as String).last ?? Character("")
+    let separatedCharacters = String(lastCharacter)
+      .decomposedStringWithCanonicalMapping
+      .unicodeScalars
+      .map { String($0) }
+    
+    if separatedCharacters.count == 1 && string.isVowel {
+      return true
+    }
+    
+    if separatedCharacters.count == 2 && string.isConsonant {
+      return true
+    }
+    
+    if separatedCharacters.count == 3 && string.isConsonant {
+      return true
+    }
+    
+    return false
+  }
+}
+
+// MARK: Configure Action
+extension ASUnderBarTextField {
+  private func configureAction() {
+    clearButton.addTarget(self, action: #selector(tapClearButton), for: .touchUpInside)
+    textField.addTarget(self, action: #selector(editingTextField), for: .editingChanged)
+  }
+  
+  @objc
+  private func tapClearButton() {
+    animateClearButtonHidden(true)
+    configureTextCountLabel(0)
+    isInputVerify = true
+    textField.text = nil
+    textField.sendActions(for: .editingChanged)
+  }
+  
+  @objc
+  private func editingTextField() {
+    let text = textField.text ?? ""
+    
+    if text.count > maxTextCount {
+      textField.text = String(text.dropLast())
+    }
+    
+    animateClearButtonHidden(textField.text?.isEmpty)
+    configureTextCountLabel(textField.text?.count ?? 0)
   }
 }
 
@@ -269,7 +288,6 @@ extension ASUnderBarTextField {
     ].forEach {
       totalStackView.addArrangedSubview($0)
     }
-
   }
   
   private func makeConstratins() {
@@ -289,5 +307,25 @@ extension ASUnderBarTextField {
     underBar.snp.makeConstraints {
       $0.height.equalTo(2)
     }
+  }
+}
+
+private extension String {
+  var isConsonant: Bool {
+    let consonantScalarRange: ClosedRange<UInt32> = 12593...12622
+    guard let scalar = UnicodeScalar(self)?.value else {
+      return false
+    }
+    
+    return consonantScalarRange ~= scalar
+  }
+  
+  var isVowel: Bool {
+    let consonantScalarRange: ClosedRange<UInt32> = 12623...12643
+    guard let scalar = UnicodeScalar(self)?.value else {
+      return false
+    }
+    
+    return consonantScalarRange ~= scalar
   }
 }

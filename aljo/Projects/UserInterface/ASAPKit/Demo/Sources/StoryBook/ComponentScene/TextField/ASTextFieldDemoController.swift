@@ -15,10 +15,11 @@ class ASTextFieldDemoController: ComponentViewController {
   private let underLineTextField: ASUnderBarTextField = {
     let textField = ASUnderBarTextField()
     textField.descriptionText = "내용을 입력하세요."
-    textField.isTextCountLabelHidden = false
+    textField.isInputVerify = false
     textField.maxTextCount = 8
     textField.titleText = "닉네임"
     textField.placeHolder = "사용할 닉네임을 입력하세요."
+    textField.isLabelVisible = true
     return textField
   }()
   
@@ -50,18 +51,23 @@ class ASTextFieldDemoController: ComponentViewController {
   
   private func binding() {
     let text = underLineTextField.rx.text
+      .debounce(.milliseconds(500), scheduler: MainScheduler())
     
     let isEmpty = text.map { $0?.isEmpty == true }
-    let isVerify = text.map(checkFormat(to:))
-    
+      
+    let isVerify = text.withUnretained(self)
+      .map { object, text in
+        object.checkFormat(to: text)
+      }
+      
     let description = Observable.combineLatest(isEmpty, isVerify) { isEmpty, isVerify in
-      return isEmpty ? "사용할 닉네임을 입력하세요." : isVerify ? "한글과 영어만 입력할 수 있습니다." : ""
+      return isEmpty ? "사용할 닉네임을 입력하세요." : isVerify ? "" : "한글과 영어만 입력할 수 있습니다."
     }
     
     let isError = Observable.merge(isEmpty, isVerify)
     
     isError
-      .bind(to: underLineTextField.rx.isInputNegative)
+      .bind(to: underLineTextField.rx.isInputVerify)
       .disposed(by: disposeBag)
     
     description.withUnretained(self)
@@ -76,6 +82,10 @@ class ASTextFieldDemoController: ComponentViewController {
     
     if text.isEmpty == true { return true }
     
-    return text.range(of: "^[가-힣a-zA-Z]+$", options: .regularExpression) == nil
+    return text.range(of: "^[a-zA-Z가-힣]+$", options: .regularExpression) != nil
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    view.endEditing(true)
   }
 }
