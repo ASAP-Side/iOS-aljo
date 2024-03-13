@@ -13,22 +13,35 @@ import RxSwift
 import SnapKit
 
 public final class ASStepper: UIControl {
-  private let disposeBag = DisposeBag()
+  private static func generateStepButton(
+    to image: UIImage,
+    normalColor: UIColor = .label,
+    disableColor: UIColor = .gray02
+  ) -> UIButton {
+    var configuration = UIButton.Configuration.plain()
+    configuration.image = image.withTintColor(normalColor, renderingMode: .alwaysOriginal)
+    configuration.imageColorTransformer = .preferredTint
+    
+    let button = UIButton(configuration: configuration)
+    
+    button.configurationUpdateHandler = { button in
+      var configuration = button.configuration
+      let isDisable = button.state == .disabled
+      
+      if isDisable {
+        configuration?.image = image.withTintColor(disableColor, renderingMode: .alwaysOriginal)
+      } else {
+        configuration?.image = image.withTintColor(normalColor, renderingMode: .alwaysOriginal)
+      }
+      button.configuration = configuration
+    }
+    
+    return button
+  }
   
   // MARK: - Components
-  private let upButton: UIButton = {
-    let button = UIButton()
-    button.configuration = UIButton.Configuration.plain()
-    button.configuration?.image = .Icon.plus
-    return button
-  }()
-  
-  private let downButton: UIButton = {
-    let button = UIButton()
-    button.configuration = UIButton.Configuration.plain()
-    button.configuration?.image = .Icon.minus
-    return button
-  }()
+  private let upButton: UIButton = generateStepButton(to: .Icon.plus)
+  private let downButton: UIButton = generateStepButton(to: .Icon.minus)
   
   private let currentValueLabel: UILabel = {
     let label = UILabel()
@@ -50,6 +63,7 @@ public final class ASStepper: UIControl {
   // MARK: - Public
   public var currentValue: Int {
     didSet {
+      updateUI()
       sendActions(for: .valueChanged)
     }
   }
@@ -59,21 +73,17 @@ public final class ASStepper: UIControl {
   public var stepValue: Int = 1
   
   // MARK: - init
-  public init(
-    currentValue: Int = 100,
-    maximumValue: Int = 1000,
-    minimumValue: Int = 1
-  ) {
-    let isContainRangeCurrentValue = (minimumValue...maximumValue) ~= currentValue
+  public init(current: Int = 0, min: Int = 0, max: Int = 100) {
+    let isContainRangeCurrentValue = (min...max) ~= current
     precondition(isContainRangeCurrentValue, "초기 설정 값은 최소, 최대 값을 벗어날 수 없습니다.")
     
-    self.currentValue = currentValue
-    self.maximumValue = maximumValue
-    self.minimumValue = minimumValue
+    self.currentValue = current
+    self.maximumValue = max
+    self.minimumValue = min
     super.init(frame: .zero)
     
     configureUI()
-    bind()
+    attachStepAction()
   }
   
   @available(*, unavailable, message: "스토리 보드로 생성할 수 없습니다.")
@@ -82,37 +92,23 @@ public final class ASStepper: UIControl {
   }
 }
 
-// MARK: - Bind
-extension ASStepper {
-  private func bind() {
-    upButton.rx.tap
-      .subscribe(with: self) { object, _ in
-        object.currentValue += object.stepValue
-      }
-      .disposed(by: disposeBag)
+// MARK: - Configure Action Methods
+private extension ASStepper {
+  func attachStepAction() {
+    let upAction = UIAction { [weak self] _ in
+      guard let self = self, currentValue < maximumValue else { return }
+      
+      currentValue += stepValue
+    }
     
-    downButton.rx.tap
-      .subscribe(with: self) { object, _ in
-        object.currentValue -= object.stepValue
-      }
-      .disposed(by: disposeBag)
+    let downAction = UIAction { [weak self] _ in
+      guard let self = self, currentValue > minimumValue else { return }
+      
+      currentValue -= stepValue
+    }
     
-    rx.value
-      .map { $0.description }
-      .bind(to: currentValueLabel.rx.text)
-      .disposed(by: disposeBag)
-    
-    rx.value
-      .withUnretained(self)
-      .map { $0.maximumValue > $1 }
-      .bind(to: upButton.rx.isEnabled)
-      .disposed(by: disposeBag)
-    
-    rx.value
-      .withUnretained(self)
-      .map { $0.minimumValue < $1 }
-      .bind(to: downButton.rx.isEnabled)
-      .disposed(by: disposeBag)
+    upButton.addAction(upAction, for: .touchUpInside)
+    downButton.addAction(downAction, for: .touchUpInside)
   }
 }
 
@@ -121,23 +117,7 @@ extension ASStepper {
   private func configureUI() {
     configureHirachy()
     makeConstraints()
-    
-    [upButton, downButton].forEach {
-      $0.configurationUpdateHandler = { button in
-        switch button.state {
-        case .normal:
-          button.configuration?.imageColorTransformer = .init({ _ in
-            return .black01
-          })
-        case .disabled:
-          button.configuration?.imageColorTransformer = .init({ _ in
-            return .gray02
-          })
-        default:
-          break
-        }
-      }
-    }
+    updateUI()
   }
   
   private func configureHirachy() {
@@ -156,5 +136,15 @@ extension ASStepper {
     currentValueLabel.snp.makeConstraints {
       $0.width.greaterThanOrEqualTo(50)
     }
+  }
+  
+  func updateUI() {
+    currentValueLabel.text = "\(currentValue)"
+    
+    let isLessMaximum = (currentValue < maximumValue)
+    let isMoreMinimum = (currentValue > minimumValue)
+    
+    upButton.isEnabled = isLessMaximum
+    downButton.isEnabled = isMoreMinimum
   }
 }
