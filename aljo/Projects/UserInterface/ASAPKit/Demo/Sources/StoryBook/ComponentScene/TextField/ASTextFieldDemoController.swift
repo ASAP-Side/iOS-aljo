@@ -15,7 +15,7 @@ class ASTextFieldDemoController: ComponentViewController {
   private let underLineTextField: ASUnderBarTextField = {
     let textField = ASUnderBarTextField()
     textField.descriptionText = "내용을 입력하세요."
-    textField.isTextCountLabelHidden = false
+    textField.isLabelVisible = false
     textField.maxTextCount = 8
     textField.titleText = "닉네임"
     textField.placeHolder = "사용할 닉네임을 입력하세요."
@@ -61,7 +61,7 @@ class ASTextFieldDemoController: ComponentViewController {
     let isError = Observable.merge(isEmpty, isVerify)
     
     isError
-      .bind(to: underLineTextField.rx.isInputNegative)
+      .bind(to: underLineTextField.rx.isInputVerify)
       .disposed(by: disposeBag)
     
     description.withUnretained(self)

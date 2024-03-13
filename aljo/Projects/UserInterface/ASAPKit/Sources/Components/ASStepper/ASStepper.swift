@@ -50,7 +50,6 @@ public final class ASStepper: UIControl {
   // MARK: - Public
   public var currentValue: Int {
     didSet {
-      checkCurrentValueOutOfRange()
       sendActions(for: .valueChanged)
     }
   }
@@ -61,15 +60,18 @@ public final class ASStepper: UIControl {
   
   // MARK: - init
   public init(
-    currentValue: Int = 1,
-    maximumValue: Int = 100,
+    currentValue: Int = 100,
+    maximumValue: Int = 1000,
     minimumValue: Int = 1
   ) {
+    let isContainRangeCurrentValue = (minimumValue...maximumValue) ~= currentValue
+    precondition(isContainRangeCurrentValue, "초기 설정 값은 최소, 최대 값을 벗어날 수 없습니다.")
+    
     self.currentValue = currentValue
     self.maximumValue = maximumValue
     self.minimumValue = minimumValue
     super.init(frame: .zero)
-    checkCurrentValueOutOfRange()
+    
     configureUI()
     bind()
   }
@@ -77,12 +79,6 @@ public final class ASStepper: UIControl {
   @available(*, unavailable, message: "스토리 보드로 생성할 수 없습니다.")
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  private func checkCurrentValueOutOfRange() {
-    if currentValue > maximumValue || currentValue < minimumValue {
-      assert(false, "currentValue가 max, min 범위를 벗어날 수 없습니다.")
-    }
   }
 }
 
@@ -158,7 +154,7 @@ extension ASStepper {
     }
     
     currentValueLabel.snp.makeConstraints {
-      $0.width.equalTo(50)
+      $0.width.greaterThanOrEqualTo(50)
     }
   }
 }
