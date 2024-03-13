@@ -8,13 +8,10 @@
 
 import UIKit
 
-import RxCocoa
-import RxSwift
 import SnapKit
 
 public final class ASListView: UIView {
-  private let disposeBag = DisposeBag()
-  
+  // MARK: - Components
   private let scrollView = UIScrollView()
   private let itemStackView: UIStackView = {
     let stackView = UIStackView()
@@ -24,6 +21,7 @@ public final class ASListView: UIView {
     return stackView
   }()
   
+  // MARK: - Public
   public var spacing: CGFloat {
     get { itemStackView.spacing }
     set { itemStackView.spacing = newValue }
@@ -47,7 +45,8 @@ public final class ASListView: UIView {
   public init() {
     super.init(frame: .zero)
     configureUI()
-    bind()
+    configureAction()
+    scrollView.delegate = self
   }
   
   @available(*, unavailable, message: "스토리 보드로 생성할 수 없습니다.")
@@ -56,24 +55,27 @@ public final class ASListView: UIView {
   }
 }
 
-// MARK: Bind
-extension ASListView {
-  private func bind() {
-    let tapGesture = UITapGestureRecognizer()
-    scrollView.addGestureRecognizer(tapGesture)
-    
-    Observable.merge(
-      scrollView.rx.willBeginDragging.asObservable(),
-      tapGesture.rx.event.map { _ in }.asObservable()
-    )
-    .subscribe(with: self) { object, _ in
-      object.endEditing(true)
-    }
-    .disposed(by: disposeBag)
+// MARK: - UIScrollViewDelegate
+extension ASListView: UIScrollViewDelegate {
+  public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    endEditing(true)
   }
 }
 
-// MARK: UI Configuration
+// MARK: - Action Configuration
+extension ASListView {
+  private func configureAction() {
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapScrollView))
+    scrollView.addGestureRecognizer(tapGesture)
+  }
+  
+  @objc
+  private func tapScrollView() {
+    endEditing(true)
+  }
+}
+
+// MARK: - UI Configuration
 extension ASListView {
   private func configureUI() {
     configureHirearchy()
