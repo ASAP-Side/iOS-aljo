@@ -11,9 +11,6 @@ import UIKit
 import SnapKit
 
 public final class ASUnderBarTextField: UIControl {
-  deinit {
-    print("내려감")
-  }
   // MARK: - Components
   let textField: UITextField = {
     let textField = UITextField()

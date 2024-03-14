@@ -54,7 +54,6 @@ extension ASBorderHighlightTextField: UITextFieldDelegate {
   }
 }
 
-
 // MARK: UI Configuration
 extension ASBorderHighlightTextField {
   private func configureUI() {
