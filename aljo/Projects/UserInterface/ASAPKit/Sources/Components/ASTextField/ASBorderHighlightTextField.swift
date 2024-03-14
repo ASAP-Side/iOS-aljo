@@ -25,12 +25,8 @@ public final class ASBorderHighlightTextField: UITextField {
   // MARK: - init
   public init() {
     super.init(frame: .zero)
-    font = .pretendard(.body3)
-    textColor = .black01
     delegate = self
-    layer.borderWidth = 1.5
-    layer.borderColor = UIColor.gray02.cgColor
-    layer.cornerRadius = 6
+    configureUI()
   }
   
   required init?(coder: NSCoder) {
@@ -55,5 +51,17 @@ extension ASBorderHighlightTextField: UITextFieldDelegate {
   
   public func textFieldDidBeginEditing(_ textField: UITextField) {
     layer.borderColor = UIColor.black01.cgColor
+  }
+}
+
+
+// MARK: UI Configuration
+extension ASBorderHighlightTextField {
+  private func configureUI() {
+    font = .pretendard(.body3)
+    textColor = .black01
+    layer.borderWidth = 1.5
+    layer.borderColor = UIColor.gray02.cgColor
+    layer.cornerRadius = 6
   }
 }
