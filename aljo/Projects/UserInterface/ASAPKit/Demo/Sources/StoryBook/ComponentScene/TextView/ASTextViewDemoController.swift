@@ -10,7 +10,7 @@ import ASAPKit
 
 final class ASTextViewDemoController: ComponentViewController {
   private let textView: ASTextView = {
-    let textView = ASTextView(placeholder: "입력해보세요.", maxLength: 10)
+    let textView = ASTextView(placeholder: "입력해보세요.", maxLength: 50)
     textView.borderColor = .black04
     textView.isShowCount = true
     textView.backgroundColor = .systemBackground
@@ -21,6 +21,7 @@ final class ASTextViewDemoController: ComponentViewController {
     super.viewDidLoad()
     
     addSampleView(to: textView) {
+      $0.centerY.equalToSuperview()
       $0.horizontalEdges.equalToSuperview().inset(30)
       $0.height.equalTo(130)
     }

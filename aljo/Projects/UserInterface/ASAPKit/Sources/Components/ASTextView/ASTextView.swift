@@ -28,6 +28,24 @@ extension String {
     attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
     return attributedString
   }
+  
+  var isConsonant: Bool {
+    let consonantScalarRange: ClosedRange<UInt32> = 12593...12622
+    guard let scalar = UnicodeScalar(self)?.value else {
+      return false
+    }
+
+    return consonantScalarRange ~= scalar
+  }
+
+  var isVowel: Bool {
+    let consonantScalarRange: ClosedRange<UInt32> = 12623...12643
+    guard let scalar = UnicodeScalar(self)?.value else {
+      return false
+    }
+
+    return consonantScalarRange ~= scalar
+  }
 }
 
 extension NSMutableAttributedString {
@@ -78,6 +96,8 @@ public class ASTextView: UIView {
   internal let textView: UITextView = {
     let textView = UITextView()
     textView.textColor = .black04
+    textView.autocorrectionType = .no
+    textView.autocapitalizationType = .none
     return textView
   }()
   
@@ -114,7 +134,7 @@ public class ASTextView: UIView {
   /// 본문에 작성된 글자의 세수를 세주는 뷰에 대해서 숨기는 여부를 결정합니다.
   public var isShowCount: Bool {
     get { return countLabel.isHidden }
-    set { countLabel.isHidden = (newValue == false) }
+    set { configureUI(isShowCount: newValue == false) }
   }
   
   private var placeholder: String = ""
@@ -133,37 +153,50 @@ public class ASTextView: UIView {
     self.maxLength = (maxLength == .zero) ? 1 : maxLength
     
     setUpSubViews()
-    binding()
+    
+    textView.delegate = self
   }
 }
 
-// MARK: BINDING METHODS
-private extension ASTextView {
-  func binding() {
-    countLabel.rx.observe(\.isHidden, options: [.initial, .new])
-      .bind(onNext: configureUI)
-      .disposed(by: disposeBag)
+extension ASTextView: UITextViewDelegate {
+  public func textViewDidChange(_ textView: UITextView) {
+    updateCountText(textView.text.count)
+  }
+  
+  public func textViewDidBeginEditing(_ textView: UITextView) {
+    updateTextWhenEditingStart(textView.text == placeholder)
+  }
+  
+  public func textViewDidEndEditing(_ textView: UITextView) {
+    let text = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+    updateTextWhenEditingEnd(text.isEmpty)
+  }
+  
+  public func textView(
+    _ textView: UITextView,
+    shouldChangeTextIn range: NSRange,
+    replacementText text: String
+  ) -> Bool {
+    guard let currentText = textView.text else { return true }
     
-    let textChangedEvent = textView.rx.text.orEmpty.changed.filter { $0 != self.placeholder }
+    if currentText.isEmpty { return true }
     
-    textChangedEvent.map(\.count)
-      .bind(onNext: updateCountText)
-      .disposed(by: disposeBag)
+    let currentTextValue = NSString(string: currentText)
+    let changedText = currentTextValue.replacingCharacters(in: range, with: text)
     
-    textChangedEvent.scan("") { ($1.count > self.maxLength) ? $0 : $1 }
-      .bind(to: textView.rx.text)
-      .disposed(by: disposeBag)
+    if changedText.count <= maxLength { return true }
     
-    textView.rx.didEndEditing
-      .map { _ in self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-      .filter { $0 }
-      .bind(onNext: updateTextWhenEditingEnd)
-      .disposed(by: disposeBag)
+    let lastCharacter = currentText.last ?? Character("")
     
-    textView.rx.didBeginEditing
-      .map { self.textView.text == self.placeholder }
-      .bind(onNext: updateTextWhenEditingStart)
-      .disposed(by: disposeBag)
+    let separatedCharacters = String(lastCharacter)
+      .decomposedStringWithCanonicalMapping
+      .unicodeScalars
+      .map { String($0) }
+    
+    if separatedCharacters.count == 1 { return text.isVowel }
+    if separatedCharacters.count == 2 { return text.isConsonant }
+    // TODO: - 3개가 존재하는 경우 마지막 받침 검사 논의하기 (겹받침이 들어오는 경우)
+    return false
   }
 }
 
@@ -212,6 +245,8 @@ private extension ASTextView {
       $0.verticalEdges.equalToSuperview().inset(13)
       $0.horizontalEdges.equalToSuperview().inset(16)
     }
+    
+    countLabel.isHidden = true
   }
   
   func hideCountLabelCostraints() {
@@ -228,6 +263,8 @@ private extension ASTextView {
       $0.horizontalEdges.equalToSuperview().inset(16)
       $0.bottom.equalToSuperview().offset(-10)
     }
+    
+    countLabel.isHidden = false
   }
   
   func setUpSubViews() {
