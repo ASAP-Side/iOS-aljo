@@ -11,6 +11,9 @@ import UIKit
 import SnapKit
 
 public final class ASUnderBarTextField: UIControl {
+  deinit {
+    print("내려감")
+  }
   // MARK: - Components
   let textField: UITextField = {
     let textField = UITextField()
@@ -225,30 +228,40 @@ extension ASUnderBarTextField: UITextFieldDelegate {
 
 // MARK: Configure Action
 extension ASUnderBarTextField {
-  private func configureAction() {
-    clearButton.addTarget(self, action: #selector(tapClearButton), for: .touchUpInside)
-    textField.addTarget(self, action: #selector(editingTextField), for: .editingChanged)
-  }
-  
-  @objc
-  private func tapClearButton() {
-    animateClearButtonHidden(true)
-    configureTextCountLabel(0)
-    isInputVerify = true
-    textField.text = nil
-    textField.sendActions(for: .editingChanged)
-  }
-  
-  @objc
-  private func editingTextField() {
-    let text = textField.text ?? ""
-    
-    if text.count > maxTextCount {
-      textField.text = String(text.dropLast())
+  private var clearButtonAction: UIAction {
+    UIAction { [weak self] _ in
+      guard let self = self else {
+        return
+      }
+      
+      animateClearButtonHidden(true)
+      configureTextCountLabel(0)
+      isInputVerify = true
+      textField.text = nil
+      textField.sendActions(for: .editingChanged)
     }
-    
-    animateClearButtonHidden(textField.text?.isEmpty)
-    configureTextCountLabel(textField.text?.count ?? 0)
+  }
+  
+  private var editingTextFieldAction: UIAction {
+    UIAction { [weak self] _ in
+      guard let self = self else {
+        return
+      }
+      
+      let text = textField.text ?? ""
+      
+      if text.count > maxTextCount {
+        textField.text = String(text.dropLast())
+      }
+      
+      animateClearButtonHidden(textField.text?.isEmpty)
+      configureTextCountLabel(textField.text?.count ?? 0)
+    }
+  }
+  
+  private func configureAction() {
+    clearButton.addAction(clearButtonAction, for: .touchUpInside)
+    textField.addAction(editingTextFieldAction, for: .editingChanged)
   }
 }
 
