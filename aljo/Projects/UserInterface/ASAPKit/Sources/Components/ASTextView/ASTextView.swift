@@ -160,6 +160,8 @@ public class ASTextView: UIView {
 
 extension ASTextView: UITextViewDelegate {
   public func textViewDidChange(_ textView: UITextView) {
+    if textView.text.count > maxLength { textView.deleteBackward() }
+    
     updateCountText(textView.text.count)
   }
   
@@ -177,25 +179,19 @@ extension ASTextView: UITextViewDelegate {
     shouldChangeTextIn range: NSRange,
     replacementText text: String
   ) -> Bool {
-    guard let currentText = textView.text else { return true }
-    
-    if currentText.isEmpty { return true }
-    
-    let currentTextValue = NSString(string: currentText)
-    let changedText = currentTextValue.replacingCharacters(in: range, with: text)
+    let currentText = textView.text as NSString? ?? ""
+    let changedText = currentText.replacingCharacters(in: range, with: text)
     
     if changedText.count <= maxLength { return true }
-    
-    let lastCharacter = currentText.last ?? Character("")
-    
+
+    let lastCharacter = (currentText as String).last ?? Character("")
     let separatedCharacters = String(lastCharacter)
       .decomposedStringWithCanonicalMapping
       .unicodeScalars
       .map { String($0) }
     
-    if separatedCharacters.count == 1 { return text.isVowel }
-    if separatedCharacters.count == 2 { return text.isConsonant }
-    // TODO: - 3개가 존재하는 경우 마지막 받침 검사 논의하기 (겹받침이 들어오는 경우)
+    if text.isVowel { return separatedCharacters.count == 1 }
+    if text.isConsonant { return (2...3) ~= separatedCharacters.count }
     return false
   }
 }
