@@ -207,19 +207,21 @@ extension ASUnderBarTextField: UITextFieldDelegate {
     replacementString string: String
   ) -> Bool {
     let currentText = textField.text as NSString? ?? ""
-        let changedText = currentText.replacingCharacters(in: range, with: string)
-
-        if changedText.count <= maxTextCount { return true }
-
-        let lastCharacter = (currentText as String).last ?? Character("")
-        let separatedCharacters = String(lastCharacter)
-          .decomposedStringWithCanonicalMapping
-          .unicodeScalars
-          .map { String($0) }
-
-        if string.isVowel { return separatedCharacters.count == 1 }
-        if string.isConsonant { return (2...3) ~= separatedCharacters.count }
-        return false
+    let changedText = currentText.replacingCharacters(in: range, with: string)
+    
+    if changedText.count <= maxTextCount || maxTextCount == 0 {
+      return true
+    }
+    
+    let lastCharacter = (currentText as String).last ?? Character("")
+    let separatedCharacters = String(lastCharacter)
+      .decomposedStringWithCanonicalMapping
+      .unicodeScalars
+      .map { String($0) }
+    
+    if string.isVowel { return separatedCharacters.count == 1 }
+    if string.isConsonant { return (2...3) ~= separatedCharacters.count }
+    return false
   }
 }
 
@@ -247,7 +249,7 @@ extension ASUnderBarTextField {
       
       let text = textField.text ?? ""
       
-      if text.count > maxTextCount {
+      if text.count > maxTextCount && maxTextCount != 0 {
         textField.text = String(text.dropLast())
       }
       
