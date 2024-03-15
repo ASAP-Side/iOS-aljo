@@ -17,6 +17,7 @@ final class ASCalendarDemoController: ComponentViewController {
     addSampleView(to: pickerView) {
       $0.centerX.equalToSuperview()
       $0.centerY.equalToSuperview()
+      $0.horizontalEdges.equalToSuperview()
     }
   }
 }
