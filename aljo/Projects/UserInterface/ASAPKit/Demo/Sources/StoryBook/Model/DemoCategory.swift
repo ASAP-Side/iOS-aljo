@@ -116,11 +116,14 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
 
 enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case listView
+  case calendarView
   
   var description: String {
     switch self {
     case .listView:
       return "ASListView"
+      case .calendarView:
+        return "CalendarView"
     }
   }
   
@@ -128,6 +131,8 @@ enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
     switch self {
     case .listView:
       return ASListViewDemoController()
+      case .calendarView:
+        return ASClaneΩ
     }
   }
 }
