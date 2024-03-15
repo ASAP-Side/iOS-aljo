@@ -14,10 +14,12 @@ final class ASCalendarDemoController: ComponentViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    addSampleView(to: pickerView) {
-      $0.centerX.equalToSuperview()
-      $0.centerY.equalToSuperview()
+    addSampleView(to: pickerView) { [weak self] in
+      guard let self = self else { return }
+      
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
       $0.horizontalEdges.equalToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.centerY)
     }
   }
 }
