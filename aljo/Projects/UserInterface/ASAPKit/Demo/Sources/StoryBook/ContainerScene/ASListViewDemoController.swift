@@ -64,7 +64,7 @@ final class ASListViewDemoController: UIViewController {
     return label
   }()
   private let groupCountStepper: ASStepper = {
-    let stepper = ASStepper(maximumValue: 8)
+    let stepper = ASStepper(max: 8)
     return stepper
   }()
   private let groupCountStackView: UIStackView = {

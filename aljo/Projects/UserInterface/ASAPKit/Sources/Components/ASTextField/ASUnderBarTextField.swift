@@ -307,23 +307,3 @@ extension ASUnderBarTextField {
     }
   }
 }
-
-private extension String {
-  var isConsonant: Bool {
-    let consonantScalarRange: ClosedRange<UInt32> = 12593...12622
-    guard let scalar = UnicodeScalar(self)?.value else {
-      return false
-    }
-    
-    return consonantScalarRange ~= scalar
-  }
-  
-  var isVowel: Bool {
-    let consonantScalarRange: ClosedRange<UInt32> = 12623...12643
-    guard let scalar = UnicodeScalar(self)?.value else {
-      return false
-    }
-    
-    return consonantScalarRange ~= scalar
-  }
-}
