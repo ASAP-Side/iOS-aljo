@@ -21,6 +21,7 @@ final class ASTextViewDemoController: ComponentViewController {
     super.viewDidLoad()
     
     addSampleView(to: textView) {
+      $0.centerY.equalToSuperview()
       $0.horizontalEdges.equalToSuperview().inset(30)
       $0.height.equalTo(130)
     }

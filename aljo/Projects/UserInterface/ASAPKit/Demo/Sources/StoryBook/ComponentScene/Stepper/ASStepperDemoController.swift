@@ -15,11 +15,7 @@ import RxCocoa
 import SnapKit
 
 final class ASStepperDemoController: ComponentViewController {
-  private let stepper = ASStepper(
-    currentValue: 0,
-    maximumValue: 5,
-    minimumValue: 0
-  )
+  private let stepper = ASStepper(current: 99)
   
   private var disposeBag = DisposeBag()
   
