@@ -9,9 +9,14 @@ import ASAPKit
 import SnapKit
 
 final class ASCalendarDemoController: ComponentViewController {
-  private let pickerView = calendarvie
+  private let pickerView = ASCalendarView()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    addSampleView(to: pickerView) {
+      $0.centerX.equalToSuperview()
+      $0.centerY.equalToSuperview()
+    }
   }
 }

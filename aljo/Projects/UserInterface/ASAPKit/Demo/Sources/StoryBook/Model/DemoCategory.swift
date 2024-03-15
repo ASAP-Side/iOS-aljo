@@ -132,7 +132,7 @@ enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
     case .listView:
       return ASListViewDemoController()
       case .calendarView:
-        return ASClaneΩ
+        return ASCalendarDemoController()
     }
   }
 }
