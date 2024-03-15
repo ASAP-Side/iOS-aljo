@@ -26,6 +26,13 @@ public final class ASCalendarView: UIView {
     return UIButton(configuration: configuration)
   }()
   
+  private let weekDayStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.distribution = .equalCentering
+    stackView.alignment = .center
+    return stackView
+  }()
+  
   public init() {
     super.init(frame: .zero)
     
@@ -44,8 +51,23 @@ private extension ASCalendarView {
     makeConstraints()
   }
   
+  func configureWeekLabels() -> [UILabel] {
+    var calendar = Calendar.current
+    calendar.locale = Locale(identifier: "ko-KR")
+    let dayOfWeek = calendar.shortWeekdaySymbols
+    
+    return dayOfWeek.map {
+      let label = UILabel()
+      label.font = .pretendard(.body3)
+      label.textColor = .black03
+      label.text = $0
+      return label
+    }
+  }
+  
   func configureHierarchy() {
-    [titleLabel, previousButton, nextButton].forEach(addSubview)
+    configureWeekLabels().forEach { weekDayStackView.addArrangedSubview($0) }
+    [titleLabel, previousButton, nextButton, weekDayStackView].forEach(addSubview)
   }
   
   func makeConstraints() {
@@ -63,6 +85,12 @@ private extension ASCalendarView {
     nextButton.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.trailing.equalToSuperview()
+    }
+    
+    weekDayStackView.snp.makeConstraints {
+      $0.top.equalTo(titleLabel.snp.bottom).offset(18)
+      $0.horizontalEdges.equalToSuperview().inset(10)
+      $0.centerX.equalToSuperview()
     }
   }
 }
