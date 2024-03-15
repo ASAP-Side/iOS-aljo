@@ -8,11 +8,7 @@
 
 import UIKit
 
-import RxCocoa
-import RxSwift
-
 public final class ASBorderHighlightTextField: UITextField {
-  private let disposeBag = DisposeBag()
   private let inset = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
   
   // MARK: - public
@@ -29,12 +25,8 @@ public final class ASBorderHighlightTextField: UITextField {
   // MARK: - init
   public init() {
     super.init(frame: .zero)
-    font = .pretendard(.body3)
-    textColor = .black01
-    layer.borderWidth = 1.5
-    layer.borderColor = UIColor.gray02.cgColor
-    layer.cornerRadius = 6
-    bind()
+    delegate = self
+    configureUI()
   }
   
   required init?(coder: NSCoder) {
@@ -49,18 +41,26 @@ public final class ASBorderHighlightTextField: UITextField {
   public override func editingRect(forBounds bounds: CGRect) -> CGRect {
     return bounds.inset(by: inset)
   }
+}
+
+// MARK: UITextField Delegate
+extension ASBorderHighlightTextField: UITextFieldDelegate {
+  public func textFieldDidEndEditing(_ textField: UITextField) {
+    layer.borderColor = UIColor.gray02.cgColor
+  }
   
-  // MARK: - private method
-  private func bind() {
-    let endEditing = rx.controlEvent(.editingDidEnd)
-    let beginEditing = rx.controlEvent(.editingDidBegin)
-    
-    Observable.merge(endEditing.asObservable(), beginEditing.asObservable())
-      .map { [weak self] _ in
-        self?.isFirstResponder == true ? UIColor.black01 : UIColor.gray02
-      }
-      .map(\.cgColor)
-      .bind(to: layer.rx.borderColor)
-      .disposed(by: disposeBag)
+  public func textFieldDidBeginEditing(_ textField: UITextField) {
+    layer.borderColor = UIColor.black01.cgColor
+  }
+}
+
+// MARK: UI Configuration
+extension ASBorderHighlightTextField {
+  private func configureUI() {
+    font = .pretendard(.body3)
+    textColor = .black01
+    layer.borderWidth = 1.5
+    layer.borderColor = UIColor.gray02.cgColor
+    layer.cornerRadius = 6
   }
 }
