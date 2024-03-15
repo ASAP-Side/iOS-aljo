@@ -9,13 +9,16 @@ import UIKit
 enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
   case systemConfiguration
   case component
+  case container
   
   var description: String {
     switch self {
-      case .systemConfiguration:
-        return "시스템 설정"
-      case .component:
-        return "COMPONENTS"
+    case .systemConfiguration:
+      return "시스템 설정"
+    case .component:
+      return "COMPONENTS"
+    case .container:
+      return "CONTAINER"
     }
   }
   
@@ -24,10 +27,12 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
     
     allCases.forEach {
       switch $0 {
-        case .systemConfiguration:
-          dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
-        case .component:
-          dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
+      case .systemConfiguration:
+        dictionary.updateValue(SystemConfiguration.allCases, forKey: $0)
+      case .component:
+        dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
+      case .container:
+        dictionary.updateValue(ContainerCategory.allCases, forKey: $0)
       }
     }
     return dictionary
@@ -105,6 +110,24 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
         return ASSliderDemoController()
       case .stepper:
         return ASStepperDemoController()
+    }
+  }
+}
+
+enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
+  case listView
+  
+  var description: String {
+    switch self {
+    case .listView:
+      return "ASListView"
+    }
+  }
+  
+  var instance: UIViewController {
+    switch self {
+    case .listView:
+      return ASListViewDemoController()
     }
   }
 }

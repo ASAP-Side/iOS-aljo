@@ -43,7 +43,6 @@ public final class ASStepper: UIControl {
     stackView.axis = .horizontal
     stackView.alignment = .center
     stackView.distribution = .fill
-    stackView.spacing = 20
     return stackView
   }()
   
