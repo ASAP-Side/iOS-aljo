@@ -139,7 +139,6 @@ public class ASTextView: UIView {
   
   private var placeholder: String = ""
   private var maxLength: Int = 1
-  private var disposeBag = DisposeBag()
   
   // MARK: - INITIALIZER
   /// 생성자입니다. 다른 방법으로 타입을 생성하지 마십시오.

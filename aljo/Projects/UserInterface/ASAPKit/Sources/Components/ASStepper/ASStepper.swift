@@ -8,8 +8,6 @@
 
 import UIKit
 
-import RxCocoa
-import RxSwift
 import SnapKit
 
 public final class ASStepper: UIControl {
