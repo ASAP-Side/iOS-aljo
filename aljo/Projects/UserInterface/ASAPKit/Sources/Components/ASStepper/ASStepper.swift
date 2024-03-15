@@ -75,7 +75,7 @@ public final class ASStepper: UIControl {
   // MARK: - init
   public init(current: Int = 0, min: Int = 0, max: Int = 100) {
     let isContainRangeCurrentValue = (min...max) ~= current
-    precondition(isContainRangeCurrentValue, "초기 설정 값은 최소, 최대 값을 벗어날 수 없습니다.")
+    assert(isContainRangeCurrentValue, "초기 설정 값은 최소, 최대 값을 벗어날 수 없습니다.")
     
     self.currentValue = current
     self.maximumValue = max
