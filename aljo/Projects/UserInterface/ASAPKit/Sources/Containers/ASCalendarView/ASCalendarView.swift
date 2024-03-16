@@ -167,17 +167,23 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
     return .zero
   }
   
-  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    didSelectItemAt indexPath: IndexPath
+  ) {
     let item = days[indexPath.row]
     
     if item < 0 { return }
     
-    guard let cell = collectionView.cellForItem(at: indexPath) as? CalendarCollectionViewCell else {
-      return
-    }
+    let itemCounts = collectionView.numberOfItems(inSection: indexPath.section)
     
-    cell.updateSelect()
-    print(indexPath)
+    for row in 0...itemCounts {
+      let rowIndexPath = IndexPath(row: row, section: .zero)
+      
+      if let cell = collectionView.cellForItem(at: rowIndexPath) as? CalendarCollectionViewCell {
+        cell.updateSelect(to: indexPath.row == row)
+      }
+    }
   }
 }
 

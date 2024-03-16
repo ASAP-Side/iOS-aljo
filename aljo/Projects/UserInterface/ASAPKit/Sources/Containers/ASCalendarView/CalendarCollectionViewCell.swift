@@ -65,8 +65,17 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     dayLabel.text = "\(day)"
   }
   
-  func updateSelect() {
-    selectLayer.fillColor = UIColor.red01.cgColor
-    selectLayer.backgroundColor = UIColor.red01.cgColor
+  func updateSelect(to isSelected: Bool) {
+    if isSelected == true {
+      selectLayer.backgroundColor = UIColor.red01.cgColor
+      dayLabel.font = .pretendard(.headLine6)
+      dayLabel.textColor = .white
+    }
+    
+    if isSelected == false {
+      selectLayer.backgroundColor = UIColor.clear.cgColor
+      dayLabel.font = .pretendard(.body3)
+      dayLabel.textColor = .black01
+    }
   }
 }
