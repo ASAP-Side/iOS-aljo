@@ -14,7 +14,6 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     let label = UILabel()
     label.font = .pretendard(.body3)
     label.textColor = .label
-    label.text = "1"
     label.textAlignment = .center
     return label
   }()
@@ -38,5 +37,11 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     }
     
     contentView.layer.backgroundColor = UIColor.red02.cgColor
+  }
+  
+  func configureDay(to day: Int) {
+    if day < 0 { return }
+    
+    dayLabel.text = "\(day)"
   }
 }

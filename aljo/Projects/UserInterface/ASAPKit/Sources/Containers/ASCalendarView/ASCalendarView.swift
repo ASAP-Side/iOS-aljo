@@ -42,9 +42,20 @@ public final class ASCalendarView: UIView {
     return collectionView
   }()
   
+  private let calendar: Calendar = {
+    var calendar = Calendar.current
+    calendar.locale = Locale(identifier: "ko-KR")
+    return calendar
+  }()
+  
+  private var calendarDate = Date()
+  private var days = [Int]()
+  private var formatter = DateFormatter()
+  
   public init() {
     super.init(frame: .zero)
     
+    configureCalendar()
     configureUI()
   }
   
@@ -54,11 +65,51 @@ public final class ASCalendarView: UIView {
   }
 }
 
+// MARK: - Business Logic
+private extension ASCalendarView {
+  func configureCalendar() {
+    let components = calendar.dateComponents([.year, .month], from: Date())
+    self.calendarDate = calendar.date(from: components) ?? Date()
+    self.formatter.dateFormat = "yyyy년 MM월"
+    
+    updateCalendar()
+  }
+  
+  private func updateCalendar() {
+    updateTitle()
+    updateDays()
+  }
+  
+  private func updateTitle() {
+    let date = formatter.string(from: calendarDate)
+    self.titleLabel.text = date
+  }
+  
+  private func updateDays() {
+    days.removeAll()
+    
+    let startOfTheWeek = startDayOfTheWeekDay()
+    let totalDays = startOfTheWeek + endDate()
+    
+    days = (0..<totalDays).map {
+      return $0 < startOfTheWeek ? -1 : ($0 - startOfTheWeek + 1)
+    }
+  }
+  
+  private func startDayOfTheWeekDay() -> Int {
+    return calendar.component(.weekday, from: calendarDate) - 1
+  }
+  
+  private func endDate() -> Int {
+    return calendar.range(of: .day, in: .month, for: calendarDate)?.count ?? Int()
+  }
+}
+
 extension ASCalendarView: UICollectionViewDataSource {
   public func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
-  ) -> Int { return 7 }
+  ) -> Int { return 35 }
   
   public func collectionView(
     _ collectionView: UICollectionView,
@@ -70,7 +121,8 @@ extension ASCalendarView: UICollectionViewDataSource {
     ) as? CalendarCollectionViewCell else {
       return .init()
     }
-    
+    let day = days[indexPath.row]
+    cell.configureDay(to: day)
     return cell
   }
 }
@@ -89,6 +141,14 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
     _ collectionView: UICollectionView,
     layout collectionViewLayout: UICollectionViewLayout,
     minimumInteritemSpacingForSectionAt section: Int
+  ) -> CGFloat {
+    return .zero
+  }
+  
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumLineSpacingForSectionAt section: Int
   ) -> CGFloat {
     return .zero
   }

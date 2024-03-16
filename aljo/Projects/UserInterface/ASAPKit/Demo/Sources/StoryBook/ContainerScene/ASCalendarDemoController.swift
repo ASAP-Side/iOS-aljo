@@ -19,7 +19,7 @@ final class ASCalendarDemoController: ComponentViewController {
       
       $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
       $0.horizontalEdges.equalToSuperview()
-      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.centerY)
+      $0.bottom.equalToSuperview()
     }
   }
 }
