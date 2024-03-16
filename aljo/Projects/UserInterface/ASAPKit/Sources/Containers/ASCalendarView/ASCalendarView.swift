@@ -117,6 +117,9 @@ private extension ASCalendarView {
     let selectMonth = calendar.component(.month, from: calendarDate)
     let currentMonth = calendar.component(.month, from: Date())
     
+    let previousButtonHidden = (selectMonth <= currentMonth) || (selectYear < currentYear)
+    updatePreviousButton(isHidden: previousButtonHidden)
+    
     if selectMonth < currentMonth {
       previousDays = days
       return
@@ -217,11 +220,39 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
 
 private extension ASCalendarView {
   func attachActions() {
-    let nextAction = UIAction { [weak self] _ in self?.updateMonth(add: 1) }
-    let previousAction = UIAction { [weak self] _ in self?.updateMonth(add: -1) }
+    let nextAction = UIAction(
+      identifier: UIAction.Identifier(ActionIdentifier.nextAction)
+    ) { [weak self] _ in self?.updateMonth(add: 1) }
+    
+    let previousAction = UIAction(
+      identifier: UIAction.Identifier(ActionIdentifier.previousAction)
+    ) { [weak self] _ in self?.updateMonth(add: -1) }
     
     nextButton.addAction(nextAction, for: .touchUpInside)
     previousButton.addAction(previousAction, for: .touchUpInside)
+  }
+  
+  func updatePreviousButton(isHidden: Bool) {
+    print(#function, isHidden)
+    let previousActionIdentifier = UIAction.Identifier(ActionIdentifier.previousAction)
+    
+    if isHidden {
+      previousButton.isHidden = true
+      previousButton.removeAction(identifiedBy: previousActionIdentifier, for: .touchUpInside)
+      previousButton.removeFromSuperview()
+      
+      return
+    }
+    
+    if isHidden == false {
+      let action = UIAction(identifier: previousActionIdentifier) { [weak self] _ in
+        self?.updateMonth(add: -1)
+      }
+      previousButton.isHidden = false
+      previousButton.addAction(action, for: .touchUpInside)
+      addSubview(previousButton)
+      makeConstraintForPreviousButton()
+    }
   }
 }
 
@@ -257,21 +288,30 @@ private extension ASCalendarView {
     ].forEach(addSubview)
   }
   
+  func makeConstraintForPreviousButton() {
+      previousButton.snp.makeConstraints {
+        $0.top.equalToSuperview()
+        $0.leading.equalToSuperview()
+        $0.bottom.equalTo(titleLabel)
+      }
+  }
+  
   func makeConstraints() {
     previousButton.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.leading.equalToSuperview()
+      $0.bottom.equalTo(titleLabel)
     }
     
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.centerX.equalToSuperview()
-      $0.bottom.equalTo(previousButton.snp.bottom)
     }
     
     nextButton.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.trailing.equalToSuperview()
+      $0.bottom.equalTo(titleLabel)
     }
     
     weekDayStackView.snp.makeConstraints {
@@ -285,5 +325,12 @@ private extension ASCalendarView {
       $0.horizontalEdges.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
+  }
+}
+
+private extension ASCalendarView {
+  enum ActionIdentifier {
+    static let nextAction = "NEXT"
+    static let previousAction = "PREVIOUS"
   }
 }
