@@ -29,6 +29,12 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    
+    dayLabel.text = nil
+  }
+  
   private func configure() {
     contentView.addSubview(dayLabel)
     

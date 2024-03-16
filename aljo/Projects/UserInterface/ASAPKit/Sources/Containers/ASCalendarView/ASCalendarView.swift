@@ -49,13 +49,18 @@ public final class ASCalendarView: UIView {
   }()
   
   private var calendarDate = Date()
-  private var days = [Int]()
+  private var days = [Int]() {
+    didSet {
+      dateCollectionView.reloadData()
+    }
+  }
   private var formatter = DateFormatter()
   
   public init() {
     super.init(frame: .zero)
     
     configureCalendar()
+    attachActions()
     configureUI()
   }
   
@@ -103,13 +108,22 @@ private extension ASCalendarView {
   private func endDate() -> Int {
     return calendar.range(of: .day, in: .month, for: calendarDate)?.count ?? Int()
   }
+  
+  private func updateMonth(add month: Int) {
+    guard let updateDate = calendar.date(byAdding: .month, value: month, to: calendarDate) else {
+      return
+    }
+    
+    calendarDate = updateDate
+    updateCalendar()
+  }
 }
 
 extension ASCalendarView: UICollectionViewDataSource {
   public func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
-  ) -> Int { return 35 }
+  ) -> Int { return days.count }
   
   public func collectionView(
     _ collectionView: UICollectionView,
@@ -155,6 +169,16 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
 }
 
 private extension ASCalendarView {
+  func attachActions() {
+    let nextAction = UIAction { [weak self] _ in self?.updateMonth(add: 1) }
+    let previousAction = UIAction { [weak self] _ in self?.updateMonth(add: -1) }
+    
+    nextButton.addAction(nextAction, for: .touchUpInside)
+    previousButton.addAction(previousAction, for: .touchUpInside)
+  }
+}
+
+private extension ASCalendarView {
   func configureUI() {
     configureHierarchy()
     makeConstraints()
@@ -180,7 +204,10 @@ private extension ASCalendarView {
   
   func configureHierarchy() {
     configureWeekLabels().forEach { weekDayStackView.addArrangedSubview($0) }
-    [titleLabel, previousButton, nextButton, weekDayStackView, dateCollectionView].forEach(addSubview)
+    [
+      titleLabel, previousButton, nextButton,
+      weekDayStackView, dateCollectionView
+    ].forEach(addSubview)
   }
   
   func makeConstraints() {
