@@ -166,6 +166,19 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
   ) -> CGFloat {
     return .zero
   }
+  
+  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let item = days[indexPath.row]
+    
+    if item < 0 { return }
+    
+    guard let cell = collectionView.cellForItem(at: indexPath) as? CalendarCollectionViewCell else {
+      return
+    }
+    
+    cell.updateSelect()
+    print(indexPath)
+  }
 }
 
 private extension ASCalendarView {

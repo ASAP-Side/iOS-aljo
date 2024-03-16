@@ -10,6 +10,12 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
   // TODO: - REUSABLE 프로토콜 만들어서 채택하기
   static let identifier: String = "CalendarCollectionViewCell"
   
+  private let selectLayer: CAShapeLayer = {
+    let layer = CAShapeLayer()
+    layer.fillColor = UIColor.clear.cgColor
+    return layer
+  }()
+  
   private let dayLabel: UILabel = {
     let label = UILabel()
     label.font = .pretendard(.body3)
@@ -35,19 +41,32 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     dayLabel.text = nil
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    selectLayer.frame = bounds.insetBy(dx: 10, dy: 10)
+    let minLength = min(selectLayer.frame.width, selectLayer.frame.height)
+    selectLayer.cornerRadius = minLength / 2
+    
+    layer.insertSublayer(selectLayer, at: 0)
+  }
+  
   private func configure() {
     contentView.addSubview(dayLabel)
     
     dayLabel.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
-    
-    contentView.layer.backgroundColor = UIColor.red02.cgColor
   }
   
   func configureDay(to day: Int) {
     if day < 0 { return }
     
     dayLabel.text = "\(day)"
+  }
+  
+  func updateSelect() {
+    selectLayer.fillColor = UIColor.red01.cgColor
+    selectLayer.backgroundColor = UIColor.red01.cgColor
   }
 }
