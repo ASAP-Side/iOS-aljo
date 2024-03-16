@@ -49,6 +49,7 @@ public final class ASCalendarView: UIView {
   }()
   
   private var calendarDate = Date()
+  private var previousDays = [Int]()
   private var days = [Int]() {
     didSet {
       dateCollectionView.reloadData()
@@ -92,13 +93,30 @@ private extension ASCalendarView {
   
   private func updateDays() {
     days.removeAll()
+    previousDays.removeAll()
     
     let startOfTheWeek = startDayOfTheWeekDay()
     let totalDays = startOfTheWeek + endDate()
     
-    days = (0..<totalDays).map {
-      return $0 < startOfTheWeek ? -1 : ($0 - startOfTheWeek + 1)
+    days = (0..<totalDays).map { $0 < startOfTheWeek ? -1 : ($0 - startOfTheWeek + 1) }
+    
+    let selectMonth = calendar.component(.month, from: calendarDate)
+    let currentMonth = calendar.component(.month, from: Date())
+    
+    if selectMonth < currentMonth {
+      previousDays = days
+      return
     }
+    
+    if selectMonth == currentMonth {
+      let today = calendar.component(.day, from: Date())
+      previousDays = days.filter { $0 < today }
+      return
+    }
+  }
+  
+  private func updatePreviousDays() {
+    
   }
   
   private func startDayOfTheWeekDay() -> Int {
@@ -136,7 +154,7 @@ extension ASCalendarView: UICollectionViewDataSource {
       return .init()
     }
     let day = days[indexPath.row]
-    cell.configureDay(to: day)
+    cell.configureDay(to: day, isPrevious: previousDays.contains(day))
     return cell
   }
 }
@@ -173,7 +191,7 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
   ) {
     let item = days[indexPath.row]
     
-    if item < 0 { return }
+    if item < 0 || previousDays.contains(item) { return }
     
     let itemCounts = collectionView.numberOfItems(inSection: indexPath.section)
     

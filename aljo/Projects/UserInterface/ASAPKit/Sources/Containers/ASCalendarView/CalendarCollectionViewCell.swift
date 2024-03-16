@@ -24,6 +24,8 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     return label
   }()
   
+  private var isPrevious: Bool = false
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     
@@ -59,13 +61,17 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  func configureDay(to day: Int) {
+  func configureDay(to day: Int, isPrevious: Bool) {
     if day < 0 { return }
     
     dayLabel.text = "\(day)"
+    dayLabel.textColor = isPrevious ? .black04 : .black01
+    self.isPrevious = isPrevious
   }
   
   func updateSelect(to isSelected: Bool) {
+    if isPrevious { return }
+    
     if isSelected == true {
       selectLayer.backgroundColor = UIColor.red01.cgColor
       dayLabel.font = .pretendard(.headLine6)
