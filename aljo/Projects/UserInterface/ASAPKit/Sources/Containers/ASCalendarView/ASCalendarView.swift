@@ -93,12 +93,26 @@ private extension ASCalendarView {
   
   private func updateDays() {
     days.removeAll()
-    previousDays.removeAll()
     
     let startOfTheWeek = startDayOfTheWeekDay()
     let totalDays = startOfTheWeek + endDate()
     
     days = (0..<totalDays).map { $0 < startOfTheWeek ? -1 : ($0 - startOfTheWeek + 1) }
+    updatePreviousDays()
+  }
+  
+  private func updatePreviousDays() {
+    previousDays.removeAll()
+    
+    let selectYear = calendar.component(.year, from: calendarDate)
+    let currentYear = calendar.component(.year, from: Date())
+    
+    if selectYear > currentYear { return }
+    
+    if selectYear < currentYear {
+      previousDays = days
+      return
+    }
     
     let selectMonth = calendar.component(.month, from: calendarDate)
     let currentMonth = calendar.component(.month, from: Date())
@@ -113,10 +127,6 @@ private extension ASCalendarView {
       previousDays = days.filter { $0 < today }
       return
     }
-  }
-  
-  private func updatePreviousDays() {
-    
   }
   
   private func startDayOfTheWeekDay() -> Int {
