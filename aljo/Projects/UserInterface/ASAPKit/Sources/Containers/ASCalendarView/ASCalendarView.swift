@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// MARK: Reactive 확장
 public extension Reactive where Base == ASCalendarView {
   var selectedDate: Observable<Date?> {
     return base.dateCollectionView.rx.itemSelected
@@ -52,17 +53,17 @@ public final class ASCalendarView: UIView {
     return collectionView
   }()
   
+  // MARK: Properties
+  internal var selectedDate: CalendarDate?
   private let calendar: Calendar = Calendar.koreanCalendar
-  
   private var calendarDate = Date()
   private var days = [CalendarDate]() {
     didSet {
       dateCollectionView.reloadData()
     }
   }
-  internal var selectedDate: CalendarDate?
-  private var formatter = DateFormatter()
   
+  // MARK: Life Cycle
   public init() {
     super.init(frame: .zero)
     
@@ -79,26 +80,23 @@ public final class ASCalendarView: UIView {
 
 // MARK: - Business Logic
 private extension ASCalendarView {
+  /// 초기 날짜를 설정합니다.
   func configureCalendar() {
     let components = calendar.dateComponents([.year, .month], from: Date())
     self.calendarDate = calendar.date(from: components) ?? Date()
-    self.formatter.dateFormat = "yyyy년 MM월"
     
     if let year = components.year, let month = components.month {
       updateCalendar(year: year, month: month)
     }
   }
   
+  /// 기준 달을 변경하고, 변경된 달에 맞춰 일 데이터를 변경합니다.
   private func updateCalendar(year: Int, month: Int) {
-    updateTitle()
+    self.titleLabel.text = calendarDate.toString(format: "yyyy년 M월")
     updateDays(year: year, month: month)
   }
   
-  private func updateTitle() {
-    let date = formatter.string(from: calendarDate)
-    self.titleLabel.text = date
-  }
-  
+  /// 기준 달에 맞는 일 데이터를 만듭니다.
   private func updateDays(year: Int, month: Int) {
     days.removeAll()
     
@@ -116,14 +114,17 @@ private extension ASCalendarView {
     updatePreviousButton()
   }
   
+  /// 이번 달의 시작 날짜를 찾습니다.
   private func startDayOfTheWeekDay() -> Int {
     return calendar.component(.weekday, from: calendarDate) - 1
   }
   
+  /// 끝나는 날짜를 찾아서 개수를 반환합니다.
   private func endDate() -> Int {
     return calendar.range(of: .day, in: .month, for: calendarDate)?.count ?? Int()
   }
   
+  /// 선택 달을 업데이트 합니다.
   private func updateMonth(add month: Int) {
     guard let updateDate = calendar.date(byAdding: .month, value: month, to: calendarDate) else {
       return
@@ -136,6 +137,7 @@ private extension ASCalendarView {
   }
 }
 
+// MARK: UICollectionView Data Source Method
 extension ASCalendarView: UICollectionViewDataSource {
   public func collectionView(
     _ collectionView: UICollectionView,
@@ -155,6 +157,7 @@ extension ASCalendarView: UICollectionViewDataSource {
     let date = days[indexPath.row]
     cell.configureDay(to: date)
     
+    // 선택된 날짜가 있는 경우, 현재 보여줄 날짜와 같음을 통해 뷰를 구성합니다.
     if let selectedDate = selectedDate {
       cell.updateSelect(to: selectedDate == date)
     }
@@ -162,6 +165,7 @@ extension ASCalendarView: UICollectionViewDataSource {
   }
 }
 
+// MARK: UICollectionView Delegate FlowLayout Method
 extension ASCalendarView: UICollectionViewDelegateFlowLayout {
   public func collectionView(
     _ collectionView: UICollectionView,
@@ -194,10 +198,12 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
   ) {
     let item = days[indexPath.row]
     
+    // 선택된 index의 날짜가 없거나 이전 날짜인 경우 반환합니다.
     if item.isEmpty || item.day.isPrevious { return }
     
     let itemCounts = collectionView.numberOfItems(inSection: indexPath.section)
     
+    // 전체 섹션을 돌면서 전체 셀을 업데이트 합니다.
     for row in 0...itemCounts {
       let rowIndexPath = IndexPath(row: row, section: .zero)
       
@@ -209,6 +215,7 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
   }
 }
 
+// MARK: Configure Button Action And View
 private extension ASCalendarView {
   func attachActions() {
     let nextAction = UIAction(
@@ -254,6 +261,7 @@ private extension ASCalendarView {
   }
 }
 
+// MARK: Configure UI Method
 private extension ASCalendarView {
   func configureUI() {
     configureHierarchy()
@@ -324,6 +332,7 @@ private extension ASCalendarView {
   }
 }
 
+// MARK: Calendar Identifier
 private extension ASCalendarView {
   enum ActionIdentifier {
     static let nextAction = "NEXT"

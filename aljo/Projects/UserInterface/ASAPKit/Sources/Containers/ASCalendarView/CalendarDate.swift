@@ -15,6 +15,18 @@ extension Calendar {
   }()
 }
 
+extension DateFormatter {
+  static let `default` = DateFormatter()
+}
+
+extension Date {
+  func toString(format: String) -> String {
+    let formatter = DateFormatter.default
+    formatter.dateFormat = format
+    return formatter.string(from: self)
+  }
+}
+
 struct CalendarDate: Equatable {
   let year: Int
   let month: Int
