@@ -6,6 +6,15 @@
 
 import Foundation
 
+extension Calendar {
+  static let koreanCalendar: Self = {
+    var calendar = Calendar.current
+    calendar.locale = Locale(identifier: "ko-KR")
+    calendar.timeZone = TimeZone(identifier: "Asia/Seoul") ?? .autoupdatingCurrent
+    return calendar
+  }()
+}
+
 struct CalendarDate: Equatable {
   let year: Int
   let month: Int
@@ -29,6 +38,11 @@ struct CalendarDate: Equatable {
   static func generateEmpty() -> Self {
     let day = Day(year: -1, month: -1, day: -1)
     return .init(year: .zero, month: .zero, day: day, isEmpty: true)
+  }
+  
+  func toDate() -> Date? {
+    let components = DateComponents(year: year, month: month, day: day.value + 1)
+    return Calendar.koreanCalendar.date(from: components)
   }
 }
 

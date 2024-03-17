@@ -6,6 +6,16 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
+public extension Reactive where Base == ASCalendarView {
+  var selectedDate: Observable<Date?> {
+    return base.dateCollectionView.rx.itemSelected
+      .map { _ in base.selectedDate?.toDate() }
+  }
+}
+
 public final class ASCalendarView: UIView {
   private let titleLabel: UILabel = {
     let label = UILabel()
@@ -32,7 +42,7 @@ public final class ASCalendarView: UIView {
     return stackView
   }()
   
-  private let dateCollectionView: UICollectionView = {
+  internal let dateCollectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectionView.register(
@@ -42,11 +52,7 @@ public final class ASCalendarView: UIView {
     return collectionView
   }()
   
-  private let calendar: Calendar = {
-    var calendar = Calendar.current
-    calendar.locale = Locale(identifier: "ko-KR")
-    return calendar
-  }()
+  private let calendar: Calendar = Calendar.koreanCalendar
   
   private var calendarDate = Date()
   private var days = [CalendarDate]() {
@@ -54,7 +60,7 @@ public final class ASCalendarView: UIView {
       dateCollectionView.reloadData()
     }
   }
-  private var selectedDate: CalendarDate?
+  internal var selectedDate: CalendarDate?
   private var formatter = DateFormatter()
   
   public init() {
@@ -258,8 +264,6 @@ private extension ASCalendarView {
   }
   
   func configureWeekLabels() -> [UILabel] {
-    var calendar = Calendar.current
-    calendar.locale = Locale(identifier: "ko-KR")
     let dayOfWeek = calendar.shortWeekdaySymbols
     
     return dayOfWeek.map {

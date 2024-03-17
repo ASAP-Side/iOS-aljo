@@ -6,10 +6,13 @@
 
 import ASAPKit
 
+import RxSwift
+
 import SnapKit
 
 final class ASCalendarDemoController: ComponentViewController {
   private let pickerView = ASCalendarView()
+  private var disposeBag = DisposeBag()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -21,5 +24,11 @@ final class ASCalendarDemoController: ComponentViewController {
       $0.horizontalEdges.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
+    
+    pickerView.rx.selectedDate
+      .subscribe {
+        print($0.element)
+      }
+      .disposed(by: disposeBag)
   }
 }
