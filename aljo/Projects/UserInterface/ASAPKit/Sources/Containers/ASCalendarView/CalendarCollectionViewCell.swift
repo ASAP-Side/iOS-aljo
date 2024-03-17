@@ -12,7 +12,8 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
   
   private let selectLayer: CAShapeLayer = {
     let layer = CAShapeLayer()
-    layer.fillColor = UIColor.clear.cgColor
+    layer.backgroundColor = UIColor.red01.cgColor
+    layer.isHidden = true
     return layer
   }()
   
@@ -38,9 +39,11 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
   }
   
   override func prepareForReuse() {
-    super.prepareForReuse()
-    
+    selectLayer.isHidden = true
+    dayLabel.font = .pretendard(.body3)
+    dayLabel.textColor = .black01
     dayLabel.text = nil
+    super.prepareForReuse()
   }
   
   override func layoutSubviews() {
@@ -61,25 +64,25 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  func configureDay(to day: Int, isPrevious: Bool) {
-    if day < 0 { return }
+  func configureDay(to date: CalendarDate) {
+    if date.isEmpty { return }
     
-    dayLabel.text = "\(day)"
-    dayLabel.textColor = isPrevious ? .black04 : .black01
-    self.isPrevious = isPrevious
+    dayLabel.text = "\(date.day.value)"
+    dayLabel.textColor = date.day.isPrevious ? .black04 : .black01
+    self.isPrevious = date.day.isPrevious
   }
   
   func updateSelect(to isSelected: Bool) {
     if isPrevious { return }
     
+    selectLayer.isHidden = (isSelected == false)
+    
     if isSelected == true {
-      selectLayer.backgroundColor = UIColor.red01.cgColor
       dayLabel.font = .pretendard(.headLine6)
       dayLabel.textColor = .white
     }
     
     if isSelected == false {
-      selectLayer.backgroundColor = UIColor.clear.cgColor
       dayLabel.font = .pretendard(.body3)
       dayLabel.textColor = .black01
     }

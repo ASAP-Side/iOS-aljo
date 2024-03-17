@@ -16,13 +16,13 @@ public final class ASCalendarView: UIView {
   
   private let previousButton: UIButton = {
     var configuration = UIButton.Configuration.plain()
-    configuration.image = .Icon.arrow_left
+    configuration.image = .Icon.arrow_left.withTintColor(.black01)
     return UIButton(configuration: configuration)
   }()
   
   private let nextButton: UIButton = {
     var configuration = UIButton.Configuration.plain()
-    configuration.image = .Icon.arrow_right
+    configuration.image = .Icon.arrow_right.withTintColor(.black01)
     return UIButton(configuration: configuration)
   }()
   
@@ -49,12 +49,12 @@ public final class ASCalendarView: UIView {
   }()
   
   private var calendarDate = Date()
-  private var previousDays = [Int]()
-  private var days = [Int]() {
+  private var days = [CalendarDate]() {
     didSet {
       dateCollectionView.reloadData()
     }
   }
+  private var selectedDate: CalendarDate?
   private var formatter = DateFormatter()
   
   public init() {
@@ -78,12 +78,14 @@ private extension ASCalendarView {
     self.calendarDate = calendar.date(from: components) ?? Date()
     self.formatter.dateFormat = "yyyy년 MM월"
     
-    updateCalendar()
+    if let year = components.year, let month = components.month {
+      updateCalendar(year: year, month: month)
+    }
   }
   
-  private func updateCalendar() {
+  private func updateCalendar(year: Int, month: Int) {
     updateTitle()
-    updateDays()
+    updateDays(year: year, month: month)
   }
   
   private func updateTitle() {
@@ -91,45 +93,21 @@ private extension ASCalendarView {
     self.titleLabel.text = date
   }
   
-  private func updateDays() {
+  private func updateDays(year: Int, month: Int) {
     days.removeAll()
     
     let startOfTheWeek = startDayOfTheWeekDay()
     let totalDays = startOfTheWeek + endDate()
     
-    days = (0..<totalDays).map { $0 < startOfTheWeek ? -1 : ($0 - startOfTheWeek + 1) }
-    updatePreviousDays()
-  }
-  
-  private func updatePreviousDays() {
-    previousDays.removeAll()
-    
-    let selectYear = calendar.component(.year, from: calendarDate)
-    let currentYear = calendar.component(.year, from: Date())
-    
-    if selectYear > currentYear { return }
-    
-    if selectYear < currentYear {
-      previousDays = days
-      return
+    days = (0..<totalDays).map { day in
+      if day < startOfTheWeek {
+        return CalendarDate.generateEmpty()
+      } else {
+        let realDay = (day - startOfTheWeek + 1)
+        return CalendarDate.generate(year: year, month: month, day: realDay)
+      }
     }
-    
-    let selectMonth = calendar.component(.month, from: calendarDate)
-    let currentMonth = calendar.component(.month, from: Date())
-    
-    let previousButtonHidden = (selectMonth <= currentMonth) || (selectYear < currentYear)
-    updatePreviousButton(isHidden: previousButtonHidden)
-    
-    if selectMonth < currentMonth {
-      previousDays = days
-      return
-    }
-    
-    if selectMonth == currentMonth {
-      let today = calendar.component(.day, from: Date())
-      previousDays = days.filter { $0 < today }
-      return
-    }
+    updatePreviousButton()
   }
   
   private func startDayOfTheWeekDay() -> Int {
@@ -146,7 +124,9 @@ private extension ASCalendarView {
     }
     
     calendarDate = updateDate
-    updateCalendar()
+    let components = calendar.dateComponents([.year, .month], from: updateDate)
+    guard let year = components.year, let month = components.month else { return }
+    updateCalendar(year: year, month: month)
   }
 }
 
@@ -166,8 +146,12 @@ extension ASCalendarView: UICollectionViewDataSource {
     ) as? CalendarCollectionViewCell else {
       return .init()
     }
-    let day = days[indexPath.row]
-    cell.configureDay(to: day, isPrevious: previousDays.contains(day))
+    let date = days[indexPath.row]
+    cell.configureDay(to: date)
+    
+    if let selectedDate = selectedDate {
+      cell.updateSelect(to: selectedDate == date)
+    }
     return cell
   }
 }
@@ -204,7 +188,7 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
   ) {
     let item = days[indexPath.row]
     
-    if item < 0 || previousDays.contains(item) { return }
+    if item.isEmpty || item.day.isPrevious { return }
     
     let itemCounts = collectionView.numberOfItems(inSection: indexPath.section)
     
@@ -212,6 +196,7 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
       let rowIndexPath = IndexPath(row: row, section: .zero)
       
       if let cell = collectionView.cellForItem(at: rowIndexPath) as? CalendarCollectionViewCell {
+        if indexPath.row == row { self.selectedDate = item }
         cell.updateSelect(to: indexPath.row == row)
       }
     }
@@ -232,8 +217,15 @@ private extension ASCalendarView {
     previousButton.addAction(previousAction, for: .touchUpInside)
   }
   
-  func updatePreviousButton(isHidden: Bool) {
-    print(#function, isHidden)
+  func updatePreviousButton() {
+    let currentDate = calendar.dateComponents([.year, .month], from: Date())
+    let selectDate = calendar.dateComponents([.year, .month], from: calendarDate)
+    
+    let isLessThanCurrentMonth = (selectDate.month ?? .zero <= currentDate.month ?? .zero)
+    let isLessThanCurrentYear = (selectDate.year ?? .zero < currentDate.year ?? .zero)
+    
+    let isHidden = isLessThanCurrentYear || isLessThanCurrentMonth
+    
     let previousActionIdentifier = UIAction.Identifier(ActionIdentifier.previousAction)
     
     if isHidden {
