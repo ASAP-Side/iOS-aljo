@@ -11,7 +11,6 @@ import UIKit
 import ASAPKit
 
 final class ASBottomSheetDemoController: UIViewController {
-  private let transitionDelegate = ASBottomSheetTransitionDelegate(detent: .custom(0.65))
   private let button: UIButton = {
     let button = UIButton()
     var config = UIButton.Configuration.plain()
@@ -28,9 +27,7 @@ final class ASBottomSheetDemoController: UIViewController {
         return
       }
       
-      let svc = SomeViewController()
-      svc.transitioningDelegate = transitionDelegate
-      svc.modalPresentationStyle = .custom
+      let svc = SomeViewController(detent: .custom(0.65))
       present(svc, animated: true)
     }
     
@@ -43,7 +40,7 @@ final class ASBottomSheetDemoController: UIViewController {
   }
 }
 
-final class SomeViewController: UIViewController {
+final class SomeViewController: ASBottomSheetController {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.text = "비공개 알람입니다.\n비밀번호를 입력해주세요"
