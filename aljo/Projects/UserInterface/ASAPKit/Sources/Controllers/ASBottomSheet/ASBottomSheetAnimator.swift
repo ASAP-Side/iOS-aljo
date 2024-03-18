@@ -70,7 +70,6 @@ extension ASBottomSheetAnimator {
       completion: { complete in
         transitionContext.completeTransition(complete)
       })
-    
   }
   
   private func animateDismissal(
