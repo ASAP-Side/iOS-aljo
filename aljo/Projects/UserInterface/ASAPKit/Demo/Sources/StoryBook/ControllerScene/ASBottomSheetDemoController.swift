@@ -16,7 +16,6 @@ final class ASBottomSheetDemoController: UIViewController {
     let button = UIButton()
     var config = UIButton.Configuration.plain()
     config.title = "비밀번호 입력"
-    config.baseForegroundColor = .black01
     button.configuration = config
     return button
   }()
