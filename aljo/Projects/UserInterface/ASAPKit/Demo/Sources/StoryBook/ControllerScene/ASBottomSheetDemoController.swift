@@ -11,7 +11,7 @@ import UIKit
 import ASAPKit
 
 final class ASBottomSheetDemoController: UIViewController {
-  private let transitionDelegate = ASBottomSheetTransitionDelegate(yPoint: 282)
+  private let transitionDelegate = ASBottomSheetTransitionDelegate(detent: .custom(0.65))
   private let button: UIButton = {
     let button = UIButton()
     var config = UIButton.Configuration.plain()
@@ -19,6 +19,7 @@ final class ASBottomSheetDemoController: UIViewController {
     button.configuration = config
     return button
   }()
+  
   override func viewDidLoad() {
     view.backgroundColor = .systemBackground
     
@@ -113,11 +114,6 @@ final class SomeViewController: UIViewController {
       self?.dismiss(animated: true)
     }
     cancelButton.addAction(action, for: .touchUpInside)
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    print(view.frame.origin.y)
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

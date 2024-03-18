@@ -11,32 +11,28 @@ import UIKit
 import SnapKit
 
 final class ASBottomSheetPresentationController: UIPresentationController {
-  private let presentationYPoint: CGFloat
   private let blurView: UIView = {
     let view = UIView()
-    view.backgroundColor = .black.withAlphaComponent(0.5)
+    view.backgroundColor = .black01
+    view.alpha = 0
     return view
   }()
-  
-  init(
-    presentedViewController: UIViewController,
-    presenting presentingViewController: UIViewController?,
-    presentationYPoint: CGFloat
-  ) {
-    self.presentationYPoint = presentationYPoint
-    super.init(
-      presentedViewController: presentedViewController,
-      presenting: presentingViewController
-    )
-  }
 }
 
 // MARK: - Life Cycle
 extension ASBottomSheetPresentationController {
   override func presentationTransitionWillBegin() {
+    guard let coordinator = presentedViewController.transitionCoordinator else {
+      return
+    }
+    
     configureUI()
     configureAction()
     configureKeyboardObserver()
+    
+    coordinator.animate(alongsideTransition: { [weak self] _ in
+      self?.blurView.alpha = 0.5
+    })
   }
   
   override func dismissalTransitionWillBegin() {

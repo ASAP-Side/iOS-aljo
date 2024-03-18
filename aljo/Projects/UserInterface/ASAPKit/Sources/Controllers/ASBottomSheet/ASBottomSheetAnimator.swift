@@ -15,14 +15,14 @@ final class ASBottomSheetAnimator: NSObject {
   }
   
   private let transitionStyle: TransitionStyle
-  private let transitionYPoint: CGFloat
+  private let ratio: CGFloat
   
   init(
     transitionStyle: TransitionStyle,
-    transitionYPoint: CGFloat
+    ratio: CGFloat
   ) {
     self.transitionStyle = transitionStyle
-    self.transitionYPoint = transitionYPoint
+    self.ratio = ratio
   }
 }
 
@@ -65,7 +65,7 @@ extension ASBottomSheetAnimator {
       usingSpringWithDamping: 0.8,
       initialSpringVelocity: 0,
       animations: {
-        presentedView?.frame.origin.y = containerMaxY - self.transitionYPoint
+        presentedView?.frame.origin.y = containerMaxY * self.ratio
       },
       completion: { complete in
         transitionContext.completeTransition(complete)

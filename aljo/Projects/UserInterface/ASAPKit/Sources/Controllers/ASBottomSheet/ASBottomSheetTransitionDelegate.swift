@@ -9,10 +9,10 @@
 import UIKit
 
 public final class ASBottomSheetTransitionDelegate: NSObject {
-  private let yPoint: CGFloat
+  private let detent: ASBottomSheetDetent
   
-  public init(yPoint: CGFloat) {
-    self.yPoint = yPoint
+  public init(detent: ASBottomSheetDetent) {
+    self.detent = detent
   }
 }
 
@@ -24,7 +24,7 @@ extension ASBottomSheetTransitionDelegate: UIViewControllerTransitioningDelegate
   ) -> UIViewControllerAnimatedTransitioning? {
     return ASBottomSheetAnimator(
       transitionStyle: .presentation,
-      transitionYPoint: yPoint
+      ratio: detent.ratio
     )
   }
   
@@ -33,7 +33,7 @@ extension ASBottomSheetTransitionDelegate: UIViewControllerTransitioningDelegate
   ) -> UIViewControllerAnimatedTransitioning? {
     return ASBottomSheetAnimator(
       transitionStyle: .dismissal,
-      transitionYPoint: yPoint
+      ratio: detent.ratio
     )
   }
   
@@ -44,8 +44,7 @@ extension ASBottomSheetTransitionDelegate: UIViewControllerTransitioningDelegate
   ) -> UIPresentationController? {
     return ASBottomSheetPresentationController(
       presentedViewController: presented,
-      presenting: presenting,
-      presentationYPoint: yPoint
+      presenting: presenting
     )
   }
 }
