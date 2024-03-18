@@ -1,8 +1,8 @@
 //
-//  ASBottomSheetDemoController.swift
-//  ASAPKit
+//  PasswordViewController.swift
+//  ASAPKitDemo
 //
-//  Created by 이태영 on 3/15/24.
+//  Created by 이태영 on 3/18/24.
 //  Copyright © 2024 com.ASAP. All rights reserved.
 //
 
@@ -10,37 +10,9 @@ import UIKit
 
 import ASAPKit
 
-final class ASBottomSheetDemoController: UIViewController {
-  private let button: UIButton = {
-    let button = UIButton()
-    var config = UIButton.Configuration.plain()
-    config.title = "비밀번호 입력"
-    button.configuration = config
-    return button
-  }()
-  
-  override func viewDidLoad() {
-    view.backgroundColor = .systemBackground
-    
-    let action = UIAction { [weak self] _ in
-      guard let self = self else {
-        return
-      }
-      
-      let svc = SomeViewController(detent: .custom(0.65))
-      present(svc, animated: true)
-    }
-    
-    button.addAction(action, for: .touchUpInside)
-    
-    view.addSubview(button)
-    button.snp.makeConstraints {
-      $0.centerX.centerY.equalToSuperview()
-    }
-  }
-}
+import SnapKit
 
-final class SomeViewController: ASBottomSheetController {
+final class BottomSheetPasswordViewController: ASBottomSheetController {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.text = "비공개 알람입니다.\n비밀번호를 입력해주세요"
