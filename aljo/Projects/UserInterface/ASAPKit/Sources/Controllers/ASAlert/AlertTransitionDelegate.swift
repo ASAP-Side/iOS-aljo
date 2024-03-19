@@ -8,8 +8,8 @@
 
 import UIKit
 
-public class AlertTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
-  public func animationController(
+final class AlertTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
+  func animationController(
     forPresented presented: UIViewController,
     presenting: UIViewController,
     source: UIViewController
@@ -19,7 +19,7 @@ public class AlertTransitionDelegate: NSObject, UIViewControllerTransitioningDel
     )
   }
   
-  public func animationController(
+  func animationController(
     forDismissed dismissed: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
     return AlertTransitionAnimator(
@@ -27,7 +27,7 @@ public class AlertTransitionDelegate: NSObject, UIViewControllerTransitioningDel
     )
   }
   
-  public func presentationController(
+  func presentationController(
     forPresented presented: UIViewController,
     presenting: UIViewController?,
     source: UIViewController
