@@ -52,11 +52,9 @@ public final class ASCalendarView: UIView {
     return collectionView
   }()
   
-  // MARK: - Public Properties
-  public var selectableDateRange: ClosedRange<Date>?
-  
   // MARK: Properties
   internal var selectedDate: CalendarDate?
+  private var selectableDateRange: ClosedRange<Date>?
   private let calendar: Calendar = Calendar.koreanCalendar
   private var calendarDate = Date()
   private var days = [CalendarDate]() {
