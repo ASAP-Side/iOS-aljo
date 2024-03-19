@@ -37,6 +37,9 @@ public extension UIImage {
     // xmark
     public static let xmark_black: UIImage = ASAPKitAsset.Xmark.removeBlack.image
     public static let xmark_circle: UIImage = ASAPKitAsset.Xmark.removeCircle.image
+    
+    // alert
+    public static let party_popper: UIImage = ASAPKitAsset.Alert.partyPopper.image
   }
 }
 // swiftlint: enable all

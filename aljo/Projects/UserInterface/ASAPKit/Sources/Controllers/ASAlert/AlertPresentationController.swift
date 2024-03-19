@@ -40,8 +40,6 @@ extension AlertPresentationController {
   private func configureUI() {
     configureHierarchy()
     configureConstraints()
-    let gesture = UITapGestureRecognizer(target: self, action: #selector(tap))
-    blurView.addGestureRecognizer(gesture)
   }
   
   @objc
@@ -57,6 +55,10 @@ extension AlertPresentationController {
   private func configureConstraints() {
     blurView.snp.makeConstraints {
       $0.top.leading.trailing.bottom.equalToSuperview()
+    }
+    
+    presentedViewController.view.snp.makeConstraints {
+      $0.centerX.centerY.equalToSuperview()
     }
   }
 }

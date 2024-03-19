@@ -49,9 +49,7 @@ extension AlertTransitionAnimator {
     transitionContext: UIViewControllerContextTransitioning
   ) {
     let presentedView = transitionContext.view(forKey: .to)
-    let containerView = transitionContext.containerView
-    
-    presentedView?.center = containerView.center
+
     presentedView?.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
     presentedView?.alpha = 0
     
