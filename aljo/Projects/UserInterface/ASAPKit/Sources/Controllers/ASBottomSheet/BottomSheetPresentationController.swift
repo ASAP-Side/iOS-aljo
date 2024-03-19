@@ -120,10 +120,6 @@ extension BottomSheetPresentationController {
   }
   
   private func configureConstraints() {
-    guard let presentedView = presentedView else {
-      return
-    }
-    
     blurView.snp.makeConstraints {
       $0.top.leading.trailing.bottom.equalToSuperview()
     }

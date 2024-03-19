@@ -22,7 +22,7 @@ extension BottomSheetTransitionDelegate: UIViewControllerTransitioningDelegate {
     presenting: UIViewController,
     source: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
-    return BottomSheetAnimator(
+    return BottomSheetTransitionAnimator(
       transitionStyle: .presentation,
       ratio: detent.ratio
     )
@@ -31,7 +31,7 @@ extension BottomSheetTransitionDelegate: UIViewControllerTransitioningDelegate {
   func animationController(
     forDismissed dismissed: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
-    return BottomSheetAnimator(
+    return BottomSheetTransitionAnimator(
       transitionStyle: .dismissal,
       ratio: detent.ratio
     )
