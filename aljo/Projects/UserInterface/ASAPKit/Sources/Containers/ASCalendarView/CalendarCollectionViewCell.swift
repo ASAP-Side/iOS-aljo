@@ -25,7 +25,7 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
     return label
   }()
   
-  private var isPrevious: Bool = false
+  private var isSelectable: Bool = false
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -67,13 +67,13 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
   func configureDay(to date: CalendarDate) {
     if date.isEmpty { return }
     
-    dayLabel.text = "\(date.day.value)"
-    dayLabel.textColor = date.day.isPrevious ? .black04 : .black01
-    self.isPrevious = date.day.isPrevious
+    dayLabel.text = "\(date.day)"
+    dayLabel.textColor = (date.isSelectable == false) ? .black04 : .black01
+    isSelectable = date.isSelectable
   }
   
   func updateSelect(to isSelected: Bool) {
-    if isPrevious { return }
+    if isSelectable == false { return }
     
     selectLayer.isHidden = (isSelected == false)
     

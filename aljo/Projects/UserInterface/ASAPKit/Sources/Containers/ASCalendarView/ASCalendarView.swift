@@ -52,6 +52,9 @@ public final class ASCalendarView: UIView {
     return collectionView
   }()
   
+  // MARK: - Public Properties
+  public var selectableDateRange: ClosedRange<Date>?
+  
   // MARK: Properties
   internal var selectedDate: CalendarDate?
   private let calendar: Calendar = Calendar.koreanCalendar
@@ -63,7 +66,8 @@ public final class ASCalendarView: UIView {
   }
   
   // MARK: Life Cycle
-  public init() {
+  public init(by selectableDateRange: ClosedRange<Date>? = nil) {
+    self.selectableDateRange = selectableDateRange
     super.init(frame: .zero)
     
     configureCalendar()
@@ -107,7 +111,9 @@ private extension ASCalendarView {
         return CalendarDate.generateEmpty()
       } else {
         let realDay = (day - startOfTheWeek + 1)
-        return CalendarDate.generate(year: year, month: month, day: realDay)
+        return CalendarDate.generate(
+          year: year, month: month, day: realDay, with: selectableDateRange
+        )
       }
     }
     updatePreviousButton()
@@ -194,7 +200,7 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
     let item = days[indexPath.row]
     
     // 선택된 index의 날짜가 없거나 이전 날짜인 경우 반환합니다.
-    if item.isEmpty || item.day.isPrevious { return }
+    if item.isEmpty || (item.isSelectable == false) { return }
     
     let itemCounts = collectionView.numberOfItems(inSection: indexPath.section)
     
@@ -214,23 +220,26 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
 private extension ASCalendarView {
   func attachActions() {
     let nextAction = UIAction { [weak self] _ in self?.updateMonth(add: 1) }
-    let previousAction = UIAction{ [weak self] _ in self?.updateMonth(add: -1) }
+    let previousAction = UIAction { [weak self] _ in self?.updateMonth(add: -1) }
     
     nextButton.addAction(nextAction, for: .touchUpInside)
     previousButton.addAction(previousAction, for: .touchUpInside)
   }
   
   func updatePreviousButton() {
-    let currentDate = calendar.dateComponents([.year, .month], from: Date())
     let selectDate = calendar.dateComponents([.year, .month], from: calendarDate)
     
-    let isLessThanCurrentMonth = (selectDate.month ?? .zero < currentDate.month ?? .zero)
-    let isLessThanCurrentYear = (selectDate.year ?? .zero < currentDate.year ?? .zero)
-    let isEqualCurrentMonth = (selectDate.month ?? .zero == currentDate.month ?? .zero)
+    if let lowerDate = selectableDateRange?.lowerBound {
+      let lowerComponents = calendar.dateComponents([.year, .month], from: lowerDate)
+      let isLessThanCurrentMonth = (selectDate.month ?? .zero <= lowerComponents.month ?? .zero)
+      previousButton.isHidden = isLessThanCurrentMonth
+    }
     
-    let isHidden = (isLessThanCurrentYear && isLessThanCurrentMonth) || isEqualCurrentMonth
-    
-    previousButton.isHidden = isHidden
+    if let upperDate = selectableDateRange?.upperBound {
+      let upperComponents = calendar.dateComponents([.year, .month], from: upperDate)
+      let isMoreThanCurrentMonth = (selectDate.month ?? .zero >= upperComponents.month ?? .zero)
+      nextButton.isHidden = isMoreThanCurrentMonth
+    }
   }
 }
 
