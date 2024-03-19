@@ -41,7 +41,7 @@ extension ASBottomSheetDemoController {
         return
       }
       
-      let viewController = BottomSheetPasswordViewController(detent: .custom(0.6))
+      let viewController = BottomSheetPasswordVC(detent: .custom(0.6))
       present(viewController, animated: true)
     }
   }

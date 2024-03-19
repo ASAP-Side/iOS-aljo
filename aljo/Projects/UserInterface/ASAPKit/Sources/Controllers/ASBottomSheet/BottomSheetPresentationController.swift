@@ -10,6 +10,7 @@ import UIKit
 
 import SnapKit
 
+// swiftlint:disable: type_name
 final class BottomSheetPresentationController: UIPresentationController {
   private let blurView: UIView = {
     let view = UIView()
