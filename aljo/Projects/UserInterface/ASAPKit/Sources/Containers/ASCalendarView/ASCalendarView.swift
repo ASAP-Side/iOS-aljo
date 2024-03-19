@@ -20,7 +20,6 @@ public extension Reactive where Base == ASCalendarView {
 public final class ASCalendarView: UIView {
   private let titleLabel: UILabel = {
     let label = UILabel()
-    label.text = "2023년 12월"
     label.font = .pretendard(.body3)
     return label
   }()
@@ -180,17 +179,13 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
     _ collectionView: UICollectionView,
     layout collectionViewLayout: UICollectionViewLayout,
     minimumInteritemSpacingForSectionAt section: Int
-  ) -> CGFloat {
-    return .zero
-  }
+  ) -> CGFloat { return .zero }
   
   public func collectionView(
     _ collectionView: UICollectionView,
     layout collectionViewLayout: UICollectionViewLayout,
     minimumLineSpacingForSectionAt section: Int
-  ) -> CGFloat {
-    return .zero
-  }
+  ) -> CGFloat { return .zero }
   
   public func collectionView(
     _ collectionView: UICollectionView,
