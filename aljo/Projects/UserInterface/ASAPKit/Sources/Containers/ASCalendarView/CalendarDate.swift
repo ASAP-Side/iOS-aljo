@@ -67,7 +67,7 @@ struct Day: Equatable {
     self.isPrevious = checkIsPrevious(year: year, month: month, day: day)
   }
   
-  mutating func checkIsPrevious(year: Int, month: Int, day: Int) -> Bool {
+  func checkIsPrevious(year: Int, month: Int, day: Int) -> Bool {
     let currentComponents = Calendar.current.dateComponents([.year, .month, .day], from: Date())
     
     if let currentYear = currentComponents.year, year < currentYear { return true }
