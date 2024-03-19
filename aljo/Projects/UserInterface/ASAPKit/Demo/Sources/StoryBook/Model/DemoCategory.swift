@@ -10,6 +10,7 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
   case systemConfiguration
   case component
   case container
+  case controller
   
   var description: String {
     switch self {
@@ -19,6 +20,8 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
       return "COMPONENTS"
     case .container:
       return "CONTAINER"
+    case .controller:
+      return "CONTROLLER"
     }
   }
   
@@ -33,6 +36,8 @@ enum DemoCategory: Int, CustomStringConvertible, CaseIterable {
         dictionary.updateValue(ComponentsCategory.allCases, forKey: $0)
       case .container:
         dictionary.updateValue(ContainerCategory.allCases, forKey: $0)
+      case .controller:
+        dictionary.updateValue(ControllerCategory.allCases, forKey: $0)
       }
     }
     return dictionary
@@ -128,6 +133,24 @@ enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
     switch self {
     case .listView:
       return ASListViewDemoController()
+    }
+  }
+}
+
+enum ControllerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
+  case bottomSheet
+  
+  var description: String {
+    switch self {
+    case .bottomSheet:
+      return "ASBottomSheet"
+    }
+  }
+  
+  var instance: UIViewController {
+    switch self {
+    case .bottomSheet:
+      return ASBottomSheetDemoController()
     }
   }
 }
