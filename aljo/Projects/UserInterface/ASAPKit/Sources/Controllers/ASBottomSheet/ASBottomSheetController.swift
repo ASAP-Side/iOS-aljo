@@ -9,10 +9,10 @@
 import UIKit
 
 open class ASBottomSheetController: UIViewController {
-  private let bottomSheetDelegate: ASBottomSheetTransitionDelegate
+  private let bottomSheetDelegate: BottomSheetTransitionDelegate
   
   public init(detent: ASBottomSheetDetent) {
-    self.bottomSheetDelegate = ASBottomSheetTransitionDelegate(detent: detent)
+    self.bottomSheetDelegate = BottomSheetTransitionDelegate(detent: detent)
     super.init(nibName: nil, bundle: nil)
     self.transitioningDelegate = bottomSheetDelegate
     self.modalPresentationStyle = .custom

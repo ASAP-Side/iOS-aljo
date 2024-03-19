@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class ASBottomSheetAnimator: NSObject {
+final class BottomSheetAnimator: NSObject {
   enum TransitionStyle {
     case presentation
     case dismissal
@@ -27,7 +27,7 @@ final class ASBottomSheetAnimator: NSObject {
 }
 
 // MARK: - UIViewControllerAnimatedTransitioning
-extension ASBottomSheetAnimator: UIViewControllerAnimatedTransitioning {
+extension BottomSheetAnimator: UIViewControllerAnimatedTransitioning {
   func transitionDuration(
     using transitionContext: UIViewControllerContextTransitioning?
   ) -> TimeInterval {
@@ -47,7 +47,7 @@ extension ASBottomSheetAnimator: UIViewControllerAnimatedTransitioning {
 }
 
 // MARK: - private method
-extension ASBottomSheetAnimator {
+extension BottomSheetAnimator {
   private func animatePresentation(
     transitionContext: UIViewControllerContextTransitioning
   ) {

@@ -10,7 +10,7 @@ import UIKit
 
 import SnapKit
 
-final class ASBottomSheetPresentationController: UIPresentationController {
+final class BottomSheetPresentationController: UIPresentationController {
   private let blurView: UIView = {
     let view = UIView()
     view.backgroundColor = .black01
@@ -20,7 +20,7 @@ final class ASBottomSheetPresentationController: UIPresentationController {
 }
 
 // MARK: - Life Cycle
-extension ASBottomSheetPresentationController {
+extension BottomSheetPresentationController {
   override func presentationTransitionWillBegin() {
     guard let coordinator = presentedViewController.transitionCoordinator else {
       return
@@ -47,7 +47,7 @@ extension ASBottomSheetPresentationController {
 }
 
 // MARK: - Configure Observer
-extension ASBottomSheetPresentationController {
+extension BottomSheetPresentationController {
   private func configureKeyboardObserver() {
     NotificationCenter.default.addObserver(
       self,
@@ -88,7 +88,7 @@ extension ASBottomSheetPresentationController {
 }
 
 // MARK: - Configure Action
-extension ASBottomSheetPresentationController {
+extension BottomSheetPresentationController {
   private func configureAction() {
     let tapGestrue = UITapGestureRecognizer(target: self, action: #selector(tapBlurView))
     blurView.addGestureRecognizer(tapGestrue)
@@ -101,7 +101,7 @@ extension ASBottomSheetPresentationController {
 }
 
 // MARK: - Configure UI
-extension ASBottomSheetPresentationController {
+extension BottomSheetPresentationController {
   private func configureUI() {
     configureHirearchy()
     configureConstraints()
