@@ -232,27 +232,11 @@ private extension ASCalendarView {
     let isLessThanCurrentMonth = (selectDate.month ?? .zero <= currentDate.month ?? .zero)
     let isLessThanCurrentYear = (selectDate.year ?? .zero < currentDate.year ?? .zero)
     
-    let isHidden = isLessThanCurrentYear || isLessThanCurrentMonth
+    let isHidden = (isLessThanCurrentYear && isLessThanCurrentMonth)
     
     let previousActionIdentifier = UIAction.Identifier(ActionIdentifier.previousAction)
     
-    if isHidden {
-      previousButton.isHidden = true
-      previousButton.removeAction(identifiedBy: previousActionIdentifier, for: .touchUpInside)
-      previousButton.removeFromSuperview()
-      
-      return
-    }
-    
-    if isHidden == false {
-      let action = UIAction(identifier: previousActionIdentifier) { [weak self] _ in
-        self?.updateMonth(add: -1)
-      }
-      previousButton.isHidden = false
-      previousButton.addAction(action, for: .touchUpInside)
-      addSubview(previousButton)
-      makeConstraintForPreviousButton()
-    }
+    previousButton.isHidden = isHidden
   }
 }
 
@@ -285,14 +269,6 @@ private extension ASCalendarView {
       titleLabel, previousButton, nextButton,
       weekDayStackView, dateCollectionView
     ].forEach(addSubview)
-  }
-  
-  func makeConstraintForPreviousButton() {
-      previousButton.snp.makeConstraints {
-        $0.top.equalToSuperview()
-        $0.leading.equalToSuperview()
-        $0.bottom.equalTo(titleLabel)
-      }
   }
   
   func makeConstraints() {
