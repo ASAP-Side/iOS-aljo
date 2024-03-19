@@ -8,8 +8,37 @@
 
 import UIKit
 
+import ASAPKit
+
+import SnapKit
+
 final class ASAlertDemoController: UIViewController {
+  private let transitionDelegate = AlertTransitionDelegate()
+  private let alertButton: UIButton = {
+    var configuration = UIButton.Configuration.plain()
+    configuration.title = "alert"
+    let button = UIButton()
+    button.configuration = configuration
+    return button
+  }()
+  
   override func viewDidLoad() {
+    view.backgroundColor = .systemBackground
+    view.addSubview(alertButton)
     
+    alertButton.snp.makeConstraints {
+      $0.centerX.centerY.equalToSuperview()
+    }
+    
+    let action = UIAction { [weak self] _ in
+      guard let self = self else {
+        return
+      }
+      
+      let viewController = GroupCreateAlertViewController()
+      self.present(viewController, animated: true)
+    }
+    
+    alertButton.addAction(action, for: .touchUpInside)
   }
 }
