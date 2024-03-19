@@ -9,10 +9,19 @@
 import Foundation
 
 public enum ASBottomSheetDetent {
+  case large
+  case medium
+  case small
   case custom(_ ratio: CGFloat)
   
   var ratio: CGFloat {
     switch self {
+    case .large:
+      return 0.2
+    case .medium:
+      return 0.5
+    case .small:
+      return 0.8
     case .custom(let ratio):
       return ratio
     }
