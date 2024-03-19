@@ -13,7 +13,6 @@ import ASAPKit
 import SnapKit
 
 final class ASAlertDemoController: UIViewController {
-  private let transitionDelegate = AlertTransitionDelegate()
   private let alertButton: UIButton = {
     var configuration = UIButton.Configuration.plain()
     configuration.title = "alert"
