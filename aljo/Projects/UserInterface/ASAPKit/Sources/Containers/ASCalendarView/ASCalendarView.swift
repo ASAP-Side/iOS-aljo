@@ -213,13 +213,8 @@ extension ASCalendarView: UICollectionViewDelegateFlowLayout {
 // MARK: Configure Button Action And View
 private extension ASCalendarView {
   func attachActions() {
-    let nextAction = UIAction(
-      identifier: UIAction.Identifier(ActionIdentifier.nextAction)
-    ) { [weak self] _ in self?.updateMonth(add: 1) }
-    
-    let previousAction = UIAction(
-      identifier: UIAction.Identifier(ActionIdentifier.previousAction)
-    ) { [weak self] _ in self?.updateMonth(add: -1) }
+    let nextAction = UIAction { [weak self] _ in self?.updateMonth(add: 1) }
+    let previousAction = UIAction{ [weak self] _ in self?.updateMonth(add: -1) }
     
     nextButton.addAction(nextAction, for: .touchUpInside)
     previousButton.addAction(previousAction, for: .touchUpInside)
@@ -229,12 +224,11 @@ private extension ASCalendarView {
     let currentDate = calendar.dateComponents([.year, .month], from: Date())
     let selectDate = calendar.dateComponents([.year, .month], from: calendarDate)
     
-    let isLessThanCurrentMonth = (selectDate.month ?? .zero <= currentDate.month ?? .zero)
+    let isLessThanCurrentMonth = (selectDate.month ?? .zero < currentDate.month ?? .zero)
     let isLessThanCurrentYear = (selectDate.year ?? .zero < currentDate.year ?? .zero)
+    let isEqualCurrentMonth = (selectDate.month ?? .zero == currentDate.month ?? .zero)
     
-    let isHidden = (isLessThanCurrentYear && isLessThanCurrentMonth)
-    
-    let previousActionIdentifier = UIAction.Identifier(ActionIdentifier.previousAction)
+    let isHidden = (isLessThanCurrentYear && isLessThanCurrentMonth) || isEqualCurrentMonth
     
     previousButton.isHidden = isHidden
   }
@@ -300,13 +294,5 @@ private extension ASCalendarView {
       $0.horizontalEdges.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
-  }
-}
-
-// MARK: Calendar Identifier
-private extension ASCalendarView {
-  enum ActionIdentifier {
-    static let nextAction = "NEXT"
-    static let previousAction = "PREVIOUS"
   }
 }
