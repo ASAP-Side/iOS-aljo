@@ -23,26 +23,21 @@ final class BottomSheetPresentationController: UIPresentationController {
 // MARK: - Life Cycle
 extension BottomSheetPresentationController {
   override func presentationTransitionWillBegin() {
-    guard let coordinator = presentedViewController.transitionCoordinator else {
-      return
-    }
-    
     configureUI()
     configureAction()
     configureKeyboardObserver()
     
-    coordinator.animate(alongsideTransition: { [weak self] _ in
-      self?.blurView.alpha = 0.5
+    let coordinator = presentedViewController.transitionCoordinator
+    coordinator?.animate(alongsideTransition: { _ in
+      self.blurView.alpha = 0.5
     })
   }
   
   override func dismissalTransitionWillBegin() {
-    guard let coordinator = presentedViewController.transitionCoordinator else {
-      return
-    }
+    let coordinator = presentedViewController.transitionCoordinator
     
-    coordinator.animate(alongsideTransition: { [weak self] _ in
-      self?.blurView.alpha = 0
+    coordinator?.animate(alongsideTransition: { _ in
+      self.blurView.alpha = 0
     })
   }
 }
@@ -109,14 +104,8 @@ extension BottomSheetPresentationController {
   }
   
   private func configureHirearchy() {
-    guard let containerView = containerView,
-          let presentedView = presentedView
-    else {
-      return
-    }
-    
-    containerView.addSubview(blurView)
-    containerView.addSubview(presentedView)
+    containerView?.addSubview(blurView)
+    containerView?.addSubview(presentedViewController.view)
   }
   
   private func configureConstraints() {

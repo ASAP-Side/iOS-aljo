@@ -26,4 +26,15 @@ public class AlertTransitionDelegate: NSObject, UIViewControllerTransitioningDel
       transitionStyle: .dismissal
     )
   }
+  
+  public func presentationController(
+    forPresented presented: UIViewController,
+    presenting: UIViewController?,
+    source: UIViewController
+  ) -> UIPresentationController? {
+    return AlertPresentationController(
+      presentedViewController: presented,
+      presenting: presenting
+    )
+  }
 }
