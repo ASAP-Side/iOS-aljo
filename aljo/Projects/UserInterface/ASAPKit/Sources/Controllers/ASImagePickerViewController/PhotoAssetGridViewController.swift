@@ -20,6 +20,12 @@ final class AssetImageGridCell: UICollectionViewCell {
     return imageView
   }()
   
+  private let checkButton: RoundButton = {
+    let button = RoundButton(style: .imageBorder)
+    button.selectedImage = .Icon.check_small.withTintColor(.white)
+    return button
+  }()
+  
   // Properties
   var identifier: String?
   
@@ -34,7 +40,7 @@ final class AssetImageGridCell: UICollectionViewCell {
     super.prepareForReuse()
     
     self.imageView.image = nil
-//    setSelected(to: false)
+    setSelected(to: false)
   }
   
   // Configure Method
@@ -43,8 +49,9 @@ final class AssetImageGridCell: UICollectionViewCell {
   }
   
   func setSelected(to isSelected: Bool, with color: UIColor = .red01) {
-    self.backgroundColor = isSelected ? color : nil
-    self.imageView.alpha = isSelected ? 0.5 : 1.0
+    self.layer.borderColor = isSelected ? color.cgColor : nil
+    self.layer.borderWidth = 2
+    self.checkButton.isSelected = isSelected
   }
   
   func getImage() -> UIImage? {
@@ -61,11 +68,18 @@ private extension AssetImageGridCell {
   
   func configureHierarchy() {
     contentView.addSubview(imageView)
+    contentView.addSubview(checkButton)
   }
   
   func makeConstraints() {
     imageView.snp.makeConstraints {
       $0.edges.equalToSuperview()
+    }
+    
+    checkButton.snp.makeConstraints {
+      $0.top.equalToSuperview().offset(10)
+      $0.trailing.equalToSuperview().offset(-10)
+      $0.width.height.equalTo(20)
     }
   }
 }
@@ -149,6 +163,11 @@ extension PhotoAssetGridViewController: UICollectionViewDataSource {
     
     return cell
   }
+  
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    didSelectItemAt indexPath: IndexPath
+  ) { }
 }
 
 // UICollectionView Flow Layout Delegate Method

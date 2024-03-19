@@ -157,7 +157,7 @@ enum ControllerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
       case .bottomSheet:
         return ASBottomSheetDemoController()
       case .imagePicker:
-        return PhotoAssetGridViewController()
+        return ASImagePickerViewController()
     }
   }
 }
