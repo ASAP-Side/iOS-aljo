@@ -12,7 +12,8 @@ public extension UIImage {
     // arrow
     public static let arrow_circle: UIImage = ASAPKitAsset.Arrow.circle.image
     public static let arrow_down: UIImage = ASAPKitAsset.Arrow.down.image
-    public static let arrow_left: UIImage = ASAPKitAsset.Arrow.leftFill.image
+    public static let arrow_left_fill: UIImage = ASAPKitAsset.Arrow.leftFill.image
+    public static let arrow_left: UIImage = ASAPKitAsset.Arrow.left.image
     public static let arrow_right: UIImage = ASAPKitAsset.Arrow.right.image
     
     // camera
