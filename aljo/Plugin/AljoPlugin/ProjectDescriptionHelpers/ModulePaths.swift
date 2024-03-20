@@ -30,6 +30,7 @@ public extension ModulePaths {
   
   enum Shared: String, TargetPathConvertible {
     case Foundation
+    case FlowKit
   }
   
   enum Design: String, TargetPathConvertible {
