@@ -16,9 +16,7 @@ final class AlertTransitionAnimator: NSObject {
   
   private let transitionStyle: TransitionStyle
   
-  init(
-    transitionStyle: TransitionStyle
-  ) {
+  init(transitionStyle: TransitionStyle) {
     self.transitionStyle = transitionStyle
   }
 }

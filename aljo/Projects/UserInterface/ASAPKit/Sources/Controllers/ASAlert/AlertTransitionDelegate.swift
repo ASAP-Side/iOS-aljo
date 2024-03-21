@@ -14,17 +14,13 @@ final class AlertTransitionDelegate: NSObject, UIViewControllerTransitioningDele
     presenting: UIViewController,
     source: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
-    return AlertTransitionAnimator(
-      transitionStyle: .presentation
-    )
+    return AlertTransitionAnimator(transitionStyle: .presentation)
   }
   
   func animationController(
     forDismissed dismissed: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
-    return AlertTransitionAnimator(
-      transitionStyle: .dismissal
-    )
+    return AlertTransitionAnimator(transitionStyle: .dismissal)
   }
   
   func presentationController(
