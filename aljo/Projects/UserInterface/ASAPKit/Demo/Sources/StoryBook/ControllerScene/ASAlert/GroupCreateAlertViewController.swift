@@ -1,5 +1,5 @@
 //
-//  GroupCreatAlertViewController.swift
+//  GroupCreateAlertViewController.swift
 //  ASAPKitDemo
 //
 //  Created by 이태영 on 3/19/24.
