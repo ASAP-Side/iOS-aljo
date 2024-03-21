@@ -31,7 +31,7 @@ extension BottomSheetTransitionAnimator: UIViewControllerAnimatedTransitioning {
   func transitionDuration(
     using transitionContext: UIViewControllerContextTransitioning?
   ) -> TimeInterval {
-    return 1
+    return 0.4
   }
   
   func animateTransition(
@@ -76,7 +76,7 @@ extension BottomSheetTransitionAnimator {
     let presentingView = transitionContext.view(forKey: .from)
     
     UIView.animate(
-      withDuration: 0.5,
+      withDuration: 0.4,
       delay: 0,
       usingSpringWithDamping: 0.8,
       initialSpringVelocity: 0,

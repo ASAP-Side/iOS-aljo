@@ -26,7 +26,7 @@ extension AlertTransitionAnimator: UIViewControllerAnimatedTransitioning {
   func transitionDuration(
     using transitionContext: UIViewControllerContextTransitioning?
   ) -> TimeInterval {
-    return 1
+    return 0.4
   }
   
   func animateTransition(
@@ -54,7 +54,7 @@ extension AlertTransitionAnimator {
     UIView.animate(
       withDuration: 0.4,
       delay: 0,
-      usingSpringWithDamping: 0.8,
+      usingSpringWithDamping: 0.7,
       initialSpringVelocity: 0,
       animations: {
         presentedView?.transform = .identity
@@ -73,7 +73,7 @@ extension AlertTransitionAnimator {
     UIView.animate(
       withDuration: 0.4,
       delay: 0,
-      usingSpringWithDamping: 0.8,
+      usingSpringWithDamping: 0.7,
       initialSpringVelocity: 0,
       animations: {
         presentingView?.alpha = 0
