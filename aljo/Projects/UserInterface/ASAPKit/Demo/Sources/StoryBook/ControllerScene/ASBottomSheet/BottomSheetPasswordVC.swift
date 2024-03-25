@@ -12,7 +12,7 @@ import ASAPKit
 
 import SnapKit
 
-final class BottomSheetPasswordViewController: ASBottomSheetController {
+final class BottomSheetPasswordVC: ASBottomSheetController {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.text = "비공개 알람입니다.\n비밀번호를 입력해주세요"

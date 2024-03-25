@@ -1,20 +1,19 @@
 //
-//  ASBottomSheetController.swift
+//  ASAlertController.swift
 //  ASAPKit
 //
-//  Created by 이태영 on 3/18/24.
+//  Created by 이태영 on 3/19/24.
 //  Copyright © 2024 com.ASAP. All rights reserved.
 //
 
 import UIKit
 
-open class ASBottomSheetController: UIViewController {
-  private let bottomSheetDelegate: BottomSheetTransitionDelegate
-  
-  public init(detent: ASBottomSheetDetent) {
-    self.bottomSheetDelegate = BottomSheetTransitionDelegate(detent: detent)
+open class ASAlertController: UIViewController {
+  private let alertTransitionDelegate: AlertTransitionDelegate
+  public init() {
+    self.alertTransitionDelegate = AlertTransitionDelegate()
     super.init(nibName: nil, bundle: nil)
-    self.transitioningDelegate = bottomSheetDelegate
+    transitioningDelegate = alertTransitionDelegate
     self.modalPresentationStyle = .custom
   }
   

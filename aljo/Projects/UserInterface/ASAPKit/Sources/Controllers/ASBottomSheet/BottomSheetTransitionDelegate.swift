@@ -8,41 +8,41 @@
 
 import UIKit
 
-public final class ASBottomSheetTransitionDelegate: NSObject {
+final class BottomSheetTransitionDelegate: NSObject {
   private let detent: ASBottomSheetDetent
   
-  public init(detent: ASBottomSheetDetent) {
+  init(detent: ASBottomSheetDetent) {
     self.detent = detent
   }
 }
 
-extension ASBottomSheetTransitionDelegate: UIViewControllerTransitioningDelegate {
-  public func animationController(
+extension BottomSheetTransitionDelegate: UIViewControllerTransitioningDelegate {
+  func animationController(
     forPresented presented: UIViewController,
     presenting: UIViewController,
     source: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
-    return ASBottomSheetAnimator(
+    return BottomSheetTransitionAnimator(
       transitionStyle: .presentation,
       ratio: detent.ratio
     )
   }
   
-  public func animationController(
+  func animationController(
     forDismissed dismissed: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
-    return ASBottomSheetAnimator(
+    return BottomSheetTransitionAnimator(
       transitionStyle: .dismissal,
       ratio: detent.ratio
     )
   }
   
-  public func presentationController(
+  func presentationController(
     forPresented presented: UIViewController,
     presenting: UIViewController?,
     source: UIViewController
   ) -> UIPresentationController? {
-    return ASBottomSheetPresentationController(
+    return BottomSheetPresentationController(
       presentedViewController: presented,
       presenting: presenting
     )

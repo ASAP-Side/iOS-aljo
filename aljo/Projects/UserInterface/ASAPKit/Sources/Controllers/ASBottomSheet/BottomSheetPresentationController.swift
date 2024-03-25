@@ -10,7 +10,8 @@ import UIKit
 
 import SnapKit
 
-final class ASBottomSheetPresentationController: UIPresentationController {
+// swiftlint:disable: type_name
+final class BottomSheetPresentationController: UIPresentationController {
   private let blurView: UIView = {
     let view = UIView()
     view.backgroundColor = .black01
@@ -20,34 +21,29 @@ final class ASBottomSheetPresentationController: UIPresentationController {
 }
 
 // MARK: - Life Cycle
-extension ASBottomSheetPresentationController {
+extension BottomSheetPresentationController {
   override func presentationTransitionWillBegin() {
-    guard let coordinator = presentedViewController.transitionCoordinator else {
-      return
-    }
-    
     configureUI()
     configureAction()
     configureKeyboardObserver()
     
-    coordinator.animate(alongsideTransition: { [weak self] _ in
-      self?.blurView.alpha = 0.5
+    let coordinator = presentedViewController.transitionCoordinator
+    coordinator?.animate(alongsideTransition: { _ in
+      self.blurView.alpha = 0.5
     })
   }
   
   override func dismissalTransitionWillBegin() {
-    guard let coordinator = presentedViewController.transitionCoordinator else {
-      return
-    }
+    let coordinator = presentedViewController.transitionCoordinator
     
-    coordinator.animate(alongsideTransition: { [weak self] _ in
-      self?.blurView.alpha = 0
+    coordinator?.animate(alongsideTransition: { _ in
+      self.blurView.alpha = 0
     })
   }
 }
 
 // MARK: - Configure Observer
-extension ASBottomSheetPresentationController {
+extension BottomSheetPresentationController {
   private func configureKeyboardObserver() {
     NotificationCenter.default.addObserver(
       self,
@@ -88,7 +84,7 @@ extension ASBottomSheetPresentationController {
 }
 
 // MARK: - Configure Action
-extension ASBottomSheetPresentationController {
+extension BottomSheetPresentationController {
   private func configureAction() {
     let tapGestrue = UITapGestureRecognizer(target: self, action: #selector(tapBlurView))
     blurView.addGestureRecognizer(tapGestrue)
@@ -101,28 +97,18 @@ extension ASBottomSheetPresentationController {
 }
 
 // MARK: - Configure UI
-extension ASBottomSheetPresentationController {
+extension BottomSheetPresentationController {
   private func configureUI() {
     configureHirearchy()
     configureConstraints()
   }
   
   private func configureHirearchy() {
-    guard let containerView = containerView,
-          let presentedView = presentedView
-    else {
-      return
-    }
-    
-    containerView.addSubview(blurView)
-    containerView.addSubview(presentedView)
+    containerView?.addSubview(blurView)
+    containerView?.addSubview(presentedViewController.view)
   }
   
   private func configureConstraints() {
-    guard let presentedView = presentedView else {
-      return
-    }
-    
     blurView.snp.makeConstraints {
       $0.top.leading.trailing.bottom.equalToSuperview()
     }

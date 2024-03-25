@@ -144,11 +144,14 @@ enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
 
 enum ControllerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case bottomSheet
+  case alert
   
   var description: String {
     switch self {
     case .bottomSheet:
       return "ASBottomSheet"
+    case .alert:
+      return "ASAlert"
     }
   }
   
@@ -156,6 +159,8 @@ enum ControllerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
     switch self {
     case .bottomSheet:
       return ASBottomSheetDemoController()
+    case .alert:
+      return ASAlertDemoController()
     }
   }
 }

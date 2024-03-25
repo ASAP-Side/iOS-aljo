@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class ASBottomSheetAnimator: NSObject {
+final class BottomSheetTransitionAnimator: NSObject {
   enum TransitionStyle {
     case presentation
     case dismissal
@@ -27,11 +27,11 @@ final class ASBottomSheetAnimator: NSObject {
 }
 
 // MARK: - UIViewControllerAnimatedTransitioning
-extension ASBottomSheetAnimator: UIViewControllerAnimatedTransitioning {
+extension BottomSheetTransitionAnimator: UIViewControllerAnimatedTransitioning {
   func transitionDuration(
     using transitionContext: UIViewControllerContextTransitioning?
   ) -> TimeInterval {
-    return 1
+    return 0.4
   }
   
   func animateTransition(
@@ -47,14 +47,11 @@ extension ASBottomSheetAnimator: UIViewControllerAnimatedTransitioning {
 }
 
 // MARK: - private method
-extension ASBottomSheetAnimator {
+extension BottomSheetTransitionAnimator {
   private func animatePresentation(
     transitionContext: UIViewControllerContextTransitioning
   ) {
-    let toViewController = transitionContext.viewController(forKey: .to)
-    toViewController?.beginAppearanceTransition(false, animated: true)
-    
-    let presentedView = toViewController?.view
+    let presentedView = transitionContext.view(forKey: .to)
     let containerMaxY = transitionContext.containerView.frame.maxY
     
     presentedView?.frame.origin.y = containerMaxY
@@ -76,10 +73,10 @@ extension ASBottomSheetAnimator {
     transitionContext: UIViewControllerContextTransitioning
   ) {
     
-    let presentingView = transitionContext.viewController(forKey: .from)?.view
+    let presentingView = transitionContext.view(forKey: .from)
     
     UIView.animate(
-      withDuration: 0.5,
+      withDuration: 0.4,
       delay: 0,
       usingSpringWithDamping: 0.8,
       initialSpringVelocity: 0,
