@@ -32,8 +32,12 @@ public class ASImagePickerViewController: UIViewController {
   private let scale = UITraitCollection.current.displayScale
   private var thumbnailSize = CGSize.zero
   private let selectedMaxCount: Int
-  private var selectedItems: [PHAsset] = []
   private var selectedColor: UIColor
+  private var selectedItems: [PHAsset] = [] {
+    willSet {
+      updateNavigationRightButton(newValue.count)
+    }
+  }
   
   public init(max selectedMaxCount: Int, selectedColor: UIColor = .red01) {
     self.selectedMaxCount = selectedMaxCount
@@ -125,10 +129,21 @@ extension ASImagePickerViewController: UICollectionViewDataSource {
       for: indexPath
     ) as? AssetImageGridCell else { return AssetImageGridCell() }
     
+    cell.delegate = self
     let asset = photos?.object(at: indexPath.item) ?? PHAsset()
     fetchItem(to: asset, with: thumbnailSize) { cell.setImage(to: $0) }
     
     return cell
+  }
+}
+
+extension ASImagePickerViewController: AssetImageGridCellDelegate {
+  func assetImageGridCell(_ cell: AssetImageGridCell) {
+    guard let indexPath = collectionView.indexPath(for: cell) else { return }
+    
+    let item = photos?.object(at: indexPath.item) ?? PHAsset()
+    let isNotContains = updateSelectedItem(to: item)
+    cell.setSelected(to: isNotContains, with: selectedColor)
   }
 }
 
@@ -140,18 +155,8 @@ extension ASImagePickerViewController: UICollectionViewDelegate {
   ) {
     guard let item = photos?[indexPath.row] else { return }
     let cell = collectionView.cellForItem(at: indexPath) as? AssetImageGridCell
-    
-    let isContainItem = selectedItems.contains(item)
-    
-    if selectedItems.count == selectedMaxCount && isContainItem == false { return }
-    
-    cell?.setSelected(to: isContainItem == false, with: selectedColor)
-    
-    if isContainItem == false {
-      selectedItems.append(item)
-    } else {
-      selectedItems.removeAll(where: { $0.localIdentifier == item.localIdentifier })
-    }
+    let isNotContains = updateSelectedItem(to: item)
+    cell?.setSelected(to: isNotContains, with: selectedColor)
   }
 }
 
@@ -194,8 +199,6 @@ private extension ASImagePickerViewController {
   
   func checkPhotoAuthorization() {
     PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] status in
-      guard let self = self else { return }
-      
       DispatchQueue.main.async {
         switch status {
           case .denied, .restricted:
@@ -205,6 +208,20 @@ private extension ASImagePickerViewController {
         }
       }
     }
+  }
+  
+  func updateSelectedItem(to item: PHAsset) -> Bool {
+    let isContainItem = selectedItems.contains(item)
+    
+    if selectedItems.count == selectedMaxCount && isContainItem == false { return false }
+    
+    if isContainItem == false {
+      selectedItems.append(item)
+    } else {
+      selectedItems.removeAll(where: { $0.localIdentifier == item.localIdentifier })
+    }
+    
+    return isContainItem == false
   }
 }
 
@@ -257,6 +274,11 @@ private extension ASImagePickerViewController {
     makeConstraints()
   }
   
+  func updateNavigationRightButton(_ selectedCount: Int) {
+    let isActive = selectedCount == selectedMaxCount
+    navigationItem.rightBarButtonItem?.isEnabled = isActive
+  }
+  
   func configureNavigationBar() {
     navigationController?.setUpAppearance()
     let dismissAction = UIAction { [weak self] _ in
@@ -277,6 +299,7 @@ private extension ASImagePickerViewController {
       primaryAction: dismissAction
     )
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", primaryAction: confirmAction)
+    navigationItem.rightBarButtonItem?.isEnabled = false
     navigationItem.title = "앨범 선택"
   }
   

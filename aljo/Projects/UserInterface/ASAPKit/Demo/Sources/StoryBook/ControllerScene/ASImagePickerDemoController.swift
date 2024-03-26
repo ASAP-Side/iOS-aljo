@@ -30,7 +30,7 @@ class ASImagePickerDemoController: ComponentViewController {
     let presentAction = UIAction { [weak self] _ in
       guard let self = self else { return }
       
-      let controller = ASImagePickerViewController(max: 10, selectedColor: self.selectedColor)
+      let controller = ASImagePickerViewController(max: 2, selectedColor: self.selectedColor)
       controller.delegate = self
       let navigationController = UINavigationController(rootViewController: controller)
       navigationController.modalPresentationStyle = .fullScreen
