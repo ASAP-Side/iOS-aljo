@@ -20,8 +20,8 @@ final class AssetImageGridCell: UICollectionViewCell {
   
   private let selectedBlurView: UIView = {
     let view = UIView()
-    view.backgroundColor = .black01
-    view.alpha = .zero
+    view.backgroundColor = .clear
+    view.alpha = 1
     return view
   }()
   
@@ -55,10 +55,11 @@ final class AssetImageGridCell: UICollectionViewCell {
   }
   
   func setSelected(to isSelected: Bool, with color: UIColor = .red01) {
-    self.layer.borderColor = isSelected ? color.cgColor : UIColor.clear.cgColor
-    self.layer.borderWidth = 2
-    self.checkButton.configuration?.baseBackgroundColor = isSelected ? color : .white
-    self.checkButton.isSelected = isSelected
+    selectedBlurView.layer.borderColor = isSelected ? color.cgColor : UIColor.clear.cgColor
+    selectedBlurView.layer.borderWidth = 2
+    selectedBlurView.backgroundColor = isSelected ? .black01.withAlphaComponent(0.5) : .clear
+    checkButton.configuration?.baseBackgroundColor = isSelected ? color : .white
+    checkButton.isSelected = isSelected
   }
   
   func getImage() -> UIImage? {

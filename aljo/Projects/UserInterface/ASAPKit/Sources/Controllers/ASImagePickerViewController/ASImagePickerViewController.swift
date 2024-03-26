@@ -15,7 +15,7 @@ public protocol ASImagePickerDelegate: AnyObject {
 }
 
 public class ASImagePickerViewController: UIViewController {
-  // View Properties
+  // MARK: View Properties
   private let collectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -26,10 +26,10 @@ public class ASImagePickerViewController: UIViewController {
     return collectionView
   }()
   
-  // Properties
+  // MARK: Properties
   public weak var delegate: ASImagePickerDelegate?
   private var photos: PHFetchResult<PHAsset>?
-  private let scale = UIScreen.main.scale
+  private let scale = UITraitCollection.current.displayScale
   private var thumbnailSize = CGSize.zero
   private let selectedMaxCount: Int
   private var selectedItems: [PHAsset] = []
@@ -47,10 +47,9 @@ public class ASImagePickerViewController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // Deinit
   deinit { PHPhotoLibrary.shared().unregisterChangeObserver(self) }
   
-  // Life Cycle
+  // MARK: Life Cycle
   public override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -68,12 +67,10 @@ public class ASImagePickerViewController: UIViewController {
     
     let columnCount = (width / 90).rounded(.towardZero)
     let itemLength = (width - columnCount) / columnCount
-    
     self.thumbnailSize = CGSize(width: itemLength * scale, height: itemLength * scale)
   }
   
   private func fetchSelectedImages(completionHandler: @escaping ([UIImage?]) -> Void) {
-
     var images: [UIImage?] = []
     let frame = view.frame
     let size = CGSize(width: frame.width, height: frame.height)
@@ -110,7 +107,7 @@ public class ASImagePickerViewController: UIViewController {
   }
 }
 
-// UICollectionView DataSource Method
+// MARK: UICollectionView DataSource Method
 extension ASImagePickerViewController: UICollectionViewDataSource {
   public func collectionView(
     _ collectionView: UICollectionView,
@@ -133,7 +130,10 @@ extension ASImagePickerViewController: UICollectionViewDataSource {
     
     return cell
   }
-  
+}
+
+// MARK: UICollectionView Delegate Method
+extension ASImagePickerViewController: UICollectionViewDelegate {
   public func collectionView(
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
@@ -155,7 +155,7 @@ extension ASImagePickerViewController: UICollectionViewDataSource {
   }
 }
 
-// UICollectionView Flow Layout Delegate Method
+// MARK: UICollectionView Flow Layout Delegate Method
 extension ASImagePickerViewController: UICollectionViewDelegateFlowLayout {
   public func collectionView(
     _ collectionView: UICollectionView,
@@ -208,7 +208,7 @@ private extension ASImagePickerViewController {
   }
 }
 
-// Photo Selected Changed Observer
+// MARK: Photo Selected Changed Observer
 extension ASImagePickerViewController: PHPhotoLibraryChangeObserver {
   public func photoLibraryDidChange(_ changeInstance: PHChange) {
     guard let photos = photos,
@@ -248,7 +248,7 @@ extension ASImagePickerViewController: PHPhotoLibraryChangeObserver {
   }
 }
 
-// Configuration UI
+// MARK: Configuration UI
 private extension ASImagePickerViewController {
   func configureUI() {
     view.backgroundColor = .systemBackground
@@ -287,7 +287,8 @@ private extension ASImagePickerViewController {
   func makeConstraints() {
     collectionView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.leading.trailing.bottom.equalToSuperview()
+      $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalToSuperview()
     }
   }
 }
