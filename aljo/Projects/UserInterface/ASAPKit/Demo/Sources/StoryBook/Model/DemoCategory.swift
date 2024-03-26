@@ -123,11 +123,14 @@ enum ComponentsCategory: DemoDetail, CustomStringConvertible, CaseIterable {
 
 enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case listView
+  case calendarView
   
   var description: String {
     switch self {
       case .listView:
         return "ASListView"
+        case .calendarView:
+          return "CalendarView"
     }
   }
   
@@ -135,6 +138,8 @@ enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
     switch self {
       case .listView:
         return ASListViewDemoController()
+        case .calendarView:
+          return ASCalendarDemoController()
     }
   }
 }
@@ -142,13 +147,16 @@ enum ContainerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
 enum ControllerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
   case bottomSheet
   case imagePicker
+  case alert
   
   var description: String {
     switch self {
       case .bottomSheet:
         return "ASBottomSheet"
       case .imagePicker:
-        return "ImagePicker"
+        return "ASImagePicker"
+      case .alert:
+        return "ASAlert"
     }
   }
   
@@ -158,6 +166,8 @@ enum ControllerCategory: DemoDetail, CustomStringConvertible, CaseIterable {
         return ASBottomSheetDemoController()
       case .imagePicker:
         return ASImagePickerDemoController()
+      case .alert:
+        return ASAlertDemoController()
     }
   }
 }
