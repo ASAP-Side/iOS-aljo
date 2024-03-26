@@ -8,6 +8,10 @@ import UIKit
 
 import SnapKit
 
+protocol AssetImageGridCellDelegate: AnyObject {
+  func assetImageGridCell(_ cell: AssetImageGridCell)
+}
+
 final class AssetImageGridCell: UICollectionViewCell {
   static let identifier = "AssetImageGridCell"
   // View Properties
@@ -30,10 +34,16 @@ final class AssetImageGridCell: UICollectionViewCell {
     configuration.baseBackgroundColor = .white
     configuration.image = .Icon.check_small.withTintColor(.white)
     configuration.cornerStyle = .capsule
+    configuration.background.strokeColor = .gray03
+    configuration.background.strokeWidth = 1
     
     let button = UIButton(configuration: configuration)
     return button
   }()
+  
+  private let actionIdentifier = UIAction.Identifier(Constants.actionIdentifier)
+  
+  weak var delegate: AssetImageGridCellDelegate?
   
   // Life Cycle
   override func layoutSubviews() {
@@ -46,6 +56,7 @@ final class AssetImageGridCell: UICollectionViewCell {
     super.prepareForReuse()
     
     self.imageView.image = nil
+    self.checkButton.removeAction(identifiedBy: actionIdentifier, for: .touchUpInside)
     setSelected(to: false)
   }
   
@@ -59,19 +70,27 @@ final class AssetImageGridCell: UICollectionViewCell {
     selectedBlurView.layer.borderWidth = 2
     selectedBlurView.backgroundColor = isSelected ? .black01.withAlphaComponent(0.5) : .clear
     checkButton.configuration?.baseBackgroundColor = isSelected ? color : .white
+    checkButton.configuration?.background.strokeColor = isSelected ? .clear : .gray03
     checkButton.isSelected = isSelected
-  }
-  
-  func getImage() -> UIImage? {
-    return imageView.image
   }
 }
 
 // Configure UI Method
 private extension AssetImageGridCell {
   func configureUI() {
+    configureActions()
     configureHierarchy()
     makeConstraints()
+  }
+  
+  func configureActions() {
+    let action = UIAction(identifier: actionIdentifier) { [weak self] _ in
+      guard let self = self else { return }
+      
+      delegate?.assetImageGridCell(self)
+    }
+    
+    checkButton.addAction(action, for: .touchUpInside)
   }
   
   func configureHierarchy() {
@@ -92,5 +111,11 @@ private extension AssetImageGridCell {
       $0.trailing.equalToSuperview().offset(-10)
       $0.width.height.equalTo(20)
     }
+  }
+}
+
+private extension AssetImageGridCell {
+  enum Constants {
+    static let actionIdentifier: String = "SELECT_ACTION"
   }
 }
